@@ -1,9 +1,11 @@
 package local.tomo.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,9 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import local.tomo.login.database.DatabaseHandler;
-import local.tomo.login.network.InternetActivity;
 
-public class MainActivity extends InternetActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static String PREF_NAME = "tomo_pref";
@@ -105,17 +106,18 @@ public class MainActivity extends InternetActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_your_medicaments_leyout) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new YourMedicamentsFragment())
-                    .commit();
+//            TODO add fragment with your medicaments
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.content_frame, new YourMedicamentsFragment())
+//                    .commit();
         } else if (id == R.id.nav_all_medicaments_leyout) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new AllMedicamentsFragment())
                     .commit();
         } else if (id == R.id.nav_files_leyout) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new FilesFragment())
-                    .commit();
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.content_frame, new FilesFragment())
+//                    .commit();
         } else if (id == R.id.nav_logout) {
             getApplicationContext().getSharedPreferences(PREF_NAME, 0).edit().clear().commit();
             //medicamentDAO.deleteAll();

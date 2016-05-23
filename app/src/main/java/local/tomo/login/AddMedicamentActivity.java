@@ -1,6 +1,6 @@
 package local.tomo.login;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,9 +12,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,17 +20,16 @@ import java.util.List;
 import local.tomo.login.database.DatabaseHandler;
 import local.tomo.login.model.Medicament;
 import local.tomo.login.model.MedicamentDb;
-import local.tomo.login.network.InternetActivity;
-import local.tomo.login.network.MedicamentSaveRequest;
 import local.tomo.login.network.RestIntefrace;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 //import retrofit.Callback;
 //import retrofit.RestAdapter;
 //import retrofit.RetrofitError;
 //import retrofit.client.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AddMedicamentActivity extends InternetActivity {//implements Callback<Medicament>{
+public class AddMedicamentActivity extends Activity {//implements Callback<Medicament>{
 
     EditText editTextAddMedicament;
     EditText editTextAddMedicamentName;

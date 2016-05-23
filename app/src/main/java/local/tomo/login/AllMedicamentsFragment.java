@@ -1,16 +1,16 @@
 package local.tomo.login;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import local.tomo.login.database.DatabaseHandler;
-import local.tomo.login.network.InternetFragment;
 
 
-public class AllMedicamentsFragment extends InternetFragment {
+public class AllMedicamentsFragment extends Fragment {
 
     private DatabaseHandler databaseHandler;
 

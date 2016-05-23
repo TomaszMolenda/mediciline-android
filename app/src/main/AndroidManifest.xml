@@ -20,9 +20,6 @@
         </activity>
         <activity android:name=".RegisterActivity" />
 
-        <service
-            android:name=".network.RestService"
-            android:exported="false" />
 
         <activity
             android:name=".MainActivity"

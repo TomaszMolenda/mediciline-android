@@ -1,5 +1,6 @@
 package local.tomo.login;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
 import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -27,11 +24,8 @@ import java.util.List;
 import local.tomo.login.database.DatabaseHandler;
 import local.tomo.login.json.MedicamentsDbJSON;
 import local.tomo.login.model.MedicamentDb;
-import local.tomo.login.model.User;
-import local.tomo.login.network.InternetActivity;
-import local.tomo.login.network.UserRequest;
 
-public class LoginActivity extends InternetActivity {
+public class LoginActivity extends Activity {
 
     private static String PREF_NAME = "tomo_pref";
     private static String PREF_USER = "username";
@@ -142,6 +136,8 @@ public class LoginActivity extends InternetActivity {
 
 
     public void loginClick(View view) {
+//    TODO implements businnes logic
+        /*
         UserRequest userRequest = new UserRequest(editTextLoginUserName.getText().toString(), editTextLoginPassword.getText().toString());
         spiceManager.execute(userRequest, new RequestListener<User>() {
             @Override
@@ -164,7 +160,7 @@ public class LoginActivity extends InternetActivity {
             }
         });
 
-
+*/
     }
 
     private void requestFailure() {
