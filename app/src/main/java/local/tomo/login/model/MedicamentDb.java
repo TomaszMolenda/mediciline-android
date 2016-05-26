@@ -7,6 +7,8 @@ import java.util.ArrayList;
  */
 public class MedicamentDb {
 
+    private int idServer;
+
     private int packageID;
     private String activeSubstance;
     private int distributorID;
@@ -60,6 +62,14 @@ public class MedicamentDb {
 
     public static class List extends ArrayList<MedicamentDb> {
 
+    }
+
+    public int getIdServer() {
+        return idServer;
+    }
+
+    public void setIdServer(int idServer) {
+        this.idServer = idServer;
     }
 
     public int getPackageID() {

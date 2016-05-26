@@ -61,6 +61,8 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
 
     Calendar calendar = Calendar.getInstance();
     private DatabaseHandler databaseHandler;
+    private MedicamentDb medicamentDb;
+    private Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +131,7 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                final MedicamentDb medicamentDb = (MedicamentDb) parent.getItemAtPosition(position);
+                medicamentDb = (MedicamentDb) parent.getItemAtPosition(position);
                 listView.setAdapter(null);
                 editTextAddMedicamentName.setText(medicamentDb.getProductName());
                 editTextAddMedicamentProducer.setText(medicamentDb.getProducer());
@@ -143,15 +145,16 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                         int month = datePickerAddMedicament.getMonth();
                         int year = datePickerAddMedicament.getYear();
                         calendar.set(year,month,day);
-                        Date date = calendar.getTime();
+                        date = calendar.getTime();
                         Medicament medicament = new Medicament(medicamentDb);
                         medicament.setDateFormatExpiration(date);
                         //medicamentDAO.add(medicament);
                         //databaseHandler.getMedicamentDAO().add(medicament);
-                        databaseHandler.addMedicament(medicamentDb, date);
+
+
                         medicament.getDateExpirationYearMonth().setYear(year);
                         medicament.getDateExpirationYearMonth().setMonthId(month);
-                        Log.d("tomo", "przed wyslaniem1");
+                        Log.d("tomo", "przed wyslaniem2");
                         Gson gson = new GsonBuilder()
                                 .setExclusionStrategies(new MedicamentExclusion())
                                 .create();
@@ -173,6 +176,8 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                                 Log.d("tomo", "poszlo medi");
                                 Medicament body = response.body();
                                 Log.d("tomo", body.toString());
+                                medicamentDb.setIdServer(body.getId());
+                                databaseHandler.addMedicament(medicamentDb, date);
 
 
                             }
@@ -180,6 +185,7 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                             @Override
                             public void onFailure(Call<Medicament> call, Throwable t) {
                                 Log.d("tomo", "nie poszlo medi");
+                                databaseHandler.addMedicament(medicamentDb, date);
                             }
                         });
                         //RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("http://212.244.79.82:8080").build();

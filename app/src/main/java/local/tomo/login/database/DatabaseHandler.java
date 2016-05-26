@@ -188,7 +188,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void addMedicament(MedicamentDb medicamentDb, Date date){
         ContentValues values = new ContentValues();
-        values.put(TABLE_MEDICAMENTS_COLUMN_ID_SERVER, 0);
+        values.put(TABLE_MEDICAMENTS_COLUMN_ID_SERVER, medicamentDb.getIdServer());
         values.put(TABLE_MEDICAMENTS_COLUMN_NAME, medicamentDb.getProductName());
         values.put(TABLE_MEDICAMENTS_COLUMN_PRODUCENT, medicamentDb.getProducer());
         values.put(TABLE_MEDICAMENTS_COLUMN_PRICE, medicamentDb.getPrice());
@@ -197,7 +197,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TABLE_MEDICAMENTS_COLUMN_DATE, dateString);
         values.put(TABLE_MEDICAMENTS_COLUMN_ID_MEDICAMENTDB, medicamentDb.getPackageID());
 
-
+        Log.d("tomo", "add idServer: " + medicamentDb.getIdServer());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_MEDICAMENTS, null, values);
         db.close();
