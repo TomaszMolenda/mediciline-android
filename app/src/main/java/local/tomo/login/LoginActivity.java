@@ -24,6 +24,13 @@ import java.util.List;
 import local.tomo.login.database.DatabaseHandler;
 import local.tomo.login.json.MedicamentsDbJSON;
 import local.tomo.login.model.MedicamentDb;
+import local.tomo.login.model.User;
+import local.tomo.login.network.RestIntefrace;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends Activity {
 
@@ -110,7 +117,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Log.d("tomo", "logincccccc");
         databaseHandler = new DatabaseHandler(getApplicationContext(), null, null, 1);
         editTextLoginUserName = (EditText) findViewById(R.id.editTextLoginUserName);
         editTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
@@ -136,6 +142,23 @@ public class LoginActivity extends Activity {
 
 
     public void loginClick(View view) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RestIntefrace.url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
+        Call<User> call = restIntefrace.user(editTextLoginUserName.getText().toString(), editTextLoginPassword.getText().toString());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
 //    TODO implements businnes logic
         /*
         UserRequest userRequest = new UserRequest(editTextLoginUserName.getText().toString(), editTextLoginPassword.getText().toString());

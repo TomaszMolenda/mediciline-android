@@ -14,9 +14,12 @@ import retrofit2.http.Path;
  */
 public interface RestIntefrace {
 
+    public static final String url = "http://83.19.31.10:8080";
+    //public static final String url = "http://212.244.79.82:8080";
+
 
     @GET("/api/login/{username}/{password}.json")
-    User user(@Path("username") String username, @Path("password") String password);
+    Call<User> user(@Path("username") String username, @Path("password") String password);
 
     @GET("/api/medicaments/{uniqueId}.json")
     Medicament.List getMedicaments(@Path("uniqueId") String uniqueId);

@@ -12,15 +12,24 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import local.tomo.login.database.DatabaseHandler;
+import local.tomo.login.json.exclusion.MedicamentExclusion;
 import local.tomo.login.model.Medicament;
 import local.tomo.login.model.MedicamentDb;
 import local.tomo.login.network.RestIntefrace;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -142,13 +151,37 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                         databaseHandler.addMedicament(medicamentDb, date);
                         medicament.getDateExpirationYearMonth().setYear(year);
                         medicament.getDateExpirationYearMonth().setMonthId(month);
-                        Log.d("tomo", "przed wyslaniem1123");
+                        Log.d("tomo", "przed wyslaniem1");
+                        Gson gson = new GsonBuilder()
+                                .setExclusionStrategies(new MedicamentExclusion())
+                                .create();
+
+                        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
                         Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl("http://83.19.31.10:8080")
+                                .baseUrl(RestIntefrace.url)
                                 .addConverterFactory(GsonConverterFactory.create())
+                                .client(client)
                                 .build();
                         RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
-                        restIntefrace.saveMedicament(medicament);
+                        Call<Medicament> call = restIntefrace.saveMedicament(medicament);
+                        call.enqueue(new Callback<Medicament>() {
+                            @Override
+                            public void onResponse(Call<Medicament> call, Response<Medicament> response) {
+                                Log.d("tomo", "poszlo medi");
+                                Medicament body = response.body();
+                                Log.d("tomo", body.toString());
+
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Medicament> call, Throwable t) {
+                                Log.d("tomo", "nie poszlo medi");
+                            }
+                        });
                         //RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("http://212.244.79.82:8080").build();
                         //RestIntefrace restIntefrace = restAdapter.create(RestIntefrace.class);
 

@@ -135,4 +135,21 @@ public class Medicament {
     public void setDateExpirationYearMonth(DateExpirationYearMonth dateExpirationYearMonth) {
         this.dateExpirationYearMonth = dateExpirationYearMonth;
     }
+
+    @Override
+    public String toString() {
+        return "Medicament{" +
+                "dateExpirationYearMonth=" + dateExpirationYearMonth +
+                ", id=" + id +
+                ", idServer=" + idServer +
+                ", name='" + name + '\'' +
+                ", producent='" + producent + '\'' +
+                ", price=" + price +
+                ", kind='" + kind + '\'' +
+                ", dateExpiration='" + dateExpiration + '\'' +
+                ", dateFormatExpiration=" + dateFormatExpiration +
+                ", productLineID=" + productLineID +
+                ", packageID=" + packageID +
+                '}';
+    }
 }
