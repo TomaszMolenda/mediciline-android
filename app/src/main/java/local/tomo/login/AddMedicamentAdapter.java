@@ -14,11 +14,11 @@ import java.util.List;
 import local.tomo.login.model.MedicamentDb;
 
 
-public class MedicamentDbAdapter extends ArrayAdapter<MedicamentDb> {
+public class AddMedicamentAdapter extends ArrayAdapter<MedicamentDb> {
 
     private ArrayList<MedicamentDb> medicamentDbs;
 
-    public MedicamentDbAdapter(Context context, int resource, ArrayList<MedicamentDb> medicamentDbs) {
+    public AddMedicamentAdapter(Context context, int resource, ArrayList<MedicamentDb> medicamentDbs) {
         super(context, resource, medicamentDbs);
         this.medicamentDbs = medicamentDbs;
     }

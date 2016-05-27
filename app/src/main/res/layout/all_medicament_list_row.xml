@@ -1,0 +1,49 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/rowAllMedicamentId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/rowAllMedicamentIdServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/rowAllMedicamentProductLineID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/rowAllMedicamentPackageID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/rowAllMedicamentName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/rowAllMedicamentProducer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" >
+    </TextView>
+
+</LinearLayout>

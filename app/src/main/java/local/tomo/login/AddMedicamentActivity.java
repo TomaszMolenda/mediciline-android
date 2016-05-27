@@ -1,7 +1,10 @@
 package local.tomo.login;
 
 import android.app.Activity;
+
 import android.os.Bundle;
+
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -52,11 +55,8 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
 
     String searchText;
 
-    //private MedicamentDAO medicamentDAO;
-    //private MedicamentDbDAO medicamentDbDAO;
-
     private ListView listView ;
-    private MedicamentDbAdapter medicamentDbAdapter;
+    private AddMedicamentAdapter addMedicamentAdapter;
     List<MedicamentDb> medicamentDbs;
 
     Calendar calendar = Calendar.getInstance();
@@ -68,9 +68,8 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicament);
+
         databaseHandler = new DatabaseHandler(getApplicationContext(), null, null, 1);
-        //medicamentDAO = new MedicamentDAO(this);
-        //medicamentDbDAO = new MedicamentDbDAO(this);
 
         editTextAddMedicament = (EditText) findViewById(R.id.editTextAddMedicament);
         listView = (ListView) findViewById(R.id.listViewAddMedicament);
@@ -90,7 +89,7 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
 
 
         medicamentDbs = new ArrayList<MedicamentDb>();
-        medicamentDbAdapter = null;
+        addMedicamentAdapter = null;
 
         editTextAddMedicament.addTextChangedListener(new TextWatcher() {
             @Override
@@ -103,12 +102,9 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
 
                 searchText = s.toString();
                 if(searchText.length() >= 3) {
-                    //medicamentDbs = medicamentDbDAO.search(searchText);
-                    //medicamentDbs = databaseHandler.getMedicamentDbDAO().search(searchText);
-
                     medicamentDbs = databaseHandler.searchMedicamentsDb(searchText);
-                    medicamentDbAdapter = new MedicamentDbAdapter(getApplicationContext(), R.layout.add_medicament_list_row, (ArrayList<MedicamentDb>) medicamentDbs);
-                    listView.setAdapter(medicamentDbAdapter);
+                    addMedicamentAdapter = new AddMedicamentAdapter(getApplicationContext(), R.layout.add_medicament_list_row, (ArrayList<MedicamentDb>) medicamentDbs);
+                    listView.setAdapter(addMedicamentAdapter);
                 }
                 else listView.setAdapter(null);
 
@@ -123,7 +119,7 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
             @Override
             public void onClick(View v) {
                 setVisibility(false);
-                listView.setAdapter(medicamentDbAdapter);
+                listView.setAdapter(addMedicamentAdapter);
             }
         });
 

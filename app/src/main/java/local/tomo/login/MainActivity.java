@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_your_medicaments_leyout) {
 //            TODO add fragment with your medicaments
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.content_frame, new YourMedicamentsFragment())
-//                    .commit();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new AllMedicamentsFragment(), "ddd")
+                    .commit();
         } else if (id == R.id.nav_all_medicaments_leyout) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new AllMedicamentsFragment())
