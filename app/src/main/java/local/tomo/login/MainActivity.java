@@ -1,6 +1,5 @@
 package local.tomo.login;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -122,7 +121,7 @@ public class MainActivity extends AppCompatActivity
             getApplicationContext().getSharedPreferences(PREF_NAME, 0).edit().clear().commit();
             //medicamentDAO.deleteAll();
             //databaseHandler.getMedicamentDAO().deleteAll();
-            databaseHandler.delete();
+            databaseHandler.removeAllMedicaments();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();

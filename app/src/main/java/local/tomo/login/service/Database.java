@@ -33,7 +33,7 @@ public class Database {
 //                    //Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
 //                    //medicamentDAO.deleteAll();
 //                    //databaseHandler.getMedicamentDAO().deleteAll();
-//                    databaseHandler.delete();
+//                    databaseHandler.removeAllMedicaments();
 //
 //                    for (Medicament medicament : medicaments) {
 //                        Log.d("tomo", "data: "+medicament.getDateFormatExpiration().toString());

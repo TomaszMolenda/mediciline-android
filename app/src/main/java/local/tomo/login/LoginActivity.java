@@ -39,6 +39,8 @@ public class LoginActivity extends Activity {
     private static String PREF_PASSWORD = "password";
     private static String PREF_UNIQUE_ID = "uniqueId";
 
+    public static String uniqueId;
+
 
 
     String userName;
@@ -127,7 +129,7 @@ public class LoginActivity extends Activity {
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         userName = preference.getString(PREF_USER, null);
         String password = preference.getString(PREF_PASSWORD, null);
-        String uniqueId = preference.getString(PREF_UNIQUE_ID, null);
+        uniqueId = preference.getString(PREF_UNIQUE_ID, null);
         if (userName != null & password != null & uniqueId != null) {
             login();
         }

@@ -1,5 +1,7 @@
 package local.tomo.login.network;
 
+import java.util.List;
+
 import local.tomo.login.model.MedicamentDb;
 import local.tomo.login.model.User;
 import local.tomo.login.model.Medicament;
@@ -22,7 +24,7 @@ public interface RestIntefrace {
     Call<User> user(@Path("username") String username, @Path("password") String password);
 
     @GET("/api/medicaments/{uniqueId}.json")
-    Medicament.List getMedicaments(@Path("uniqueId") String uniqueId);
+    Call<List<Medicament>> getMedicaments(@Path("uniqueId") String uniqueId);
 
     @GET("/api/medicamentsdb.json")
     MedicamentDb.List getMedicamentsDb();

@@ -45,6 +45,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             TextView rowAllMedicamentIdServer = (TextView) v.findViewById(R.id.rowAllMedicamentIdServer);
             TextView rowAllMedicamentProductLineID = (TextView) v.findViewById(R.id.rowAllMedicamentProductLineID);
             TextView rowAllMedicamentPackageID = (TextView) v.findViewById(R.id.rowAllMedicamentPackageID);
+            TextView rowAllMedicamentPrice = (TextView) v.findViewById(R.id.rowAllMedicamentPrice);
 
             rowAllMedicamentName.setText(medicament.getName());
             rowAllMedicamentProducer.setText(medicament.getProducent());
@@ -53,6 +54,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             rowAllMedicamentIdServer.setText("idServer: "+medicament.getIdServer());
             rowAllMedicamentProductLineID.setText("ProductLineId: "+medicament.getProductLineID());
             rowAllMedicamentPackageID.setText("PackageId: "+medicament.getPackageID());
+            rowAllMedicamentPrice.setText("Price: " + medicament.getPrice());
         }
         return  v;
     }
