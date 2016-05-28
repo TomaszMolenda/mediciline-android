@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import local.tomo.login.model.MedicamentDb;
 public class DatabaseHandler extends SQLiteOpenHelper {
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "medicamets.db";
     public static final String TABLE_MEDICAMENTS = "medicaments";
     public static final String TABLE_MEDICAMENTS_COLUMN_ID = "id";
@@ -30,7 +30,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String TABLE_MEDICAMENTS_COLUMN_PRICE = "price";
     public static final String TABLE_MEDICAMENTS_COLUMN_KIND = "kind";
     public static final String TABLE_MEDICAMENTS_COLUMN_DATE = "date";
-    public static final String TABLE_MEDICAMENTS_COLUMN_ID_MEDICAMENTDB = "id_medicamentdb";
+    public static final String TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID = "package_id";
+    public static final String TABLE_MEDICAMENTS_COLUMN_PRODUCT_LINE_ID = "product_line_id";
 
     public static final String TABLE_MEDICAMENTSDB = "medicamentsdb";
     public static final String TABLE_MEDICAMENTSDB_COLUMN_PACKAGEID = "packageID";
@@ -91,7 +92,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TABLE_MEDICAMENTS + "(" +
                 TABLE_MEDICAMENTS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 TABLE_MEDICAMENTS_COLUMN_ID_SERVER + " INTEGER, " +
-                TABLE_MEDICAMENTS_COLUMN_ID_MEDICAMENTDB + " INTEGER, " +
+                TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID + " INTEGER, " +
+                TABLE_MEDICAMENTS_COLUMN_PRODUCT_LINE_ID + " INTEGER, " +
                 TABLE_MEDICAMENTS_COLUMN_NAME + " TEXT, " +
                 TABLE_MEDICAMENTS_COLUMN_PRODUCENT + " TEXT, " +
                 TABLE_MEDICAMENTS_COLUMN_PRICE + " REAL, " +
@@ -150,7 +152,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    public void delete() {
+    public void removeAllMedicaments() {
         SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM " + TABLE_MEDICAMENTS + " WHERE 1;";
         db.execSQL(query);
@@ -169,21 +171,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void addMedicament(Medicament medicament){
+
         ContentValues values = new ContentValues();
         values.put(TABLE_MEDICAMENTS_COLUMN_ID_SERVER, medicament.getIdServer());
         values.put(TABLE_MEDICAMENTS_COLUMN_NAME, medicament.getName());
         values.put(TABLE_MEDICAMENTS_COLUMN_PRODUCENT, medicament.getProducent());
         values.put(TABLE_MEDICAMENTS_COLUMN_PRICE, medicament.getPrice());
         values.put(TABLE_MEDICAMENTS_COLUMN_KIND, medicament.getKind());
+        Long dateLong = Long.valueOf(medicament.getDateExpiration()).longValue();
+        Date date = new Date(dateLong);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
 
-        String date = simpleDateFormat.format(medicament.getDateFormatExpiration());
-        values.put(TABLE_MEDICAMENTS_COLUMN_DATE, date);
-        values.put(TABLE_MEDICAMENTS_COLUMN_ID_MEDICAMENTDB, medicament.getPackageID());
+        String dateString = simpleDateFormat.format(date);
+        values.put(TABLE_MEDICAMENTS_COLUMN_DATE, dateString);
+        values.put(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID, medicament.getPackageID());
+        values.put(TABLE_MEDICAMENTS_COLUMN_PRODUCT_LINE_ID, medicament.getProductLineID());
 
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_MEDICAMENTS, null, values);
         db.close();
+
+
+
     }
 
     public void addMedicament(MedicamentDb medicamentDb, Date date){
@@ -195,12 +207,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TABLE_MEDICAMENTS_COLUMN_KIND, medicamentDb.getPack());
         String dateString = simpleDateFormat.format(date);
         values.put(TABLE_MEDICAMENTS_COLUMN_DATE, dateString);
-        values.put(TABLE_MEDICAMENTS_COLUMN_ID_MEDICAMENTDB, medicamentDb.getPackageID());
+        values.put(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID, medicamentDb.getPackageID());
+        values.put(TABLE_MEDICAMENTS_COLUMN_PRODUCT_LINE_ID, medicamentDb.getProductLineID());
 
-        Log.d("tomo", "add idServer: " + medicamentDb.getIdServer());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_MEDICAMENTS, null, values);
         db.close();
+    }
+
+    public boolean updateMedicament(int idServer, Medicament medicament) {
+        ContentValues args = new ContentValues();
+        args.put(TABLE_MEDICAMENTS_COLUMN_NAME, medicament.getName());
+        args.put(TABLE_MEDICAMENTS_COLUMN_PRODUCENT, medicament.getProducent());
+        args.put(TABLE_MEDICAMENTS_COLUMN_PRICE, medicament.getPrice());
+        args.put(TABLE_MEDICAMENTS_COLUMN_KIND, medicament.getKind());
+        Long dateLong = Long.valueOf(medicament.getDateExpiration()).longValue();
+        Date date = new Date(dateLong);
+        String dateString = simpleDateFormat.format(date);
+        args.put(TABLE_MEDICAMENTS_COLUMN_DATE, dateString);
+        args.put(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID, medicament.getPackageID());
+        args.put(TABLE_MEDICAMENTS_COLUMN_PRODUCT_LINE_ID, medicament.getProductLineID());
+
+        SQLiteDatabase db = getWritableDatabase();
+        return db.update(TABLE_MEDICAMENTS, args, TABLE_MEDICAMENTS_COLUMN_ID_SERVER + "=" + idServer, null) > 0;
     }
 
     public void addMedicamentDb(MedicamentDb medicamentDb){
@@ -261,12 +290,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db =  getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_MEDICAMENTS + " WHERE 1";
 
-        //Cursor point to a location in your result
         Cursor c = db.rawQuery(query, null);
-        //Move to first row in your result
+
         c.moveToFirst();
 
-        //Position after the last row means the end of the results
         while (!c.isAfterLast()) {
             if (c.getString(c.getColumnIndex("name")) != null) {
                 dbString += c.getString(c.getColumnIndex("name"));
@@ -285,7 +312,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 Medicament medicament = new Medicament();
@@ -297,31 +323,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     medicament.setIdServer(Integer.parseInt(idServer));
                 medicament.setKind(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_KIND)));
                 medicament.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PRICE))));
-                String idMedicamentDb = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_ID_MEDICAMENTDB));
-                if(idMedicamentDb != null)
-                    medicament.setPackageID(Integer.parseInt(idMedicamentDb));
+                String packageId = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID));
+                if(packageId != null)
+                    medicament.setPackageID(Integer.parseInt(packageId));
+                String productLineID = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PRODUCT_LINE_ID));
+                if(productLineID != null)
+                    medicament.setProductLineID(Integer.parseInt(productLineID));
                 String date = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_DATE));
                 try {
-                    medicament.setDateFormatExpiration(simpleDateFormat.parse(date));
+                    Date parse = simpleDateFormat.parse(date);
+                    medicament.setDateFormatExpiration(parse);
+                    long time = parse.getTime();
+                    medicament.setDateExpiration(String.valueOf(time));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-
-                // Adding contact to list
                 medicaments.add(medicament);
             } while (cursor.moveToNext());
-        }
-
-        // return contact list
-        for (Medicament medicament:medicaments) {
-//            Log.d("tomo", medicament.getKind());
-            Log.d("tomo", medicament.getName());
-            Log.d("tomo", medicament.getProducent());
-            Log.d("tomo", Integer.toString(medicament.getId()));
-            Log.d("tomo", Integer.toString(medicament.getIdServer()));
-            Log.d("tomo", Double.toString(medicament.getPrice()));
-            Log.d("tomo", "------------------");
         }
         return medicaments;
     }
@@ -561,37 +579,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return medicamentsDbs;
     }
 
-    public List<Medicament> getAll() {
-        List<Medicament> medicaments = new ArrayList<Medicament>();
-        String selectQuery = "SELECT  * FROM " + TABLE_MEDICAMENTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Medicament medicament = new Medicament();
-                medicament.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_ID))));
-                medicament.setName(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_NAME)));
-                medicament.setProducent(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PRODUCENT)));
-                String idServer = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_ID_SERVER));
-                if(idServer!=null)
-                    medicament.setIdServer(Integer.parseInt(idServer));
-                medicament.setKind(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_KIND)));
-                medicament.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PRICE))));
-                String idMedicamentDb = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_ID_MEDICAMENTDB));
-                if(idMedicamentDb != null)
-                    medicament.setPackageID(Integer.parseInt(idMedicamentDb));
-                String date = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_DATE));
-                try {
-                    medicament.setDateFormatExpiration(simpleDateFormat.parse(date));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                medicaments.add(medicament);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return medicaments;
-    }
 
 }

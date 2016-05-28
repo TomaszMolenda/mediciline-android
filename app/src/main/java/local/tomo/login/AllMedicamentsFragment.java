@@ -11,12 +11,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import local.tomo.login.database.DatabaseHandler;
 import local.tomo.login.model.Medicament;
+import local.tomo.login.network.RestIntefrace;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class AllMedicamentsFragment extends ListFragment {
@@ -41,20 +48,71 @@ public class AllMedicamentsFragment extends ListFragment {
         listView.setAdapter(allMedicamentAdapter);
 
 
-        Button button = (Button) rootView.findViewById(R.id.button);
-        Button button2 = (Button) rootView.findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonDeleteMedicaments = (Button) rootView.findViewById(R.id.buttonDeleteMedicaments);
+        Button buttonSynchronizeMedicaments = (Button) rootView.findViewById(R.id.buttonSynchronizeMedicaments);
+        buttonDeleteMedicaments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                databaseHandler.removeAllMedicaments();
 
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
+        buttonSynchronizeMedicaments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //medicamentDbDAO.getAll();
-                //databaseHandler.getMedicamentDbDAO().getAll();
-                databaseHandler.getMedicamentsDb();
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(RestIntefrace.url)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(client)
+                        .build();
+                RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
+                Call<List<Medicament>> call = restIntefrace.getMedicaments(LoginActivity.uniqueId);
+                call.enqueue(new Callback<List<Medicament>>() {
+                    @Override
+                    public void onResponse(Call<List<Medicament>> call, Response<List<Medicament>> response) {
+                        List<Medicament> medicaments = response.body();
+                        Log.d("tomo", "w liscie: " + medicaments.size());
+                        Log.d("tomo", "internet");
+                        List<Medicament> medicamentsLocal = databaseHandler.getMedicaments();
+
+                        endloop:
+                        for (Medicament medicament : medicaments) {
+                            if(!medicamentsLocal.contains(medicament)) {
+                                for (Medicament medicamentLocal : medicamentsLocal) {
+                                    if(medicament.getIdServer() == medicamentLocal.getIdServer()) {
+                                        databaseHandler.updateMedicament(medicament.getIdServer(), medicament);
+                                        break endloop;
+                                    }
+                                }
+                                databaseHandler.addMedicament(medicament);
+                            }
+
+
+//                            Log.d("tomo", medicament.toString());
+//                            Log.d("tomo", String.valueOf(medicament.hashCode()));
+
+
+
+                        }
+                        List<Medicament> medicaments1 = databaseHandler.getMedicaments();
+                        Log.d("tomo", "local");
+                        for (Medicament medicament : medicaments1) {
+
+//                            Log.d("tomo", medicament.toString());
+//                            Log.d("tomo", String.valueOf(medicament.hashCode()));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Medicament>> call, Throwable t) {
+
+                    }
+                });
+
             }
         });
         return rootView;
