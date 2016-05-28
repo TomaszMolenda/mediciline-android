@@ -48,6 +48,36 @@ public class Medicament {
         dateFormatExpiration = calendar.getTime();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof Medicament))return false;
+        Medicament medicament = (Medicament)obj;
+        if(this.hashCode() == medicament.hashCode()) return true;
+        else return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        int multipler = 31;
+        //int
+        result = multipler * result + idServer;
+        result = multipler * result + productLineID;
+        result = multipler * result + packageID;
+        //String
+        result = multipler * result + (name == null ? 0 : name.hashCode());
+        result = multipler * result + (producent == null ? 0 : producent.hashCode());
+        result = multipler * result + (dateExpiration == null ? 0 : dateExpiration.hashCode());
+        result = multipler * result + (kind == null ? 0 : kind.hashCode());
+        //double
+        long priceBits = Double.doubleToLongBits(price);
+        result = multipler * result + (int)(priceBits ^ (priceBits >>> 32));
+
+        return result;
+    }
+
     public int getId() {
         return id;
     }
@@ -139,15 +169,12 @@ public class Medicament {
     @Override
     public String toString() {
         return "Medicament{" +
-                "dateExpirationYearMonth=" + dateExpirationYearMonth +
-                ", id=" + id +
-                ", idServer=" + idServer +
+                "idServer=" + idServer +
                 ", name='" + name + '\'' +
                 ", producent='" + producent + '\'' +
                 ", price=" + price +
                 ", kind='" + kind + '\'' +
                 ", dateExpiration='" + dateExpiration + '\'' +
-                ", dateFormatExpiration=" + dateFormatExpiration +
                 ", productLineID=" + productLineID +
                 ", packageID=" + packageID +
                 '}';
