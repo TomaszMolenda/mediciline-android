@@ -98,12 +98,39 @@ public class AllMedicamentsFragment extends ListFragment {
 
 
                         }
-                        List<Medicament> medicaments1 = databaseHandler.getMedicaments();
+                        List<Medicament> medicamentsToSend = databaseHandler.getMedicamentsToSend();
                         Log.d("tomo", "local");
-                        for (Medicament medicament : medicaments1) {
+                        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(RestIntefrace.url)
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .client(client)
+                                .build();
+                        RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
 
-//                            Log.d("tomo", medicament.toString());
-//                            Log.d("tomo", String.valueOf(medicament.hashCode()));
+                        for (final Medicament medicament : medicamentsToSend) {
+                            Log.d("tomo", medicament.toString());
+                            Call<Medicament> medicamentCall = restIntefrace.saveMedicament(medicament);
+                            medicamentCall.enqueue(new Callback<Medicament>() {
+                                @Override
+                                public void onResponse(Call<Medicament> call, Response<Medicament> response) {
+                                    Log.d("tomo", "poszlo medi");
+                                    Medicament body = response.body();
+                                    Log.d("tomo", body.toString());
+                                    medicament.setIdServer(body.getId());
+                                    boolean b = databaseHandler.setIdServer(medicament);
+                                    Log.d("tomo", "czy sie udlo" + b);
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<Medicament> call, Throwable t) {
+                                    Log.d("tomo", "nie poszlo medi synchro");
+                                    //databaseHandler.addMedicament(medicamentDb, date);
+                                }
+                            });
                         }
                     }
 

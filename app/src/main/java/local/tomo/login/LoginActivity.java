@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -125,6 +126,8 @@ public class LoginActivity extends Activity {
 
         Background background = new Background(getApplicationContext(), getResources());
         background.execute();
+
+        Log.d("tomo", new Date() + "");
 
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         userName = preference.getString(PREF_USER, null);

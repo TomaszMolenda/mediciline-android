@@ -232,6 +232,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return db.update(TABLE_MEDICAMENTS, args, TABLE_MEDICAMENTS_COLUMN_ID_SERVER + "=" + idServer, null) > 0;
     }
 
+    public boolean setIdServer(Medicament medicament) {
+        ContentValues args = new ContentValues();
+//        args.put(TABLE_MEDICAMENTS_COLUMN_NAME, medicament.getName());
+//        args.put(TABLE_MEDICAMENTS_COLUMN_PRODUCENT, medicament.getProducent());
+//        args.put(TABLE_MEDICAMENTS_COLUMN_PRICE, medicament.getPrice());
+//        args.put(TABLE_MEDICAMENTS_COLUMN_KIND, medicament.getKind());
+//        Long dateLong = Long.valueOf(medicament.getDateExpiration()).longValue();
+//        Date date = new Date(dateLong);
+//        String dateString = simpleDateFormat.format(date);
+//        args.put(TABLE_MEDICAMENTS_COLUMN_DATE, dateString);
+//        args.put(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID, medicament.getPackageID());
+        args.put(TABLE_MEDICAMENTS_COLUMN_ID_SERVER, medicament.getIdServer());
+        int id = medicament.getId();
+        SQLiteDatabase db = getWritableDatabase();
+        return db.update(TABLE_MEDICAMENTS, args, TABLE_MEDICAMENTS_COLUMN_ID + "=" + id, null) > 0;
+    }
+
     public void addMedicamentDb(MedicamentDb medicamentDb){
         ContentValues values = new ContentValues();
         values.put(TABLE_MEDICAMENTSDB_COLUMN_PACKAGEID, medicamentDb.getPackageID());
@@ -308,6 +325,46 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public List<Medicament> getMedicaments() {
         List<Medicament> medicaments = new ArrayList<Medicament>();
         String selectQuery = "SELECT  * FROM " + TABLE_MEDICAMENTS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Medicament medicament = new Medicament();
+                medicament.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_ID))));
+                medicament.setName(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_NAME)));
+                medicament.setProducent(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PRODUCENT)));
+                String idServer = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_ID_SERVER));
+                if(idServer!=null)
+                    medicament.setIdServer(Integer.parseInt(idServer));
+                medicament.setKind(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_KIND)));
+                medicament.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PRICE))));
+                String packageId = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID));
+                if(packageId != null)
+                    medicament.setPackageID(Integer.parseInt(packageId));
+                String productLineID = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_PRODUCT_LINE_ID));
+                if(productLineID != null)
+                    medicament.setProductLineID(Integer.parseInt(productLineID));
+                String date = cursor.getString(cursor.getColumnIndex(TABLE_MEDICAMENTS_COLUMN_DATE));
+                try {
+                    Date parse = simpleDateFormat.parse(date);
+                    medicament.setDateFormatExpiration(parse);
+                    long time = parse.getTime();
+                    medicament.setDateExpiration(String.valueOf(time));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                medicaments.add(medicament);
+            } while (cursor.moveToNext());
+        }
+        return medicaments;
+    }
+
+    public List<Medicament> getMedicamentsToSend() {
+        List<Medicament> medicaments = new ArrayList<Medicament>();
+        String selectQuery = "SELECT  * FROM " + TABLE_MEDICAMENTS + " WHERE " + TABLE_MEDICAMENTS_COLUMN_ID_SERVER + " = 0";
+
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -578,6 +635,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return medicamentsDbs;
     }
+
 
 
 }
