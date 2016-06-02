@@ -26,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class AllMedicamentsFragment extends ListFragment {
+public class AllMedicamentsFragment extends Fragment {
 
     private DatabaseHandler databaseHandler;
     List<Medicament> medicaments;

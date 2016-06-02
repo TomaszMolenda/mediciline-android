@@ -2,6 +2,9 @@ package local.tomo.login;
 
 import android.app.Activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -68,6 +71,9 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicament);
+
+
+
 
         databaseHandler = new DatabaseHandler(getApplicationContext(), null, null, 1);
 
@@ -148,6 +154,8 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                         //databaseHandler.getMedicamentDAO().add(medicament);
 
 
+
+
                         medicament.getDateExpirationYearMonth().setYear(year);
                         medicament.getDateExpirationYearMonth().setMonthId(month);
                         Log.d("tomo", "przed wyslaniem2");
@@ -176,12 +184,16 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                                 databaseHandler.addMedicament(medicamentDb, date);
 
 
+
+
                             }
 
                             @Override
                             public void onFailure(Call<Medicament> call, Throwable t) {
                                 Log.d("tomo", "nie poszlo medi");
                                 databaseHandler.addMedicament(medicamentDb, date);
+
+
                             }
                         });
                         //RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("http://212.244.79.82:8080").build();
@@ -204,6 +216,15 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                             }
                         });
 */
+                        String s = "wraca2ggggg";
+                        Intent intent = new Intent();
+                        intent.putExtra("edittextvalue", s);
+                        setResult(RESULT_OK, intent);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         finish();
                     }
                 });

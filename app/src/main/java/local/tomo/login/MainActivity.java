@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AddMedicamentActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
+                //startActivity(intent);
             }
         });
 
@@ -63,6 +65,24 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null)
+            Log.d("tomo", "jest null");
+        else {
+                    String requiredValue = data.getStringExtra("edittextvalue");
+        Log.d("tomo", "wraca z: " + requiredValue);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new AllMedicamentsFragment())
+                    .commit();
+            //strings.add(requiredValue);
+            //adapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -107,7 +127,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_your_medicaments_leyout) {
 //            TODO add fragment with your medicaments
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new AllMedicamentsFragment(), "ddd")
+                    .replace(R.id.content_frame, new AllMedicamentsFragment())
                     .commit();
         } else if (id == R.id.nav_all_medicaments_leyout) {
             fragmentManager.beginTransaction()

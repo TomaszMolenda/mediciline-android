@@ -324,7 +324,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public List<Medicament> getMedicaments() {
         List<Medicament> medicaments = new ArrayList<Medicament>();
-        String selectQuery = "SELECT  * FROM " + TABLE_MEDICAMENTS;
+        String selectQuery = "SELECT  * FROM " + TABLE_MEDICAMENTS + " ORDER BY " + TABLE_MEDICAMENTS_COLUMN_ID + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
