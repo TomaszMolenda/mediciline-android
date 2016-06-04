@@ -38,8 +38,10 @@ public class AddMedicamentAdapter extends ArrayAdapter<MedicamentDb> {
         if(medicamentDb!=null) {
             TextView rowAddMedicamentName = (TextView) v.findViewById(R.id.rowAddMedicamentName);
             TextView rowAddMedicamentProducer = (TextView) v.findViewById(R.id.rowAddMedicamentProducer);
+            TextView rowAddMedicamentPack = (TextView) v.findViewById(R.id.rowAddMedicamentPack);
             rowAddMedicamentName.setText(medicamentDb.getProductName());
-            rowAddMedicamentProducer.setText(medicamentDb.getProducer());
+            rowAddMedicamentProducer.setText("Producent: " + medicamentDb.getProducer());
+            rowAddMedicamentPack.setText("Rodzaj: " + medicamentDb.getPack());
         }
         return  v;
     }

@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import local.tomo.login.model.Medicament;
@@ -20,6 +23,10 @@ import local.tomo.login.model.MedicamentDb;
 public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
     private ArrayList<Medicament> medicaments;
+
+    private final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
+            "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
+    private final List<String> monthsList = Arrays.asList(months);
 
     public AllMedicamentAdapter(Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
@@ -46,6 +53,8 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             TextView rowAllMedicamentProductLineID = (TextView) v.findViewById(R.id.rowAllMedicamentProductLineID);
             TextView rowAllMedicamentPackageID = (TextView) v.findViewById(R.id.rowAllMedicamentPackageID);
             TextView rowAllMedicamentPrice = (TextView) v.findViewById(R.id.rowAllMedicamentPrice);
+            TextView rowAllMedicamentDate = (TextView) v.findViewById(R.id.rowAllMedicamentDate);
+
 
             rowAllMedicamentName.setText(medicament.getName());
             rowAllMedicamentProducer.setText(medicament.getProducent());
@@ -55,6 +64,16 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             rowAllMedicamentProductLineID.setText("ProductLineId: "+medicament.getProductLineID());
             rowAllMedicamentPackageID.setText("PackageId: "+medicament.getPackageID());
             rowAllMedicamentPrice.setText("Price: " + medicament.getPrice());
+
+            Date dateFormatExpiration = medicament.getDateFormatExpiration();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateFormatExpiration);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+
+
+
+            rowAllMedicamentDate.setText("Data: " + monthsList.get(month) + " " + year);
         }
         return  v;
     }

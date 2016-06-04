@@ -198,14 +198,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addMedicament(MedicamentDb medicamentDb, Date date){
+    public void addMedicament(MedicamentDb medicamentDb, int month, int year){
         ContentValues values = new ContentValues();
         values.put(TABLE_MEDICAMENTS_COLUMN_ID_SERVER, medicamentDb.getIdServer());
         values.put(TABLE_MEDICAMENTS_COLUMN_NAME, medicamentDb.getProductName());
         values.put(TABLE_MEDICAMENTS_COLUMN_PRODUCENT, medicamentDb.getProducer());
         values.put(TABLE_MEDICAMENTS_COLUMN_PRICE, medicamentDb.getPrice());
         values.put(TABLE_MEDICAMENTS_COLUMN_KIND, medicamentDb.getPack());
-        String dateString = simpleDateFormat.format(date);
+        String monthString;
+        if(month < 10) monthString = "0" + month;
+        else monthString = "" + month;
+        String dateString = year + "-" + month + "-01 00:00:00.000";
         values.put(TABLE_MEDICAMENTS_COLUMN_DATE, dateString);
         values.put(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID, medicamentDb.getPackageID());
         values.put(TABLE_MEDICAMENTS_COLUMN_PRODUCT_LINE_ID, medicamentDb.getProductLineID());
