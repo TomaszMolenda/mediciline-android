@@ -17,40 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAddMedicament"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:src="@android:drawable/ic_dialog_email"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="0dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAddMedicamentHandy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:src="@android:drawable/ic_dialog_email"
-        android:layout_marginBottom="0dp"
-        android:layout_above="@+id/fabAddMedicament"
-        android:layout_alignLeft="@+id/fabAddMedicament"
-        android:layout_alignStart="@+id/fabAddMedicament"
-        android:visibility="invisible"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAddMedicamentPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:src="@android:drawable/ic_dialog_email"
-        android:layout_alignTop="@+id/fabAddMedicamentHandy"
-        android:layout_toLeftOf="@+id/fabAddMedicament"
-        android:layout_toStartOf="@+id/fabAddMedicament"
-        android:visibility="invisible"/>
 
 </RelativeLayout>

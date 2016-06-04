@@ -1,7 +1,9 @@
 package local.tomo.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -12,6 +14,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import local.tomo.login.database.DatabaseHandler;
@@ -29,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AllMedicamentsFragment extends Fragment {
 
     private DatabaseHandler databaseHandler;
-    List<Medicament> medicaments;
+    private List<Medicament> medicaments;
 
     private AllMedicamentAdapter allMedicamentAdapter;
     private ListView listView ;
@@ -40,9 +44,9 @@ public class AllMedicamentsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.all_medicaments_layout, container, false);
         databaseHandler = new DatabaseHandler(getContext(), null, null, 1);
         medicaments = databaseHandler.getMedicaments();
+        Log.d("tomo", "ile w liscie przed" + medicaments.size());
 
         listView = (ListView) rootView.findViewById(android.R.id.list);
-        Log.d("tomo", "wysywala sie");
         allMedicamentAdapter = new AllMedicamentAdapter(getContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
 
         listView.setAdapter(allMedicamentAdapter);
@@ -50,13 +54,25 @@ public class AllMedicamentsFragment extends Fragment {
 
         Button buttonDeleteMedicaments = (Button) rootView.findViewById(R.id.buttonDeleteMedicaments);
         Button buttonSynchronizeMedicaments = (Button) rootView.findViewById(R.id.buttonSynchronizeMedicaments);
+        FloatingActionButton fabAddMedicament = (FloatingActionButton) rootView.findViewById(R.id.fabAddMedicament);
         buttonDeleteMedicaments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 databaseHandler.removeAllMedicaments();
+                medicaments.clear();
+                allMedicamentAdapter.notifyDataSetChanged();
 
             }
         });
+
+        fabAddMedicament.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddMedicamentActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+
         buttonSynchronizeMedicaments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,16 +162,22 @@ public class AllMedicamentsFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Medicament medicament = databaseHandler.getLastMedicament();
+        int idToAdd = medicament.getId();
+        int highestId = getHighestId(medicaments);
+        if(idToAdd != highestId)
+            medicaments.add(0, medicament);
+        allMedicamentAdapter.notifyDataSetChanged();
 
-        Log.d("tomo", "detach");
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.d("tomo", "atach");
-
+    private int getHighestId(List<Medicament> medicaments) {
+        int id = 0;
+        for (Medicament medicament : medicaments) {
+            if(medicament.getId() > id)
+                id = medicament.getId();
+        }
+        return id;
     }
 }

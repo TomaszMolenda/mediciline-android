@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -148,7 +149,7 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                         int year = datePickerAddMedicament.getYear();
                         calendar.set(year,month,day);
                         date = calendar.getTime();
-                        Medicament medicament = new Medicament(medicamentDb);
+                        final Medicament medicament = new Medicament(medicamentDb);
                         medicament.setDateFormatExpiration(date);
                         //medicamentDAO.add(medicament);
                         //databaseHandler.getMedicamentDAO().add(medicament);
@@ -177,54 +178,21 @@ public class AddMedicamentActivity extends Activity {//implements Callback<Medic
                         call.enqueue(new Callback<Medicament>() {
                             @Override
                             public void onResponse(Call<Medicament> call, Response<Medicament> response) {
-                                Log.d("tomo", "poszlo medi");
                                 Medicament body = response.body();
-                                Log.d("tomo", body.toString());
                                 medicamentDb.setIdServer(body.getId());
+                                databaseHandler.setIdServer(body);
                                 databaseHandler.addMedicament(medicamentDb, date);
-
-
-
-
+                                Toast.makeText(getApplicationContext(), "Wysłano lek  " + medicament.getName() + " na serwer", Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onFailure(Call<Medicament> call, Throwable t) {
-                                Log.d("tomo", "nie poszlo medi");
-                                databaseHandler.addMedicament(medicamentDb, date);
-
-
+                                Toast.makeText(getApplicationContext(), "Nie udało się wysłać leku  " + medicament.getName() + " na serwer", Toast.LENGTH_LONG).show();
                             }
                         });
-                        //RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("http://212.244.79.82:8080").build();
-                        //RestIntefrace restIntefrace = restAdapter.create(RestIntefrace.class);
-
-                        //restIntefrace.saveMedicament(medicament);
-
-/*
-                        MedicamentSaveRequest medicamentSaveRequest = new MedicamentSaveRequest(medicament);
-                        //spiceManager.getFromCacheAndLoadFromNetworkIfExpired(medicamentSaveRequest, null,null);
-                        spiceManager.execute(medicamentSaveRequest, new RequestListener<Medicament>() {
-                            @Override
-                            public void onRequestFailure(SpiceException spiceException) {
-                                Log.d("tomo", "Nie udało sie wyslac");
-                            }
-
-                            @Override
-                            public void onRequestSuccess(Medicament medicament) {
-                                Log.d("tomo", "wyslano");
-                            }
-                        });
-*/
-                        String s = "wraca2ggggg";
+                        databaseHandler.addMedicament(medicamentDb, date);
                         Intent intent = new Intent();
-                        intent.putExtra("edittextvalue", s);
                         setResult(RESULT_OK, intent);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         finish();
                     }
                 });

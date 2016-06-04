@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity
 
     private static String PREF_NAME = "tomo_pref";
 
-    //private MedicamentDAO medicamentDAO;
     private DatabaseHandler databaseHandler;
 
     @Override
@@ -32,30 +31,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         databaseHandler = new DatabaseHandler(getApplicationContext(), null, null, 1);
-        final FloatingActionButton fabAddMedicamentHandy = (FloatingActionButton) findViewById(R.id.fabAddMedicamentHandy);
-        final FloatingActionButton fabAddMedicamentPhoto = (FloatingActionButton) findViewById(R.id.fabAddMedicamentPhoto);
-        final FloatingActionButton fabAddMedicament = (FloatingActionButton) findViewById(R.id.fabAddMedicament);
-        fabAddMedicament.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(fabAddMedicamentHandy.getVisibility() == FloatingActionButton.VISIBLE){
-                    fabAddMedicamentHandy.setVisibility(FloatingActionButton.INVISIBLE);
-                    fabAddMedicamentPhoto.setVisibility(FloatingActionButton.INVISIBLE);
-                }
-                else {
-                    fabAddMedicamentHandy.setVisibility(FloatingActionButton.VISIBLE);
-                    fabAddMedicamentPhoto.setVisibility(FloatingActionButton.VISIBLE);
-                }
-            }
-        });
-        fabAddMedicamentHandy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddMedicamentActivity.class);
-                startActivityForResult(intent, 1);
-                //startActivity(intent);
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -67,23 +43,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(data==null)
-            Log.d("tomo", "jest null");
-        else {
-                    String requiredValue = data.getStringExtra("edittextvalue");
-        Log.d("tomo", "wraca z: " + requiredValue);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new AllMedicamentsFragment())
-                    .commit();
-            //strings.add(requiredValue);
-            //adapter.notifyDataSetChanged();
-        }
 
-    }
 
     @Override
     public void onBackPressed() {
@@ -139,8 +99,6 @@ public class MainActivity extends AppCompatActivity
 //                    .commit();
         } else if (id == R.id.nav_logout) {
             getApplicationContext().getSharedPreferences(PREF_NAME, 0).edit().clear().commit();
-            //medicamentDAO.deleteAll();
-            //databaseHandler.getMedicamentDAO().deleteAll();
             databaseHandler.removeAllMedicaments();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
