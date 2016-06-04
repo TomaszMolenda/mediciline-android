@@ -6,41 +6,81 @@
 
     <TextView
         android:id="@+id/rowAllMedicamentId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp" >
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="15sp"
+        android:visibility="invisible">
     </TextView>
 
     <TextView
         android:id="@+id/rowAllMedicamentIdServer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp" >
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="15sp"
+        android:visibility="invisible">
     </TextView>
 
     <TextView
         android:id="@+id/rowAllMedicamentProductLineID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp" >
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="15sp"
+        android:visibility="invisible">
     </TextView>
 
     <TextView
         android:id="@+id/rowAllMedicamentPackageID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp" >
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="15sp"
+        android:visibility="invisible">
     </TextView>
 
-    <TextView
-        android:id="@+id/rowAllMedicamentName"
-        android:layout_width="match_parent"
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp" >
-    </TextView>
+        android:layout_gravity="center"
+        >
+
+
+        <ImageView
+            android:id="@+id/rowAllMedicamentNoSynchro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_sync_disabled_black_18dp"
+            android:visibility="invisible"/>
+        <TextView
+            android:id="@+id/rowAllMedicamentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textSize="20sp"
+           >
+        </TextView>
+
+
+
+    </LinearLayout>
+
+
+
+
 
     <TextView
         android:id="@+id/rowAllMedicamentProducer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/rowAllMedicamentPack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp" >
