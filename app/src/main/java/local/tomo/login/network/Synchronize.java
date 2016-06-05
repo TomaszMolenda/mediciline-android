@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import local.tomo.login.database.DatabaseHandler;
 import local.tomo.login.json.exclusion.MedicamentExclusion;
 import local.tomo.login.model.Medicament;
 import okhttp3.OkHttpClient;
@@ -24,9 +25,12 @@ public class Synchronize {
     private Context context;
     private Medicament medicament;
 
+    private DatabaseHandler databaseHandler;
+
 
     public Synchronize(Context context) {
         this.context = context;
+        databaseHandler = new DatabaseHandler(context, null, null, 1);
     }
 
     public boolean synchronizeMedicament(Medicament m) {
@@ -50,9 +54,7 @@ public class Synchronize {
             public void onResponse(Call<Medicament> call, Response<Medicament> response) {
                 Medicament body = response.body();
                 medicament.setIdServer(body.getId());
-                //medicamentDb.setIdServer(body.getId());
-                //databaseHandler.setIdServer(body);
-                //databaseHandler.addMedicament(medicamentDb, month + 1, year);
+                databaseHandler.setIdServer(medicament);
                 Toast.makeText(context, "Wysłano lek  " + medicament.getName() + " na serwer", Toast.LENGTH_LONG).show();
             }
 

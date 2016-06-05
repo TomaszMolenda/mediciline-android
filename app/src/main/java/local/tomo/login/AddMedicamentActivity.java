@@ -29,7 +29,7 @@ import local.tomo.login.network.Synchronize;
 
 public class AddMedicamentActivity extends Activity {
 
-    private final List<String> months = Months.months;
+    private final List<String> months = Months.getMonths();
 
     TextView textViewAddMedicamentInfo;
 
@@ -171,11 +171,17 @@ public class AddMedicamentActivity extends Activity {
                     public void onClick(View v) {
                         medicament = new Medicament(medicamentDb);
                         medicament.setDate(date);
-                        databaseHandler.addMedicament(medicament);
+                        long id = databaseHandler.addMedicament(medicament);
+                        medicament.setId((int) id);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         Synchronize synchronize = new Synchronize(getApplicationContext());
                         synchronize.synchronizeMedicament(medicament);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+
+                        }
                         finish();
                     }
                 });

@@ -170,7 +170,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addMedicament(Medicament medicament){
+    public long addMedicament(Medicament medicament){
 
         ContentValues values = new ContentValues();
         values.put(TABLE_MEDICAMENTS_COLUMN_ID_SERVER, medicament.getIdServer());
@@ -182,7 +182,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Date date = new Date(dateLong);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        //calendar.add(Calendar.DAY_OF_MONTH, 1);
         String dateString = simpleDateFormat.format(date);
         values.put(TABLE_MEDICAMENTS_COLUMN_DATE, dateString);
         values.put(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID, medicament.getPackageID());
@@ -190,9 +189,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
         SQLiteDatabase db = getWritableDatabase();
-        db.insert(TABLE_MEDICAMENTS, null, values);
+        long id = db.insert(TABLE_MEDICAMENTS, null, values);
         db.close();
-
+        return id;
 
 
     }

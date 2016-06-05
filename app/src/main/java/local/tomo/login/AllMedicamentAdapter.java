@@ -1,6 +1,7 @@
 package local.tomo.login;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
     private ArrayList<Medicament> medicaments;
 
-    private final List<String> months = Months.months;
+    private final List<String> months = Months.getMonths();
 
     public AllMedicamentAdapter(Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
@@ -61,7 +62,8 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
             rowAllMedicamentId.setText("id: "+medicament.getId());
             int idServer = medicament.getIdServer();
-            if (idServer == 0) rowAllMedicamentNoSynchro.setVisibility(View.VISIBLE);
+            if (idServer == 0) rowAllMedicamentNoSynchro.setVisibility(ImageView.VISIBLE);
+            else rowAllMedicamentNoSynchro.setVisibility(ImageView.INVISIBLE);
             rowAllMedicamentIdServer.setText("idServer: "+ idServer);
             rowAllMedicamentProductLineID.setText("ProductLineId: "+medicament.getProductLineID());
             rowAllMedicamentPackageID.setText("PackageId: "+medicament.getPackageID());
@@ -73,7 +75,6 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             calendar.setTime(dateFormatExpiration);
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
-
             rowAllMedicamentDate.setText("Data: " + months.get(month) + " " + year);
         }
         return  v;

@@ -1,5 +1,7 @@
 package local.tomo.login.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,21 +9,22 @@ import java.util.List;
  * Created by tomo on 2016-06-05.
  */
 public abstract class Months {
-    String JANUARY = "Styczeń";
-    String FEBRUARY = "Luty";
-    String MARCH = "Mrzec";
-    String APRIL = "Kwiecień";
-    String MAY = "Maj";
-    String JUNE = "Czerwiec";
-    String JULY = "Lipiec";
-    String AUGUST = "Sierpień";
-    String SEPTEMBER = "Wrzesień";
-    String OCTOBER = "Paździenik";
-    String NOVEMBER = "Listopad";
-    String DECEMBER = "Grudzień";
+    static String JANUARY = "Styczeń";
+    static String FEBRUARY = "Luty";
+    static String MARCH = "Mrzec";
+    static String APRIL = "Kwiecień";
+    static String MAY = "Maj";
+    static String JUNE = "Czerwiec";
+    static String JULY = "Lipiec";
+    static String AUGUST = "Sierpień";
+    static String SEPTEMBER = "Wrzesień";
+    static String OCTOBER = "Paździenik";
+    static String NOVEMBER = "Listopad";
+    static String DECEMBER = "Grudzień";
 
-    public static final List<String> months = new ArrayList<String>();
-    {
+    private static List<String> months = new ArrayList<String>();
+
+    public static List<String> getMonths() {
         months.add(JANUARY);
         months.add(FEBRUARY);
         months.add(MARCH);
@@ -34,6 +37,7 @@ public abstract class Months {
         months.add(OCTOBER);
         months.add(DECEMBER);
         months.add(NOVEMBER);
+        return months;
     }
 
 
