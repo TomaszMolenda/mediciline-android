@@ -21,6 +21,7 @@ public class Medicament {
     private String kind;
     private String dateExpiration;
     private Date dateFormatExpiration;
+    private long date;
     private int productLineID;
     private int packageID;
 
@@ -164,6 +165,14 @@ public class Medicament {
 
     public void setDateExpirationYearMonth(DateExpirationYearMonth dateExpirationYearMonth) {
         this.dateExpirationYearMonth = dateExpirationYearMonth;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
     @Override

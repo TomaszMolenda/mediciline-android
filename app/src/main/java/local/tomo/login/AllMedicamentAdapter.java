@@ -1,7 +1,6 @@
 package local.tomo.login;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import local.tomo.login.model.Medicament;
-import local.tomo.login.model.MedicamentDb;
+import local.tomo.login.model.Months;
 
 /**
  * Created by tomo on 2016-05-27.
@@ -25,9 +23,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
     private ArrayList<Medicament> medicaments;
 
-    private final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
-            "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
-    private final List<String> monthsList = Arrays.asList(months);
+    private final List<String> months = Months.months;
 
     public AllMedicamentAdapter(Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
@@ -78,7 +74,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
 
-            rowAllMedicamentDate.setText("Data: " + monthsList.get(month) + " " + year);
+            rowAllMedicamentDate.setText("Data: " + months.get(month) + " " + year);
         }
         return  v;
     }

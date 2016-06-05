@@ -178,12 +178,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TABLE_MEDICAMENTS_COLUMN_PRODUCENT, medicament.getProducent());
         values.put(TABLE_MEDICAMENTS_COLUMN_PRICE, medicament.getPrice());
         values.put(TABLE_MEDICAMENTS_COLUMN_KIND, medicament.getKind());
-        Long dateLong = Long.valueOf(medicament.getDateExpiration()).longValue();
+        long dateLong = medicament.getDate();
         Date date = new Date(dateLong);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-
+        //calendar.add(Calendar.DAY_OF_MONTH, 1);
         String dateString = simpleDateFormat.format(date);
         values.put(TABLE_MEDICAMENTS_COLUMN_DATE, dateString);
         values.put(TABLE_MEDICAMENTS_COLUMN_PACKAGE_ID, medicament.getPackageID());

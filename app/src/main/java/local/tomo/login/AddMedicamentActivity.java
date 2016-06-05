@@ -1,56 +1,35 @@
 package local.tomo.login;
 
 import android.app.Activity;
-
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-
-
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import local.tomo.login.database.DatabaseHandler;
-import local.tomo.login.json.exclusion.MedicamentExclusion;
 import local.tomo.login.model.Medicament;
 import local.tomo.login.model.MedicamentDb;
-import local.tomo.login.network.RestIntefrace;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import local.tomo.login.model.Months;
+import local.tomo.login.network.Synchronize;
 
 
 
 public class AddMedicamentActivity extends Activity {
 
-    private final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
-            "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
-    private final List<String> monthsList = Arrays.asList(months);
+    private final List<String> months = Months.months;
 
     TextView textViewAddMedicamentInfo;
 
@@ -86,6 +65,8 @@ public class AddMedicamentActivity extends Activity {
     Calendar calendar = Calendar.getInstance();
     private DatabaseHandler databaseHandler;
     private MedicamentDb medicamentDb;
+    private Medicament medicament;
+    private long date;
 
 
     @Override
@@ -121,9 +102,10 @@ public class AddMedicamentActivity extends Activity {
         buttonAddMedicamentSave = (Button) findViewById(R.id.buttonAddMedicamentSave);
 
         calendar.setTime(new Date());
+        date = calendar.getTimeInMillis();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
-        String monthString = months[month];
+        String monthString = months.get(month);
 
         textViewMonth.setText(monthString);
         textViewYear.setText(year+"");
@@ -146,8 +128,6 @@ public class AddMedicamentActivity extends Activity {
                 searchText = s.toString();
                 if(searchText.length() >= 3) {
                     medicamentDbs = databaseHandler.searchMedicamentsDb(searchText);
-
-
                     addMedicamentAdapter = new AddMedicamentAdapter(getApplicationContext(), R.layout.add_medicament_list_row, (ArrayList<MedicamentDb>) medicamentDbs);
                     listView.setAdapter(addMedicamentAdapter);
                 }
@@ -156,7 +136,6 @@ public class AddMedicamentActivity extends Activity {
                     medicamentDbs.clear();
                 }
                 int i = text.indexOf("(");
-                Log.d("tomo", text + i);
                 if(i != -1)
                     text = text.substring(0, i - 1);
                 textViewAddMedicamentInfo.setText(text + " (znaleziono " + medicamentDbs.size() + " szt.)");
@@ -190,49 +169,13 @@ public class AddMedicamentActivity extends Activity {
                 buttonAddMedicamentSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        int day = datePickerAddMedicament.getDayOfMonth();
-//                        int month = datePickerAddMedicament.getMonth();
-//                        int year = datePickerAddMedicament.getYear();
-//                        calendar.set(year,month,day);
-//                        date = calendar.getTime();
-                        final Medicament medicament = new Medicament(medicamentDb);
-                        //medicament.setDateFormatExpiration(date);
-                        medicament.getDateExpirationYearMonth().setYear(year);
-                        medicament.getDateExpirationYearMonth().setMonthId(month);
-
-                        Gson gson = new GsonBuilder()
-                                .setExclusionStrategies(new MedicamentExclusion())
-                                .create();
-
-                        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-                        Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl(RestIntefrace.url)
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .client(client)
-                                .build();
-                        RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
-                        Call<Medicament> call = restIntefrace.saveMedicament(medicament);
-                        call.enqueue(new Callback<Medicament>() {
-                            @Override
-                            public void onResponse(Call<Medicament> call, Response<Medicament> response) {
-                                Medicament body = response.body();
-                                medicamentDb.setIdServer(body.getId());
-                                databaseHandler.setIdServer(body);
-                                databaseHandler.addMedicament(medicamentDb, month + 1, year);
-                                Toast.makeText(getApplicationContext(), "Wysłano lek  " + medicament.getName() + " na serwer", Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onFailure(Call<Medicament> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(), "Nie udało się wysłać leku  " + medicament.getName() + " na serwer", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        databaseHandler.addMedicament(medicamentDb, month + 1, year);
+                        medicament = new Medicament(medicamentDb);
+                        medicament.setDate(date);
+                        databaseHandler.addMedicament(medicament);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
+                        Synchronize synchronize = new Synchronize(getApplicationContext());
+                        synchronize.synchronizeMedicament(medicament);
                         finish();
                     }
                 });
@@ -245,22 +188,24 @@ public class AddMedicamentActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String s = textViewMonth.getText().toString();
-                int i = monthsList.indexOf(s);
+                int i = months.indexOf(s);
                 if(i == 0) i = 11;
                 else i--;
-                textViewMonth.setText(monthsList.get(i));
+                textViewMonth.setText(months.get(i));
                 month = i;
+                date = createDate();
             }
         });
         imageButtonMonthUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String s = textViewMonth.getText().toString();
-                int i = monthsList.indexOf(s);
+                int i = months.indexOf(s);
                 if(i == 11) i = 0;
                 else i++;
-                textViewMonth.setText(monthsList.get(i));
+                textViewMonth.setText(months.get(i));
                 month = i;
+                date = createDate();
             }
         });
         imageButtonYearUp.setOnClickListener(new View.OnClickListener() {
@@ -271,6 +216,7 @@ public class AddMedicamentActivity extends Activity {
                 i++;
                 textViewYear.setText(i+"");
                 year = i;
+                date = createDate();
             }
         });
         imageButtonYearDown.setOnClickListener(new View.OnClickListener() {
@@ -281,11 +227,16 @@ public class AddMedicamentActivity extends Activity {
                 i--;
                 textViewYear.setText(i+"");
                 year = i;
+                date = createDate();
             }
         });
 
     }
 
+    private long createDate() {
+        calendar.set(year, month, 1);
+        return calendar.getTimeInMillis();
+    }
 
 
     public void setVisibility(boolean visibility) {
