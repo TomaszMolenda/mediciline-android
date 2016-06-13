@@ -11,16 +11,13 @@ import java.util.Date;
  */
 public class Medicament {
 
-    DateExpirationYearMonth dateExpirationYearMonth = new DateExpirationYearMonth();
-
     private int id;
     private int idServer;
     private String name;
     private String producent;
     private double price;
     private String kind;
-    private String dateExpiration;
-    private Date dateFormatExpiration;
+    private Date dateExpiration;
     private long date;
     private int productLineID;
     private int packageID;
@@ -40,13 +37,6 @@ public class Medicament {
 
     public static class List extends ArrayList<Medicament> {
 
-    }
-
-    public void createDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(Long.parseLong(getDateExpiration()));
-        calendar.add(Calendar.DAY_OF_MONTH,1);
-        dateFormatExpiration = calendar.getTime();
     }
 
     @Override
@@ -70,10 +60,11 @@ public class Medicament {
         //String
         result = multipler * result + (name == null ? 0 : name.hashCode());
         result = multipler * result + (producent == null ? 0 : producent.hashCode());
-        result = multipler * result + (dateExpiration == null ? 0 : dateExpiration.hashCode());
         result = multipler * result + (kind == null ? 0 : kind.hashCode());
         //double
         long priceBits = Double.doubleToLongBits(price);
+        result = multipler * result + (int)(priceBits ^ (priceBits >>> 32));
+
         result = multipler * result + (int)(priceBits ^ (priceBits >>> 32));
 
         return result;
@@ -127,14 +118,6 @@ public class Medicament {
         this.idServer = idServer;
     }
 
-    public String getDateExpiration() {
-        return dateExpiration;
-    }
-
-    public void setDateExpiration(String dateExpiration) {
-        this.dateExpiration = dateExpiration;
-    }
-
     public int getProductLineID() {
         return productLineID;
     }
@@ -151,20 +134,12 @@ public class Medicament {
         this.packageID = packageID;
     }
 
-    public Date getDateFormatExpiration() {
-        return dateFormatExpiration;
+    public Date getDateExpiration() {
+        return dateExpiration;
     }
 
-    public void setDateFormatExpiration(Date dateFormatExpiration) {
-        this.dateFormatExpiration = dateFormatExpiration;
-    }
-
-    public DateExpirationYearMonth getDateExpirationYearMonth() {
-        return dateExpirationYearMonth;
-    }
-
-    public void setDateExpirationYearMonth(DateExpirationYearMonth dateExpirationYearMonth) {
-        this.dateExpirationYearMonth = dateExpirationYearMonth;
+    public void setDateExpiration(Date dateExpiration) {
+        this.dateExpiration = dateExpiration;
     }
 
     public long getDate() {
@@ -183,7 +158,6 @@ public class Medicament {
                 ", producent='" + producent + '\'' +
                 ", price=" + price +
                 ", kind='" + kind + '\'' +
-                ", dateExpiration='" + dateExpiration + '\'' +
                 ", productLineID=" + productLineID +
                 ", packageID=" + packageID +
                 '}';

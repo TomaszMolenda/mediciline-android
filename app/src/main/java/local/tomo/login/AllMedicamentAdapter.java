@@ -31,6 +31,10 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
         this.medicaments = medicaments;
     }
 
+    public List<Medicament> getMedicaments() {
+        return medicaments;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
@@ -70,9 +74,9 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             rowAllMedicamentPrice.setText("Cena: " + medicament.getPrice());
             rowAllMedicamentPack.setText("Rodzaj: " + medicament.getKind());
 
-            Date dateFormatExpiration = medicament.getDateFormatExpiration();
+            long date = medicament.getDate();
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(dateFormatExpiration);
+            calendar.setTimeInMillis(date);
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             rowAllMedicamentDate.setText("Data: " + months.get(month) + " " + year);
