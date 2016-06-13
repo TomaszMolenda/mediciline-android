@@ -34,4 +34,7 @@ public interface RestIntefrace {
 
     @POST("/api/medicament/save.json")
     Call<Medicament> saveMedicament(@Body Medicament medicament);
+
+    @POST("/api/medicaments/save.json")
+    Call<List<Medicament>> saveMedicaments(@Body List<Medicament> medicaments);
 }
