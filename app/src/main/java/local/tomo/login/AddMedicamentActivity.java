@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -171,17 +172,12 @@ public class AddMedicamentActivity extends Activity {
                     public void onClick(View v) {
                         medicament = new Medicament(medicamentDb);
                         medicament.setDate(date);
-                        long id = databaseHandler.addMedicament(medicament);
-                        medicament.setId((int) id);
+                        databaseHandler.addMedicament(medicament);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         Synchronize synchronize = new Synchronize(getApplicationContext());
-                        synchronize.synchronizeMedicament(medicament);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-
-                        }
+                        synchronize.synchronizeAllMedicaments();
+                        Log.d("tomo", "po synchro");
                         finish();
                     }
                 });

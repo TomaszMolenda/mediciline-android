@@ -5,28 +5,20 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import local.tomo.login.database.DatabaseHandler;
 import local.tomo.login.model.Medicament;
-import local.tomo.login.network.RestIntefrace;
 import local.tomo.login.network.Synchronize;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class AllMedicamentsFragment extends Fragment {
@@ -54,26 +46,28 @@ public class AllMedicamentsFragment extends Fragment {
 
         FloatingActionButton fabAddMedicament = (FloatingActionButton) rootView.findViewById(R.id.fabAddMedicament);
 
+
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-
-                Log.d("tomo", "srart ref");
-                Synchronize synchronize = new Synchronize(getContext());
-                synchronize.synchronizeAllMedicaments(swipeRefreshLayout, allMedicamentAdapter);
+                refreshList();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-//        buttonDeleteMedicaments.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                databaseHandler.removeAllMedicaments();
-//                medicaments.clear();
-//                allMedicamentAdapter.notifyDataSetChanged();
-//
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object itemAtPosition = listView.getItemAtPosition(position);
+                TextView textView = (TextView) view.findViewById(R.id.rowAllMedicamentId);
+                String ids = textView.getText().toString();
+                boolean b = databaseHandler.deleteMedicament(ids);
+                Toast.makeText(getContext(), "usunieto: " + b, Toast.LENGTH_LONG).show();
+                refreshList();
+            }
+        });
 
         fabAddMedicament.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,23 +80,30 @@ public class AllMedicamentsFragment extends Fragment {
         return rootView;
     }
 
+    private void refreshList() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Synchronize synchronize = new Synchronize(getContext());
+                synchronize.synchronizeAllMedicaments();
+                medicaments.clear();
+                medicaments.addAll(databaseHandler.getMedicaments());
+                allMedicamentAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshList();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Medicament medicament = databaseHandler.getLastMedicament();
-        int idToAdd = medicament.getId();
-        int highestId = getHighestId(medicaments);
-        if(idToAdd != highestId)
-            medicaments.add(0, medicament);
-        allMedicamentAdapter.notifyDataSetChanged();
-
+        refreshList();
     }
 
-    private int getHighestId(List<Medicament> medicaments) {
-        int id = 0;
-        for (Medicament medicament : medicaments) {
-            if(medicament.getId() > id)
-                id = medicament.getId();
-        }
-        return id;
-    }
+
+
 }

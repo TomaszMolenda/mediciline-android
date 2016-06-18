@@ -1,6 +1,7 @@
 package local.tomo.login.network;
 
 import android.content.Context;
+import android.os.StrictMode;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.Toast;
@@ -8,12 +9,14 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import local.tomo.login.AllMedicamentAdapter;
 import local.tomo.login.LoginActivity;
 import local.tomo.login.database.DatabaseHandler;
-import local.tomo.login.json.deserializer.MedicamentDeserializer;
+import local.tomo.login.json.MedicamentExclusion;
 import local.tomo.login.model.Medicament;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -42,101 +45,47 @@ public class Synchronize {
         databaseHandler = new DatabaseHandler(context, null, null, 1);
     }
 
-    public boolean synchronizeMedicament(Medicament m) {
-        this.medicament = m;
+    public void synchronizeAllMedicaments() {
+        List<Medicament> localMedicamentsToSend = databaseHandler.getMedicamentsToSend();
+        sendMedicamentsZeroIdServer(localMedicamentsToSend);
+        List<Medicament> remoteMedicaments = getAllMedicamentFromServer();
+        List<Medicament> localMedicamentsSended = databaseHandler.getSendedMedicaments();
+        if(remoteMedicaments == null) {
+            Toast.makeText(context, "Błąd synchronizacji", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        List<Medicament> remoteMedicamentsToSave = Medicament.compareIdServer(remoteMedicaments, localMedicamentsSended);
+        databaseHandler.addMedicaments(remoteMedicamentsToSave);
 
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+    }
 
+    private List<Medicament> getAllMedicamentFromServer() {
+        List<Medicament> medicaments = null;
+        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace();
+        Call<List<Medicament>> call = restIntefrace.getMedicaments(LoginActivity.uniqueId);
+        try {
+            Response<List<Medicament>> execute = call.execute();
+            medicaments = execute.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return medicaments;
+    }
+
+    private boolean sendMedicamentsZeroIdServer(List<Medicament> medicaments) {
         Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Medicament.class, new MedicamentDeserializer())
-                        .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RestIntefrace.url)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .build();
-        RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
-        Call<Medicament> call = restIntefrace.saveMedicament(medicament);
-        call.enqueue(new Callback<Medicament>() {
-            @Override
-            public void onResponse(Call<Medicament> call, Response<Medicament> response) {
-                Medicament body = response.body();
-                databaseHandler.setIdServer(medicament);
-                Toast.makeText(context, "Wysłano lek  " + medicament.getName() + " na serwer", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<Medicament> call, Throwable t) {
-                t.printStackTrace();
-                Toast.makeText(context, "Nie udało się wysłać leku  " + medicament.getName() + " na serwer", Toast.LENGTH_LONG).show();
-            }
-        });
+                .setExclusionStrategies(new MedicamentExclusion())
+                .create();
+        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace(gson);
+        Call<List<Medicament>> call = restIntefrace.saveMedicaments(medicaments);
+        try {
+            Response<List<Medicament>> execute = call.execute();
+            medicaments = execute.body();
+            databaseHandler.setIdServer(medicaments);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
-
-    public void synchronizeAllMedicaments(SwipeRefreshLayout s, AllMedicamentAdapter a) {
-        swipeRefreshLayout = s;
-        allMedicamentAdapter = a;
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RestIntefrace.url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
-        RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
-        Call<List<Medicament>> listCall = restIntefrace.getMedicaments(LoginActivity.uniqueId);
-
-        listCall.enqueue(new Callback<List<Medicament>>() {
-            @Override
-            public void onResponse(Call<List<Medicament>> call, Response<List<Medicament>> response) {
-                Log.d("tomo", "oberbalem lekii");
-                swipeRefreshLayout.setRefreshing(false);
-                List<Medicament> medicaments = allMedicamentAdapter.getMedicaments();
-                medicaments.clear();
-                medicaments.addAll(response.body());
-                allMedicamentAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<List<Medicament>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    public void sendNewMedicaments() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RestIntefrace.url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
-        RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
-        List<Medicament> medicamentsToSend = databaseHandler.getMedicaments();
-        Call<List<Medicament>> listCall = restIntefrace.saveMedicaments(medicamentsToSend);
-        listCall.enqueue(new Callback<List<Medicament>>() {
-            @Override
-            public void onResponse(Call<List<Medicament>> call, Response<List<Medicament>> response) {
-                Log.d("tomo", "wysłałem leki");
-            }
-
-            @Override
-            public void onFailure(Call<List<Medicament>> call, Throwable t) {
-
-            }
-        });
-    }
-
-
-
 }
