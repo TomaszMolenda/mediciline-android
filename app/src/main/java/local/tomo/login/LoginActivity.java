@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -27,6 +29,7 @@ import local.tomo.login.json.MedicamentsDbJSON;
 import local.tomo.login.model.MedicamentDb;
 import local.tomo.login.model.User;
 import local.tomo.login.network.RestIntefrace;
+import local.tomo.login.network.RetrofitBuilder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -120,6 +123,10 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //http://stackoverflow.com/a/35797136
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         databaseHandler = new DatabaseHandler(getApplicationContext(), null, null, 1);
         editTextLoginUserName = (EditText) findViewById(R.id.editTextLoginUserName);
         editTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
@@ -127,7 +134,7 @@ public class LoginActivity extends Activity {
         Background background = new Background(getApplicationContext(), getResources());
         background.execute();
 
-        Log.d("tomo", "1111111");
+        Log.d("tomo", "2222");
 
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         userName = preference.getString(PREF_USER, null);
@@ -147,72 +154,30 @@ public class LoginActivity extends Activity {
 
 
     public void loginClick(View view) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RestIntefrace.url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
-        Call<User> call = restIntefrace.user(editTextLoginUserName.getText().toString(), editTextLoginPassword.getText().toString());
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
-            }
-        });
-//    TODO implements businnes logic
-        /*
-        UserRequest userRequest = new UserRequest(editTextLoginUserName.getText().toString(), editTextLoginPassword.getText().toString());
-        spiceManager.execute(userRequest, new RequestListener<User>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                requestFailure();
-            }
-
-            @Override
-            public void onRequestSuccess(User user) {
-                if (user != null) {
-                    userName = user.getName();
-                    getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit()
-                            .putString(PREF_USER, userName)
-                            .putString(PREF_PASSWORD, user.getPassword())
-                            .putString(PREF_UNIQUE_ID, user.getUniqueID())
-                            .commit();
-                    login();
-                } else
-                    Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-*/
-    }
-
-    private void requestFailure() {
-        if (!isInternetAvailable())
-            Toast.makeText(getApplicationContext(), "Brak połączenia z Internetem", Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(getApplicationContext(), "Brak połączenia z serwerem", Toast.LENGTH_LONG).show();
-    }
-
-    public boolean isInternetAvailable() {
+        String user = editTextLoginUserName.getText().toString();
+        String password = editTextLoginPassword.getText().toString();
+        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace();
+        Call<User> call = restIntefrace.user(user, password);
         try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
-
-            if (ipAddr.equals("")) {
-                return false;
-            } else {
-                return true;
-            }
-
-        } catch (Exception e) {
-            return false;
+            User u = call.execute().body();
+            if (u != null) {
+                userName = u.getName();
+                uniqueId = u.getUniqueID();
+                getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit()
+                        .putString(PREF_USER, u.getName())
+                        .putString(PREF_PASSWORD, u.getPassword())
+                        .putString(PREF_UNIQUE_ID, u.getUniqueID())
+                        .commit();
+                login();
+            } else
+                Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
+        } catch (SocketTimeoutException e) {
+            Toast.makeText(getApplicationContext(), "Brak połączenia z Internetem", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
+
 
     public void registerClick(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
