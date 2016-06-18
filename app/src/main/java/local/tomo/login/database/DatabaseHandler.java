@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -187,6 +188,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         long id = db.insert(TABLE_MEDICAMENTS, null, values);
         db.close();
+        Log.d("tomo", "zapisałem lek " +medicament.getName() + " do db, id: "+id);
         return id;
 
 
@@ -221,6 +223,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         args.put(TABLE_MEDICAMENTS_COLUMN_ID_SERVER, medicament.getIdServer());
         int id = medicament.getId();
         SQLiteDatabase db = getWritableDatabase();
+        Log.d("tomo", "ustawiam idserver " + medicament.getIdServer() + ", dla med id: " + id);
         return db.update(TABLE_MEDICAMENTS, args, TABLE_MEDICAMENTS_COLUMN_ID + "=" + id, null) > 0;
     }
 
@@ -228,6 +231,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         for (Medicament medicament : medicaments) {
             setIdServer(medicament);
         }
+    }
+
+    public boolean deleteMedicament(String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        Log.d("tomo", "Usuwam lek z db, id: "+id);
+        return db.delete(TABLE_MEDICAMENTS, TABLE_MEDICAMENTS_COLUMN_ID + "=" + id, null) > 0;
     }
 
 
@@ -323,12 +332,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 medicaments.add(medicament);
             } while (cursor.moveToNext());
         }
+        Log.d("tomo", "pobieram wszytskie leki z db, rozmiar: "+medicaments.size());
         return medicaments;
     }
 
     public Medicament getLastMedicament() {
         List<Medicament> medicaments = getMedicaments();
-        if(medicaments.size() > 1)
+        if(medicaments.size() >= 1)
             return medicaments.get(0);
         return null;
     }
@@ -341,6 +351,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 medicamentsToSend.add(medicament);
         }
         return medicamentsToSend;
+    }
+
+    public List<Medicament> getSendedMedicaments() {
+        List<Medicament> sendedMedicaments = new ArrayList<Medicament>();
+        List<Medicament> medicaments = getMedicaments();
+        for (Medicament medicament : medicaments) {
+            if(medicament.getIdServer() != 0)
+                sendedMedicaments.add(medicament);
+        }
+        return sendedMedicaments;
     }
 
     public List<MedicamentDb> getMedicamentsDb() {
@@ -579,5 +599,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-
+    public void addMedicaments(List<Medicament> remoteMedicamentsToSave) {
+        for (Medicament medicament : remoteMedicamentsToSave) {
+            addMedicament(medicament);
+        }
+    }
 }
