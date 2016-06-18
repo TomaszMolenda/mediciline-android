@@ -64,7 +64,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             rowAllMedicamentName.setText(medicament.getName());
             rowAllMedicamentProducer.setText("Producent: " + medicament.getProducent());
 
-            rowAllMedicamentId.setText("id: "+medicament.getId());
+            rowAllMedicamentId.setText(""+medicament.getId());
             int idServer = medicament.getIdServer();
             if (idServer == 0) rowAllMedicamentNoSynchro.setVisibility(ImageView.VISIBLE);
             else rowAllMedicamentNoSynchro.setVisibility(ImageView.INVISIBLE);
@@ -83,4 +83,6 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
         }
         return  v;
     }
+
+
 }
