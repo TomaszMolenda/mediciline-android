@@ -4,7 +4,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomo on 2016-05-02.
@@ -33,6 +35,30 @@ public class Medicament {
         this.kind = medicamentDb.getPack();
         this.productLineID = medicamentDb.getProductLineID();
         this.packageID = medicamentDb.getPackageID();
+    }
+
+    public static Medicament containsId(Collection<Medicament> c, int id) {
+        for(Medicament m : c) {
+            if(m != null && m.getId() == id) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    public static java.util.List<Medicament> compareIdServer(java.util.List<Medicament> remoteMedicaments, java.util.List<Medicament> localMedicamentsSended) {
+        java.util.List<Medicament> returnList = new ArrayList<Medicament>(remoteMedicaments);
+        for (Medicament remoteMedicament : remoteMedicaments) {
+            for (Medicament localMedicament : localMedicamentsSended) {
+                if(localMedicament.getIdServer() == remoteMedicament.getIdServer()) {
+                    returnList.remove(remoteMedicament);
+                    break;
+                }
+
+            }
+
+        }
+        return returnList;
     }
 
     public static class List extends ArrayList<Medicament> {
@@ -153,7 +179,8 @@ public class Medicament {
     @Override
     public String toString() {
         return "Medicament{" +
-                "idServer=" + idServer +
+                "id=" + id +
+                ", idServer=" + idServer +
                 ", name='" + name + '\'' +
                 ", producent='" + producent + '\'' +
                 ", price=" + price +
@@ -162,4 +189,6 @@ public class Medicament {
                 ", packageID=" + packageID +
                 '}';
     }
+
+
 }
