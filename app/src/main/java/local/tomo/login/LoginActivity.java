@@ -12,15 +12,15 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,10 +31,6 @@ import local.tomo.login.model.User;
 import local.tomo.login.network.RestIntefrace;
 import local.tomo.login.network.RetrofitBuilder;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends Activity {
 
@@ -44,20 +40,19 @@ public class LoginActivity extends Activity {
     private static String PREF_UNIQUE_ID = "uniqueId";
 
     public static String uniqueId;
+    public static String userName;
+    public static String email;
 
-
-
-    String userName;
     DatabaseHandler databaseHandler;
     MedicamentsDbJSON medicamentsDbJSON;
 
     private EditText editTextLoginUserName;
     private EditText editTextLoginPassword;
 
+
     private class Background extends AsyncTask<Void, Void, Void> {
 
         Resources resources;
-        LoginActivity loginActivity;
 
         private ProgressDialog progressDialog;
 
@@ -163,6 +158,7 @@ public class LoginActivity extends Activity {
             if (u != null) {
                 userName = u.getName();
                 uniqueId = u.getUniqueID();
+                email = u.getEmail();
                 getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit()
                         .putString(PREF_USER, u.getName())
                         .putString(PREF_PASSWORD, u.getPassword())

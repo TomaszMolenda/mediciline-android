@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import local.tomo.login.database.DatabaseHandler;
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity
     FragmentManager fragmentManager = getSupportFragmentManager();
 
     private DatabaseHandler databaseHandler;
+
+    private TextView textViewMenuUserName;
+    private TextView textViewMenuEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        textViewMenuUserName = (TextView) header.findViewById(R.id.textViewMenuUserName);
+        textViewMenuUserName.setText(LoginActivity.userName);
+        textViewMenuEmail = (TextView) header.findViewById(R.id.textViewMenuEmail);
+        textViewMenuEmail.setText(LoginActivity.email);
     }
 
     //http://stackoverflow.com/a/13578600
