@@ -1,0 +1,66 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="local.tomo.login.MainFragment">
+
+    <LinearLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Leki"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:background="@color/common_signin_btn_default_background"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/mainMedicamentActive"
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Aktywne"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:background="@color/colorAccent"/>
+            <TextView
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Przeterminowane"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:background="@color/colorPrimary"/>
+            <TextView
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Zużyte"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:background="@color/common_action_bar_splitter"/>
+            <TextView
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Wszystkie"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:background="@color/common_signin_btn_dark_text_disabled"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>
