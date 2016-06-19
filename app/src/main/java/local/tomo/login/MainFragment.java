@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class MainFragment extends Fragment {
 
-    private TextView mainMedicamentActive ;
+    private TextView mainMedicamentActive;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

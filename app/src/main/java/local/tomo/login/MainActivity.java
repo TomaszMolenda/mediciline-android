@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new MainFragment())
+                .replace(R.id.content_frame, new SwipeFragment())
                 .commit();
 
 
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_all_medicaments_leyout) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new AllMedicamentsFragment())
+                    .replace(R.id.content_frame, new SwipeFragment())
                     .addToBackStack(null)
                     .commit();
 
