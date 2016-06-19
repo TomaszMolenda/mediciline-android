@@ -2,25 +2,27 @@ package local.tomo.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import local.tomo.login.database.DatabaseHandler;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private static String PREF_NAME = "tomo_pref";
+
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
     private DatabaseHandler databaseHandler;
 
@@ -30,6 +32,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, new MainFragment())
+                .commit();
+
+
         databaseHandler = new DatabaseHandler(getApplicationContext(), null, null, 1);
 
 
@@ -43,16 +51,30 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-
+    //http://stackoverflow.com/a/13578600
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if(fragmentManager.getBackStackEntryCount() != 0) {
+            fragmentManager.popBackStack();
+            return;
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
         }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Proszę kilknąć cofnij jeszcze raz aby zamknąć program", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+
     }
 
     @Override
@@ -82,17 +104,21 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fragmentManager = getSupportFragmentManager();
+
 
         if (id == R.id.nav_your_medicaments_leyout) {
 //            TODO add fragment with your medicaments
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new AllMedicamentsFragment())
+                    .addToBackStack(null)
                     .commit();
+
         } else if (id == R.id.nav_all_medicaments_leyout) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new AllMedicamentsFragment())
+                    .addToBackStack(null)
                     .commit();
+
         } else if (id == R.id.nav_files_leyout) {
 //            fragmentManager.beginTransaction()
 //                    .replace(R.id.content_frame, new FilesFragment())
@@ -111,4 +137,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
