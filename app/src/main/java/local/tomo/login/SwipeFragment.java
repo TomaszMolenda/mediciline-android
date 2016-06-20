@@ -20,8 +20,8 @@ public class SwipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_swipe, container, false);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Leki"));
+        tabLayout.addTab(tabLayout.newTab().setText("Choroby"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
