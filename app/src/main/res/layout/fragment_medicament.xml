@@ -11,20 +11,34 @@
         android:layout_weight="0.2"
         android:orientation="horizontal">
 
-        <ImageButton
+        <Button
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton"
-            android:src="@drawable/menu_medicament_add"
-            android:layout_margin="2dp"/>
-        <ImageButton
+            android:drawableTop="@drawable/add_icon"
+            android:background="@drawable/menu_background_blue"
+            android:textColor="#FFFFFF"
+            android:id="@+id/ButtonTest"
+            android:paddingTop="30dp"
+            android:drawablePadding="0dp"
+            android:text="Dodaj"
+            android:textSize="20dp"
+            android:layout_margin="2dp"></Button>
+
+        <Button
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton1"
-            android:src="@drawable/menu_medicament_scan"
-            android:layout_margin="2dp"/>
+            android:drawableTop="@drawable/barcode_icon"
+            android:background="@drawable/menu_background_green"
+            android:textColor="#FFFFFF"
+            android:id="@+id/ButtonTest2"
+            android:paddingTop="30dp"
+            android:drawablePadding="0dp"
+            android:text="Skanuj"
+            android:textSize="20dp"
+            android:layout_margin="2dp"></Button>
+
 
     </LinearLayout>
 
@@ -34,20 +48,33 @@
         android:layout_weight="0.2"
         android:orientation="horizontal">
 
-        <ImageButton
+        <Button
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton2"
-            android:src="@drawable/menu_medicament_active"
-            android:layout_margin="2dp"/>
-        <ImageButton
+            android:drawableTop="@drawable/drug_icon"
+            android:background="@drawable/menu_background_pink"
+            android:textColor="#FFFFFF"
+            android:id="@+id/ButtonTes3"
+            android:paddingTop="30dp"
+            android:drawablePadding="0dp"
+            android:text="W apteczce"
+            android:textSize="20dp"
+            android:layout_margin="2dp"></Button>
+
+        <Button
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton3"
-            android:src="@drawable/menu_medicament_archive"
-            android:layout_margin="2dp"/>
+            android:drawableTop="@drawable/trash_icon"
+            android:background="@drawable/menu_background_violet"
+            android:textColor="#FFFFFF"
+            android:id="@+id/ButtonTest4"
+            android:paddingTop="30dp"
+            android:drawablePadding="0dp"
+            android:text="Zużyte"
+            android:textSize="20dp"
+            android:layout_margin="2dp"></Button>
 
     </LinearLayout>
 
@@ -57,20 +84,33 @@
         android:layout_weight="0.2"
         android:orientation="horizontal">
 
-        <ImageButton
+        <Button
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton4"
-            android:src="@drawable/menu_medicament_all"
-            android:layout_margin="2dp"/>
-        <ImageButton
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/all_icon"
+            android:background="@drawable/menu_background_red"
+            android:textColor="#FFFFFF"
+            android:id="@+id/ButtonTes5"
+            android:paddingTop="30dp"
+            android:drawablePadding="0dp"
+            android:text="Wszystkie"
+            android:textSize="20dp"
+            android:layout_margin="2dp"></Button>
+
+        <Button
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton5"
-            android:src="@drawable/menu_medicament_overdue"
-            android:layout_margin="2dp"/>
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/overdue_icon"
+            android:background="@drawable/menu_background_yellow"
+            android:textColor="#FFFFFF"
+            android:id="@+id/ButtonTest6"
+            android:paddingTop="30dp"
+            android:drawablePadding="0dp"
+            android:text="Przeterminowane"
+            android:textSize="18dp"
+            android:layout_margin="2dp"></Button>
 
     </LinearLayout>
 
