@@ -1,8 +1,11 @@
-package local.tomo.login;
+package local.tomo.login.swipe;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import local.tomo.login.swipe.DiseaseFragment;
+import local.tomo.login.swipe.MedicamentFragment;
 
 /**
  * Created by tomo on 2016-06-19.
@@ -22,11 +25,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                FirstFragment firstFragment = new FirstFragment();
-                return firstFragment;
+                MedicamentFragment medicamentFragment = new MedicamentFragment();
+                return medicamentFragment;
             case 1:
-                SecondFragment secondFragment = new SecondFragment();
-                return secondFragment;
+                DiseaseFragment diseaseFragment = new DiseaseFragment();
+                return diseaseFragment;
             default:
                 return null;
         }

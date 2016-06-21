@@ -129,7 +129,7 @@ public class LoginActivity extends Activity {
         Background background = new Background(getApplicationContext(), getResources());
         background.execute();
 
-        Log.d("tomo", "1111");
+        Log.d("tomo", "2222");
 
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         userName = preference.getString(PREF_USER, null);

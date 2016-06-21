@@ -1,4 +1,4 @@
-package local.tomo.login;
+package local.tomo.login.swipe;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import local.tomo.login.R;
 
 //http://www.truiton.com/2015/06/android-tabs-example-fragments-viewpager/
 public class SwipeFragment extends Fragment {
