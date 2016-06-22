@@ -1,0 +1,13 @@
+# --table-start--
+dataClass=local.tomo.login.ormlite.data.UserDetails
+tableName=user
+# --table-fields-start--
+# --field-start--
+fieldName=id
+columnName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+columnName=name
+# --field-end--
