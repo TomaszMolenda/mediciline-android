@@ -1,13 +1,212 @@
 # --table-start--
-dataClass=local.tomo.login.ormlite.data.UserDetails
+dataClass=local.tomo.medi.ormlite.data.User
 tableName=user
 # --table-fields-start--
 # --field-start--
 fieldName=id
-columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=name
-columnName=name
 # --field-end--
+# --field-start--
+fieldName=password
+# --field-end--
+# --field-start--
+fieldName=uniqueID
+# --field-end--
+# --field-start--
+fieldName=email
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+
+#################################
+# --table-start--
+dataClass=local.tomo.medi.ormlite.data.MedicamentDb
+tableName=medicamentdb
+# --table-fields-start--
+# --field-start--
+fieldName=packageID
+id=true
+# --field-end--
+# --field-start--
+fieldName=idServer
+# --field-end--
+# --field-start--
+fieldName=activeSubstance
+# --field-end--
+# --field-start--
+fieldName=distributorID
+# --field-end--
+# --field-start--
+fieldName=dosage
+# --field-end--
+# --field-start--
+fieldName=driving
+# --field-end--
+# --field-start--
+fieldName=drivingInfo
+# --field-end--
+# --field-start--
+fieldName=drugCardLimit
+# --field-end--
+# --field-start--
+fieldName=drugPromoID
+# --field-end--
+# --field-start--
+fieldName=ean
+# --field-end--
+# --field-start--
+fieldName=finalSort
+# --field-end--
+# --field-start--
+fieldName=form
+# --field-end--
+# --field-start--
+fieldName=isAlco
+# --field-end--
+# --field-start--
+fieldName=isAlcoInfo
+# --field-end--
+# --field-start--
+fieldName=isNarcPsych
+# --field-end--
+# --field-start--
+fieldName=isNarcPsychInfo
+# --field-end--
+# --field-start--
+fieldName=isReimbursed
+# --field-end--
+# --field-start--
+fieldName=lactatio
+# --field-end--
+# --field-start--
+fieldName=lactatioInfo
+# --field-end--
+# --field-start--
+fieldName=pack
+# --field-end--
+# --field-start--
+fieldName=pregnancy
+# --field-end--
+# --field-start--
+fieldName=pregnancyInfo
+# --field-end--
+# --field-start--
+fieldName=prescriptionID
+# --field-end--
+# --field-start--
+fieldName=prescriptionName
+# --field-end--
+# --field-start--
+fieldName=prescriptionShortName
+# --field-end--
+# --field-start--
+fieldName=price
+# --field-end--
+# --field-start--
+fieldName=producer
+# --field-end--
+# --field-start--
+fieldName=producerID
+# --field-end--
+# --field-start--
+fieldName=productID
+# --field-end--
+# --field-start--
+fieldName=productLineID
+# --field-end--
+# --field-start--
+fieldName=productLineName
+# --field-end--
+# --field-start--
+fieldName=productName
+# --field-end--
+# --field-start--
+fieldName=productTypeID
+# --field-end--
+# --field-start--
+fieldName=productTypeName
+# --field-end--
+# --field-start--
+fieldName=productTypeShortName
+# --field-end--
+# --field-start--
+fieldName=regNo
+# --field-end--
+# --field-start--
+fieldName=sponsorID
+# --field-end--
+# --field-start--
+fieldName=therapeuticClass
+# --field-end--
+# --field-start--
+fieldName=trimester1
+# --field-end--
+# --field-start--
+fieldName=trimester1Info
+# --field-end--
+# --field-start--
+fieldName=trimester2
+# --field-end--
+# --field-start--
+fieldName=trimester2Info
+# --field-end--
+# --field-start--
+fieldName=trimester3
+# --field-end--
+# --field-start--
+fieldName=trimester3Info
+# --field-end--
+# --field-start--
+fieldName=isFavorite
+# --field-end--
+# --field-start--
+fieldName=oi
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=local.tomo.medi.ormlite.data.Medicament
+tableName=medicament
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=idServer
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=producent
+# --field-end--
+# --field-start--
+fieldName=price
+# --field-end--
+# --field-start--
+fieldName=kind
+# --field-end--
+# --field-start--
+fieldName=dateExpiration
+# --field-end--
+# --field-start--
+fieldName=date
+# --field-end--
+# --field-start--
+fieldName=productLineID
+# --field-end--
+# --field-start--
+fieldName=packageID
+# --field-end--
+# --field-start--
+fieldName=archive
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

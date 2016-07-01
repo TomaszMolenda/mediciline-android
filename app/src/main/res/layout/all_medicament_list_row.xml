@@ -69,35 +69,62 @@
     </LinearLayout>
 
 
-
-
-
-    <TextView
-        android:id="@+id/rowAllMedicamentProducer"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp" >
-    </TextView>
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/rowAllMedicamentPack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp" >
-    </TextView>
+            <TextView
+                android:id="@+id/rowAllMedicamentProducer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="ddddd">
+            </TextView>
 
-    <TextView
-        android:id="@+id/rowAllMedicamentPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp" >
-    </TextView>
+            <TextView
+                android:id="@+id/rowAllMedicamentPack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="ddddd">
+            </TextView>
 
-    <TextView
-        android:id="@+id/rowAllMedicamentDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp" >
-    </TextView>
+            <TextView
+                android:id="@+id/rowAllMedicamentPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="ddddd">
+            </TextView>
+
+            <TextView
+                android:id="@+id/rowAllMedicamentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="ddddd">
+            </TextView>
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/rowAllMedicamentMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_menu_moreoverflow_normal_holo_light"
+            android:background="@null"
+            android:layout_marginRight="15dp"/>
+
+    </RelativeLayout>
+
+
+
 
 </LinearLayout>

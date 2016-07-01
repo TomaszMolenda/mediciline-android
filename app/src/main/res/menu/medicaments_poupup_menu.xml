@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuMedicamentArchive"
+        android:title="Zużyty" />
+
+    <item
+        android:id="@+id/menuMedicamentChangeDate"
+        android:title="Zmień datę"/>
+
+</menu>
