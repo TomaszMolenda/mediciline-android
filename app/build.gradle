@@ -30,4 +30,6 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile 'com.journeyapps:zxing-android-embedded:3.3.0@aar'
+    compile 'com.google.zxing:core:3.2.1'
 }

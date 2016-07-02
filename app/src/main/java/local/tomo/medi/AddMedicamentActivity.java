@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -89,6 +91,12 @@ public class AddMedicamentActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicament);
 
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            if(b.getBoolean("scan")) {
+                new IntentIntegrator(this).initiateScan();
+            }
+        }
 
         editTextAddMedicament = (EditText) findViewById(R.id.editTextAddMedicament);
 
@@ -144,7 +152,7 @@ public class AddMedicamentActivity extends Activity {
                     try {
                         Dao<MedicamentDb, Integer> medicamentDbDao = getHelper().getMedicamentDbDao();
                         QueryBuilder<MedicamentDb, Integer> queryBuilder = medicamentDbDao.queryBuilder();
-                        queryBuilder.where().like("productName", "%"+searchText+"%");
+                        queryBuilder.where().like("productName", "%"+searchText+"%").or().like("ean", "%"+searchText+"%");
                         PreparedQuery<MedicamentDb> prepare = queryBuilder.prepare();
                         medicamentDbs = medicamentDbDao.query(prepare);
                     } catch (SQLException e) {
@@ -326,5 +334,14 @@ public class AddMedicamentActivity extends Activity {
             databaseHelper = OpenHelperManager.getHelper(this,DatabaseHelper.class);
         }
         return databaseHelper;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        Log.d("meditomo", "result: " + result.getContents().toString());
+        editTextAddMedicament.setText(result.getContents().toString());
+
     }
 }

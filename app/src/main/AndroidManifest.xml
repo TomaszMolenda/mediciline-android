@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -18,9 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".MedicamentActivity"></activity>
-        <activity android:name=".AddMedicamentActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".MedicamentActivity" />
+        <activity android:name=".AddMedicamentActivity" />
+        <activity android:name=".ScanActivity"></activity>
     </application>
 
 </manifest>

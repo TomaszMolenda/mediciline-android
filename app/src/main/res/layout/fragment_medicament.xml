@@ -32,7 +32,7 @@
             android:drawableTop="@drawable/barcode_icon"
             android:background="@drawable/menu_background_green"
             android:textColor="#FFFFFF"
-            android:id="@+id/ButtonTest2"
+            android:id="@+id/buttonMenuMedicamentScan"
             android:paddingTop="30dp"
             android:drawablePadding="0dp"
             android:text="Skanuj"

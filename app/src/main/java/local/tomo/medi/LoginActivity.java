@@ -69,7 +69,7 @@ public class LoginActivity extends Activity {
         protected Void doInBackground(Void... params) {
             try {
                 int countDb = (int) getHelper().getMedicamentDbDao().countOf();
-                Log.d("medi", "count: "+countDb);
+                Log.d("meditomo", "count: "+countDb);
                 if(countDb < MEDICAMENTDB_COUNT) {
                     medicamentsDbJSON = new MedicamentsDbJSON(getResources());
                     List<MedicamentDb> medicamentsDbFromFile = medicamentsDbJSON.getMedicamentsDbFromFile();
@@ -112,7 +112,7 @@ public class LoginActivity extends Activity {
         Background background = new Background(getApplicationContext(), getResources());
         background.execute();
 
-        Log.d("medi", "22222");
+        Log.d("meditomo", "11111");
 
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         String userName = preference.getString(PREF_USER, null);
@@ -125,7 +125,6 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             login();
-
         }
     }
 

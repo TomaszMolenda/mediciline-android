@@ -22,8 +22,8 @@ import local.tomo.medi.ormlite.data.User;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "medi.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final String DATABASE_NAME = "medis.db";
+    private static final int DATABASE_VERSION = 1;
 
     private Dao<User, Integer> userDao;
     private Dao<MedicamentDb, Integer> medicamentDbDao;
@@ -39,7 +39,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, User.class);
-            //TableUtils.createTable(connectionSource, MedicamentDb.class);
+            TableUtils.createTable(connectionSource, MedicamentDb.class);
             TableUtils.createTable(connectionSource, Medicament.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
@@ -50,7 +50,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
             TableUtils.dropTable(connectionSource, User.class, true);
-            //TableUtils.dropTable(connectionSource, MedicamentDb.class, true);
+            TableUtils.dropTable(connectionSource, MedicamentDb.class, true);
             TableUtils.dropTable(connectionSource, Medicament.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
