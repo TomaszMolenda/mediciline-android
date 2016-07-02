@@ -1,8 +1,10 @@
 package local.tomo.medi;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -110,7 +112,7 @@ public class LoginActivity extends Activity {
         Background background = new Background(getApplicationContext(), getResources());
         background.execute();
 
-        Log.d("medi", "11111");
+        Log.d("medi", "22222");
 
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         String userName = preference.getString(PREF_USER, null);
@@ -123,6 +125,7 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             login();
+
         }
     }
 

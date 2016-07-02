@@ -1,19 +1,32 @@
 package local.tomo.medi;
 
+
+
 import android.content.Context;
+import android.content.DialogInterface;
+
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import local.tomo.OnMedicamentOverflowSelectedListener;
 import local.tomo.medi.model.Months;
+import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
 
 /**
@@ -25,10 +38,26 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
     private final List<String> months = Months.getMonths();
 
-    public AllMedicamentAdapter(Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
+    private MedicamentActivity medicamentActivity;
+
+    private Context mContext;
+
+    private DatabaseHelper databaseHelper = null;
+
+    private ListView mListView;
+
+
+
+    public AllMedicamentAdapter(ListView listView, MedicamentActivity medicamentActivity, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
         this.medicaments = medicaments;
+        this.medicamentActivity = medicamentActivity;
+        mContext = context;
+        mListView = listView;
+
     }
+
+
 
     public List<Medicament> getMedicaments() {
         return medicaments;
@@ -44,7 +73,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             v = vi.inflate(R.layout.all_medicament_list_row, null);
         }
 
-        Medicament medicament = getItem(position);
+        final Medicament medicament = getItem(position);
 
         if(medicament!=null) {
             TextView rowAllMedicamentName = (TextView) v.findViewById(R.id.rowAllMedicamentName);
@@ -58,9 +87,36 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             TextView rowAllMedicamentPack = (TextView) v.findViewById(R.id.rowAllMedicamentPack);
 
             ImageView rowAllMedicamentNoSynchro = (ImageView) v.findViewById(R.id.rowAllMedicamentNoSynchro);
-            View overflow = v.findViewById(R.id.rowAllMedicamentMenu);
-            overflow.setOnClickListener(new OnMedicamentOverflowSelectedListener(medicament, getContext()));
+            View menuIcon = v.findViewById(R.id.rowAllMedicamentMenu);
+            if(medicamentActivity.getChooseMedicaments() == medicamentActivity.ACTIVE_MEDICAMENTS) {
+                menuIcon.setVisibility(View.VISIBLE);
+            }
+            menuIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(mContext, v);
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
 
+                            switch (item.getItemId()) {
+                                case R.id.menuMedicamentArchive:
+                                    AlertDialog alertDialog = confirmDelete(medicament);
+                                    alertDialog.show();
+                                    return true;
+                                case R.id.menuMedicamentChangeDate:
+                                    //// TODO: 2016-07-02 implement change date
+                                    return true;
+                                default:
+                                    return false;
+                            }
+
+                        }
+                    });
+                    popupMenu.inflate(R.menu.medicaments_poupup_menu);
+                    popupMenu.show();
+                }
+            });
 
 
             rowAllMedicamentName.setText(medicament.getName());
@@ -86,5 +142,49 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
         return  v;
     }
 
+    private AlertDialog confirmDelete(final Medicament medicament)
+    {
 
+        AlertDialog alertDialog = new AlertDialog.Builder(medicamentActivity)
+                .setTitle("Potwierdź zużycie")
+                .setMessage("operacja jest nieodwracalna")
+                .setIcon(R.drawable.trash_icon)
+                .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
+                            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+                            medicament.setArchive(true);
+                            medicamentDao.update(medicament);
+                            Log.d("medi", "archiwizuje " + medicament.getName());
+                            //// TODO: 2016-07-02 implements send info to server
+                            medicamentActivity.setActiveMedicaments();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    }
+
+                })
+                .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+        return alertDialog;
+
+    }
+
+
+
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = OpenHelperManager.getHelper(mContext,DatabaseHelper.class);
+        }
+        return databaseHelper;
+
+    }
 }

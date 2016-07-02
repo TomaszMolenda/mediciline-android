@@ -120,7 +120,8 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_menu_moreoverflow_normal_holo_light"
             android:background="@null"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 

@@ -1,9 +1,12 @@
 package local.tomo.medi.swipe;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,7 +47,7 @@ public class MedicamentFragment extends Fragment {
         buttonMenuMedicamentActive.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                buttonMenuMedicamentAll.setEnabled(false);
+                buttonMenuMedicamentActive.setEnabled(false);
                 Intent intent = new Intent(getActivity(), MedicamentActivity.class);
                 intent.putExtra("medicaments", MedicamentActivity.ACTIVE_MEDICAMENTS);
                 getActivity().startActivity(intent);
@@ -70,5 +73,7 @@ public class MedicamentFragment extends Fragment {
         super.onResume();
         buttonMenuMedicamentAll.setEnabled(true);
         buttonMenuMedicamentAdd.setEnabled(true);
+        buttonMenuMedicamentActive.setEnabled(true);
+
     }
 }

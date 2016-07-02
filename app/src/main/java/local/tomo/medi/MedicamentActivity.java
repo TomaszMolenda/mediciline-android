@@ -1,12 +1,13 @@
 package local.tomo.medi;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -22,12 +23,13 @@ import java.util.List;
 
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
-import local.tomo.medi.ormlite.data.MedicamentDb;
 
-public class MedicamentActivity extends AppCompatActivity {
+public class MedicamentActivity extends Activity {
 
     public static final int ALL_MEDICAMENTS = 1;
     public static final int ACTIVE_MEDICAMENTS = 2;
+
+    private int chooseMedicaments;
 
     private DatabaseHelper databaseHelper = null;
 
@@ -37,6 +39,8 @@ public class MedicamentActivity extends AppCompatActivity {
     private ListView listView;
     private EditText editTextMedicamentSearch;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private FloatingActionButton fabAddMedicament;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,25 +48,31 @@ public class MedicamentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_medicament);
 
         listView = (ListView) findViewById(android.R.id.list);
+        fabAddMedicament = (FloatingActionButton) findViewById(R.id.fabAddMedicament);
+        editTextMedicamentSearch = (EditText) findViewById(R.id.EditTextMedicamentSearch);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         Bundle bundle = getIntent().getExtras();
         switch (bundle.getInt("medicaments")) {
             case ALL_MEDICAMENTS:
+                chooseMedicaments = ALL_MEDICAMENTS;
                 setAllMedicaments();
                 break;
             case ACTIVE_MEDICAMENTS:
+                chooseMedicaments = ACTIVE_MEDICAMENTS;
+                fabAddMedicament.setVisibility(View.VISIBLE);
                 setActiveMedicaments();
                 break;
         }
 
 
-        editTextMedicamentSearch = (EditText) findViewById(R.id.EditTextMedicamentSearch);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
 
 
 
-        FloatingActionButton fabAddMedicament = (FloatingActionButton) findViewById(R.id.fabAddMedicament);
+
+
+
 
         editTextMedicamentSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,7 +88,7 @@ public class MedicamentActivity extends AppCompatActivity {
                     if(medicament.getName().toLowerCase().contains(text) || medicament.getProducent().toLowerCase().contains(text))
                         searchedMedicaments.add(medicament);
                 }
-                allMedicamentAdapter = new AllMedicamentAdapter(getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) searchedMedicaments);
+                allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentActivity.this, getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) searchedMedicaments);
                 listView.setAdapter(allMedicamentAdapter);
                 allMedicamentAdapter.notifyDataSetChanged();
             }
@@ -111,10 +121,10 @@ public class MedicamentActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        setAllMedicaments();
+        setActiveMedicaments();
     }
 
-    private void setActiveMedicaments() {
+    public void setActiveMedicaments() {
         try {
             Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
             QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
@@ -124,7 +134,7 @@ public class MedicamentActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        allMedicamentAdapter = new AllMedicamentAdapter(getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentActivity.this, getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
         listView.setAdapter(allMedicamentAdapter);
     }
 
@@ -138,7 +148,7 @@ public class MedicamentActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        allMedicamentAdapter = new AllMedicamentAdapter(getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentActivity.this, getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
         listView.setAdapter(allMedicamentAdapter);
     }
 
@@ -146,7 +156,7 @@ public class MedicamentActivity extends AppCompatActivity {
         try {
             Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
             List<Medicament> medicaments = medicamentDao.queryForAll();
-            allMedicamentAdapter = new AllMedicamentAdapter(getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+            allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentActivity.this, getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
             listView.setAdapter(allMedicamentAdapter);
             allMedicamentAdapter.notifyDataSetChanged();
         } catch (SQLException e) {
@@ -162,6 +172,10 @@ public class MedicamentActivity extends AppCompatActivity {
         return databaseHelper;
     }
 
+    public int getChooseMedicaments() {
+        return chooseMedicaments;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -170,4 +184,7 @@ public class MedicamentActivity extends AppCompatActivity {
             databaseHelper = null;
         }
     }
+
+
+
 }
