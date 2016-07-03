@@ -157,7 +157,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
                             Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
                             medicament.setArchive(true);
                             medicamentDao.update(medicament);
-                            Log.d("medi", "archiwizuje " + medicament.getName());
+
                             //// TODO: 2016-07-02 implements send info to server
                             medicamentsActivity.setActiveMedicaments();
                         } catch (SQLException e) {

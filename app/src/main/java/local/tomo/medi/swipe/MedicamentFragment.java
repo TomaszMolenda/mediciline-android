@@ -23,6 +23,7 @@ public class MedicamentFragment extends Fragment {
     private Button buttonMenuMedicamentAll;
     private Button buttonMenuMedicamentAdd;
     private Button buttonMenuMedicamentActive;
+    private Button buttonMenuMedicamentArchive;
     private Button buttonMenuMedicamentScan;
 
 
@@ -34,15 +35,14 @@ public class MedicamentFragment extends Fragment {
         buttonMenuMedicamentScan = (Button) view.findViewById(R.id.buttonMenuMedicamentScan);
         buttonMenuMedicamentAll = (Button) view.findViewById(R.id.buttonMenuMedicamentAll);
         buttonMenuMedicamentActive = (Button) view.findViewById(R.id.buttonMenuMedicamentActive);
+        buttonMenuMedicamentArchive = (Button) view.findViewById(R.id.buttonMenuMedicamentArchive);
         buttonMenuMedicamentAdd = (Button) view.findViewById(R.id.buttonMenuMedicamentAdd);
 
         buttonMenuMedicamentAll.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 buttonMenuMedicamentAll.setEnabled(false);
-                Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
-                intent.putExtra("medicaments", MedicamentsActivity.ALL_MEDICAMENTS);
-                getActivity().startActivity(intent);
+
                 return false;
             }
         });
@@ -53,6 +53,17 @@ public class MedicamentFragment extends Fragment {
                 buttonMenuMedicamentActive.setEnabled(false);
                 Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
                 intent.putExtra("medicaments", MedicamentsActivity.ACTIVE_MEDICAMENTS);
+                getActivity().startActivity(intent);
+                return false;
+            }
+        });
+
+        buttonMenuMedicamentArchive.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                buttonMenuMedicamentArchive.setEnabled(false);
+                Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
+                intent.putExtra("medicaments", MedicamentsActivity.ARCHIVE_MEDICAMENTS);
                 getActivity().startActivity(intent);
                 return false;
             }
@@ -91,6 +102,7 @@ public class MedicamentFragment extends Fragment {
         buttonMenuMedicamentAdd.setEnabled(true);
         buttonMenuMedicamentActive.setEnabled(true);
         buttonMenuMedicamentScan.setEnabled(true);
+        buttonMenuMedicamentArchive.setEnabled(true);
 
 
     }

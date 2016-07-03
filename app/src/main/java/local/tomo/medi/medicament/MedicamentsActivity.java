@@ -26,8 +26,8 @@ import local.tomo.medi.ormlite.data.Medicament;
 
 public class MedicamentsActivity extends Activity {
 
-    public static final int ALL_MEDICAMENTS = 1;
     public static final int ACTIVE_MEDICAMENTS = 2;
+    public static final int ARCHIVE_MEDICAMENTS = 3;
 
     private int chooseMedicaments;
 
@@ -54,25 +54,17 @@ public class MedicamentsActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         switch (bundle.getInt("medicaments")) {
-            case ALL_MEDICAMENTS:
-                chooseMedicaments = ALL_MEDICAMENTS;
-                setAllMedicaments();
-                break;
             case ACTIVE_MEDICAMENTS:
                 chooseMedicaments = ACTIVE_MEDICAMENTS;
                 fabAddMedicament.setVisibility(View.VISIBLE);
                 setActiveMedicaments();
                 break;
+            case ARCHIVE_MEDICAMENTS:
+                chooseMedicaments = ARCHIVE_MEDICAMENTS;
+                fabAddMedicament.setVisibility(View.INVISIBLE);
+                setArchiveMedicaments();
+                break;
         }
-
-
-
-
-
-
-
-
-
 
         editTextMedicamentSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -119,6 +111,20 @@ public class MedicamentsActivity extends Activity {
 
     }
 
+    private void setArchiveMedicaments() {
+        try {
+            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+            QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
+            queryBuilder.orderBy("id", false).where().eq("archive", true);
+            PreparedQuery<Medicament> prepare = queryBuilder.prepare();
+            medicaments = medicamentDao.query(prepare);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        listView.setAdapter(allMedicamentAdapter);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         setActiveMedicaments();
@@ -129,20 +135,6 @@ public class MedicamentsActivity extends Activity {
             Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
             QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
             queryBuilder.orderBy("id", false).where().eq("archive", false);
-            PreparedQuery<Medicament> prepare = queryBuilder.prepare();
-            medicaments = medicamentDao.query(prepare);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
-        listView.setAdapter(allMedicamentAdapter);
-    }
-
-    private void setAllMedicaments() {
-        try {
-            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
-            QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
-            queryBuilder.orderBy("id", false);
             PreparedQuery<Medicament> prepare = queryBuilder.prepare();
             medicaments = medicamentDao.query(prepare);
         } catch (SQLException e) {
