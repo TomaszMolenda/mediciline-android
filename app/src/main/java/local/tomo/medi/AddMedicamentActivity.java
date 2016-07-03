@@ -86,15 +86,25 @@ public class AddMedicamentActivity extends Activity {
     private long date;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicament);
 
-        Bundle b = getIntent().getExtras();
-        if(b != null) {
-            if(b.getBoolean("scan")) {
-                new IntentIntegrator(this).initiateScan();
+        if(savedInstanceState == null) {
+            Bundle b = getIntent().getExtras();
+            if(b != null) {
+                if(b.getBoolean("scan")) {
+                    IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+                    intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                    intentIntegrator.setPrompt(" ");
+                    intentIntegrator.setCameraId(0);
+                    intentIntegrator.setOrientationLocked(true);
+                    intentIntegrator.initiateScan();
+                }
             }
         }
 
@@ -340,8 +350,15 @@ public class AddMedicamentActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        Log.d("meditomo", "result: " + result.getContents().toString());
-        editTextAddMedicament.setText(result.getContents().toString());
-
+        if (result.getContents() != null) {
+            String barCode = result.getContents().toString();
+            editTextAddMedicament.setText(barCode);
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
+
+
 }

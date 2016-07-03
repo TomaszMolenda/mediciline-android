@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="local.tomo.medi">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -21,7 +22,9 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".MedicamentActivity" />
-        <activity android:name=".AddMedicamentActivity" />
+        <activity android:name=".AddMedicamentActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".ScanActivity"></activity>
     </application>
 

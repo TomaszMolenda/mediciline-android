@@ -1,27 +1,18 @@
 package local.tomo.medi.swipe;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import local.tomo.medi.AddMedicamentActivity;
 import local.tomo.medi.MedicamentActivity;
 import local.tomo.medi.R;
-import local.tomo.medi.ScanActivity;
 
 
 /**
@@ -85,6 +76,7 @@ public class MedicamentFragment extends Fragment {
                 b.putBoolean("scan", true);
                 intent.putExtras(b);
                 getActivity().startActivity(intent);
+                //getActivity().finish();
                 return false;
             }
         });
