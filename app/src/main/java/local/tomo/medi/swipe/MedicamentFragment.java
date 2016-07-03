@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import local.tomo.medi.AddMedicamentActivity;
-import local.tomo.medi.MedicamentActivity;
+import local.tomo.medi.medicament.AddMedicamentActivity;
+import local.tomo.medi.medicament.MedicamentsActivity;
 import local.tomo.medi.R;
 
 
@@ -29,7 +29,7 @@ public class MedicamentFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_medicament, container, false);
+        View view = inflater.inflate(R.layout.swipe_fragment_medicament, container, false);
 
         buttonMenuMedicamentScan = (Button) view.findViewById(R.id.buttonMenuMedicamentScan);
         buttonMenuMedicamentAll = (Button) view.findViewById(R.id.buttonMenuMedicamentAll);
@@ -40,8 +40,8 @@ public class MedicamentFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 buttonMenuMedicamentAll.setEnabled(false);
-                Intent intent = new Intent(getActivity(), MedicamentActivity.class);
-                intent.putExtra("medicaments", MedicamentActivity.ALL_MEDICAMENTS);
+                Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
+                intent.putExtra("medicaments", MedicamentsActivity.ALL_MEDICAMENTS);
                 getActivity().startActivity(intent);
                 return false;
             }
@@ -51,8 +51,8 @@ public class MedicamentFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 buttonMenuMedicamentActive.setEnabled(false);
-                Intent intent = new Intent(getActivity(), MedicamentActivity.class);
-                intent.putExtra("medicaments", MedicamentActivity.ACTIVE_MEDICAMENTS);
+                Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
+                intent.putExtra("medicaments", MedicamentsActivity.ACTIVE_MEDICAMENTS);
                 getActivity().startActivity(intent);
                 return false;
             }

@@ -1,4 +1,4 @@
-package local.tomo.medi;
+package local.tomo.medi.medicament;
 
 
 
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
@@ -38,7 +39,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
     private final List<String> months = Months.getMonths();
 
-    private MedicamentActivity medicamentActivity;
+    private MedicamentsActivity medicamentsActivity;
 
     private Context mContext;
 
@@ -48,10 +49,10 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
 
 
-    public AllMedicamentAdapter(ListView listView, MedicamentActivity medicamentActivity, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
+    public AllMedicamentAdapter(ListView listView, MedicamentsActivity medicamentsActivity, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
         this.medicaments = medicaments;
-        this.medicamentActivity = medicamentActivity;
+        this.medicamentsActivity = medicamentsActivity;
         mContext = context;
         mListView = listView;
 
@@ -70,7 +71,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.all_medicament_list_row, null);
+            v = vi.inflate(R.layout.adapter_all_medicament_list_row, null);
         }
 
         final Medicament medicament = getItem(position);
@@ -88,7 +89,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
             ImageView rowAllMedicamentNoSynchro = (ImageView) v.findViewById(R.id.rowAllMedicamentNoSynchro);
             View menuIcon = v.findViewById(R.id.rowAllMedicamentMenu);
-            if(medicamentActivity.getChooseMedicaments() == medicamentActivity.ACTIVE_MEDICAMENTS) {
+            if(medicamentsActivity.getChooseMedicaments() == medicamentsActivity.ACTIVE_MEDICAMENTS) {
                 menuIcon.setVisibility(View.VISIBLE);
             }
             menuIcon.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +146,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
     private AlertDialog confirmDelete(final Medicament medicament)
     {
 
-        AlertDialog alertDialog = new AlertDialog.Builder(medicamentActivity)
+        AlertDialog alertDialog = new AlertDialog.Builder(medicamentsActivity)
                 .setTitle("Potwierdź zużycie")
                 .setMessage("operacja jest nieodwracalna")
                 .setIcon(R.drawable.trash_icon)
@@ -158,7 +159,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
                             medicamentDao.update(medicament);
                             Log.d("medi", "archiwizuje " + medicament.getName());
                             //// TODO: 2016-07-02 implements send info to server
-                            medicamentActivity.setActiveMedicaments();
+                            medicamentsActivity.setActiveMedicaments();
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }

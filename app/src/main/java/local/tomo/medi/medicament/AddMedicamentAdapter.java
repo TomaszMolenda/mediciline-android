@@ -1,4 +1,4 @@
-package local.tomo.medi;
+package local.tomo.medi.medicament;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import local.tomo.medi.R;
 import local.tomo.medi.ormlite.data.MedicamentDb;
 
 
@@ -28,7 +29,7 @@ public class AddMedicamentAdapter extends ArrayAdapter<MedicamentDb> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.add_medicament_list_row, null);
+            v = vi.inflate(R.layout.adapter_add_medicament_list_row, null);
         }
 
         MedicamentDb medicamentDb = getItem(position);

@@ -1,11 +1,10 @@
-package local.tomo.medi;
+package local.tomo.medi.medicament;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -31,6 +30,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import local.tomo.medi.MainActivity;
+import local.tomo.medi.R;
 import local.tomo.medi.json.MedicamentExclusion;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.network.RestIntefrace;
@@ -169,7 +170,7 @@ public class AddMedicamentActivity extends Activity {
                         e.printStackTrace();
                     }
 
-                    addMedicamentAdapter = new AddMedicamentAdapter(getApplicationContext(), R.layout.add_medicament_list_row, (ArrayList<MedicamentDb>) medicamentDbs);
+                    addMedicamentAdapter = new AddMedicamentAdapter(getApplicationContext(), R.layout.adapter_add_medicament_list_row, (ArrayList<MedicamentDb>) medicamentDbs);
                     listView.setAdapter(addMedicamentAdapter);
                 }
                 else {

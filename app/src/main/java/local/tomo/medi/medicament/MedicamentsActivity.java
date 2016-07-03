@@ -1,4 +1,4 @@
-package local.tomo.medi;
+package local.tomo.medi.medicament;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -21,10 +20,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
 
-public class MedicamentActivity extends Activity {
+public class MedicamentsActivity extends Activity {
 
     public static final int ALL_MEDICAMENTS = 1;
     public static final int ACTIVE_MEDICAMENTS = 2;
@@ -45,7 +45,7 @@ public class MedicamentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medicament);
+        setContentView(R.layout.activity_medicaments);
 
         listView = (ListView) findViewById(android.R.id.list);
         fabAddMedicament = (FloatingActionButton) findViewById(R.id.fabAddMedicament);
@@ -88,7 +88,7 @@ public class MedicamentActivity extends Activity {
                     if(medicament.getName().toLowerCase().contains(text) || medicament.getProducent().toLowerCase().contains(text))
                         searchedMedicaments.add(medicament);
                 }
-                allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentActivity.this, getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) searchedMedicaments);
+                allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) searchedMedicaments);
                 listView.setAdapter(allMedicamentAdapter);
                 allMedicamentAdapter.notifyDataSetChanged();
             }
@@ -134,7 +134,7 @@ public class MedicamentActivity extends Activity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentActivity.this, getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
         listView.setAdapter(allMedicamentAdapter);
     }
 
@@ -148,7 +148,7 @@ public class MedicamentActivity extends Activity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentActivity.this, getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
         listView.setAdapter(allMedicamentAdapter);
     }
 
@@ -156,7 +156,7 @@ public class MedicamentActivity extends Activity {
         try {
             Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
             List<Medicament> medicaments = medicamentDao.queryForAll();
-            allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentActivity.this, getApplicationContext(), R.layout.all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+            allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
             listView.setAdapter(allMedicamentAdapter);
             allMedicamentAdapter.notifyDataSetChanged();
         } catch (SQLException e) {
