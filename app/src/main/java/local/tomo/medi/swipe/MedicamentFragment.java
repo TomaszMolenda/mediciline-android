@@ -38,57 +38,51 @@ public class MedicamentFragment extends Fragment {
         buttonMenuMedicamentArchive = (Button) view.findViewById(R.id.buttonMenuMedicamentArchive);
         buttonMenuMedicamentAdd = (Button) view.findViewById(R.id.buttonMenuMedicamentAdd);
 
-        buttonMenuMedicamentAll.setOnTouchListener(new View.OnTouchListener() {
+        buttonMenuMedicamentAll.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 buttonMenuMedicamentAll.setEnabled(false);
-
-                return false;
             }
         });
 
-        buttonMenuMedicamentActive.setOnTouchListener(new View.OnTouchListener() {
+        buttonMenuMedicamentActive.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 buttonMenuMedicamentActive.setEnabled(false);
                 Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
                 intent.putExtra("medicaments", MedicamentsActivity.ACTIVE_MEDICAMENTS);
                 getActivity().startActivity(intent);
-                return false;
             }
         });
 
-        buttonMenuMedicamentArchive.setOnTouchListener(new View.OnTouchListener() {
+        buttonMenuMedicamentArchive.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 buttonMenuMedicamentArchive.setEnabled(false);
                 Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
                 intent.putExtra("medicaments", MedicamentsActivity.ARCHIVE_MEDICAMENTS);
                 getActivity().startActivity(intent);
-                return false;
             }
         });
 
-        buttonMenuMedicamentAdd.setOnTouchListener(new View.OnTouchListener() {
+        buttonMenuMedicamentAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 buttonMenuMedicamentAdd.setEnabled(false);
                 Intent intent = new Intent(getActivity(), AddMedicamentActivity.class);
                 getActivity().startActivity(intent);
-                return false;
             }
         });
-        buttonMenuMedicamentScan.setOnTouchListener(new View.OnTouchListener() {
+
+        buttonMenuMedicamentScan.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 buttonMenuMedicamentScan.setEnabled(false);
                 Intent intent = new Intent(getActivity(), AddMedicamentActivity.class);
                 Bundle b = new Bundle();
                 b.putBoolean("scan", true);
                 intent.putExtras(b);
                 getActivity().startActivity(intent);
-                //getActivity().finish();
-                return false;
             }
         });
         return view;
