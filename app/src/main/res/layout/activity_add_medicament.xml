@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="local.tomo.login.AddMedicamentActivity">
+    tools:context="local.tomo.medi.medicament.MedicamentsActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,7 +15,8 @@
         android:text="Wpisz nazwę leku"
         android:id="@+id/textViewAddMedicamentInfo"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -24,7 +25,8 @@
         android:hint="minimum 3 znaki"
         android:layout_below="@+id/textViewAddMedicamentInfo"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="#000000"/>
 
     <ListView
         android:layout_width="match_parent"

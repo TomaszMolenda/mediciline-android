@@ -69,7 +69,7 @@
             android:drawableTop="@drawable/trash_icon"
             android:background="@drawable/menu_background_violet"
             android:textColor="#FFFFFF"
-            android:id="@+id/ButtonTest4"
+            android:id="@+id/buttonMenuMedicamentArchive"
             android:paddingTop="30dp"
             android:drawablePadding="0dp"
             android:text="Zużyte"
@@ -94,7 +94,7 @@
             android:id="@+id/buttonMenuMedicamentAll"
             android:paddingTop="30dp"
             android:drawablePadding="0dp"
-            android:text="Wszystkie"
+            android:text="Słownik"
             android:textSize="20dp"
             android:layout_margin="2dp"></Button>
 
