@@ -89,7 +89,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
             ImageView rowAllMedicamentNoSynchro = (ImageView) v.findViewById(R.id.rowAllMedicamentNoSynchro);
             View menuIcon = v.findViewById(R.id.rowAllMedicamentMenu);
-            if(medicamentsActivity.getChooseMedicaments() == medicamentsActivity.ACTIVE_MEDICAMENTS) {
+            if(medicamentsActivity.showPopUpMenu()) {
                 menuIcon.setVisibility(View.VISIBLE);
             }
             menuIcon.setOnClickListener(new View.OnClickListener() {

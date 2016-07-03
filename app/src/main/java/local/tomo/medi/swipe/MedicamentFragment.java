@@ -25,6 +25,7 @@ public class MedicamentFragment extends Fragment {
     private Button buttonMenuMedicamentActive;
     private Button buttonMenuMedicamentArchive;
     private Button buttonMenuMedicamentScan;
+    private Button buttonMenuMedicamentOutOfDate;
 
 
     @Override
@@ -37,6 +38,7 @@ public class MedicamentFragment extends Fragment {
         buttonMenuMedicamentActive = (Button) view.findViewById(R.id.buttonMenuMedicamentActive);
         buttonMenuMedicamentArchive = (Button) view.findViewById(R.id.buttonMenuMedicamentArchive);
         buttonMenuMedicamentAdd = (Button) view.findViewById(R.id.buttonMenuMedicamentAdd);
+        buttonMenuMedicamentOutOfDate = (Button) view.findViewById(R.id.buttonMenuMedicamentOutOfDate);
 
         buttonMenuMedicamentAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +87,16 @@ public class MedicamentFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
+
+        buttonMenuMedicamentOutOfDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonMenuMedicamentOutOfDate.setEnabled(false);
+                Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
+                intent.putExtra("medicaments", MedicamentsActivity.OUT_OF_DATE_MEDICAMENTS);
+                getActivity().startActivity(intent);
+            }
+        });
         return view;
 
     }
@@ -97,7 +109,7 @@ public class MedicamentFragment extends Fragment {
         buttonMenuMedicamentActive.setEnabled(true);
         buttonMenuMedicamentScan.setEnabled(true);
         buttonMenuMedicamentArchive.setEnabled(true);
-
+        buttonMenuMedicamentOutOfDate.setEnabled(true);
 
     }
 }

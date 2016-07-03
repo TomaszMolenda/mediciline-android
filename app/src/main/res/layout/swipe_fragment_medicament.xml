@@ -105,7 +105,7 @@
             android:drawableTop="@drawable/overdue_icon"
             android:background="@drawable/menu_background_yellow"
             android:textColor="#FFFFFF"
-            android:id="@+id/ButtonTest6"
+            android:id="@+id/buttonMenuMedicamentOutOfDate"
             android:paddingTop="30dp"
             android:drawablePadding="0dp"
             android:text="Przeterminowane"

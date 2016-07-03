@@ -20,6 +20,8 @@ import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import local.tomo.medi.R;
@@ -28,10 +30,11 @@ import local.tomo.medi.ormlite.data.Medicament;
 
 public class MedicamentsActivity extends Activity {
 
+    public static final int OUT_OF_DATE_MEDICAMENTS = 1;
     public static final int ACTIVE_MEDICAMENTS = 2;
     public static final int ARCHIVE_MEDICAMENTS = 3;
 
-    private int chooseMedicaments;
+    private boolean showPopUpMenu;
 
     private DatabaseHelper databaseHelper = null;
 
@@ -57,14 +60,18 @@ public class MedicamentsActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         switch (bundle.getInt("medicaments")) {
             case ACTIVE_MEDICAMENTS:
-                chooseMedicaments = ACTIVE_MEDICAMENTS;
+                showPopUpMenu = true;
                 fabAddMedicament.setVisibility(View.VISIBLE);
                 setActiveMedicaments();
                 break;
             case ARCHIVE_MEDICAMENTS:
-                chooseMedicaments = ARCHIVE_MEDICAMENTS;
                 fabAddMedicament.setVisibility(View.INVISIBLE);
                 setArchiveMedicaments();
+                break;
+            case OUT_OF_DATE_MEDICAMENTS:
+                showPopUpMenu = true;
+                fabAddMedicament.setVisibility(View.INVISIBLE);
+                setOutOfDateMedicaments();
                 break;
         }
 
@@ -97,7 +104,7 @@ public class MedicamentsActivity extends Activity {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-                //// TODO: 2016-07-03 synchronize all 
+                //// TODO: 2016-07-03 synchronize all
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -126,6 +133,33 @@ public class MedicamentsActivity extends Activity {
             }
         });
 
+    }
+
+    private void setOutOfDateMedicaments() {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+            QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
+            queryBuilder.orderBy("date", false).where().eq("archive", false);
+            PreparedQuery<Medicament> prepare = queryBuilder.prepare();
+            List<Medicament> list = medicamentDao.query(prepare);
+            medicaments = new ArrayList<>();
+            for (Medicament medicament : list) {
+                calendar.setTimeInMillis(medicament.getDate());
+                int mYear = calendar.get(Calendar.YEAR);
+                int mMonth = calendar.get(Calendar.MONTH);
+                if(mYear < year) medicaments.add(medicament);
+                if(mYear == year && mMonth < month) medicaments.add(medicament);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        listView.setAdapter(allMedicamentAdapter);
     }
 
     private void setArchiveMedicaments() {
@@ -181,8 +215,8 @@ public class MedicamentsActivity extends Activity {
         return databaseHelper;
     }
 
-    public int getChooseMedicaments() {
-        return chooseMedicaments;
+    public boolean showPopUpMenu() {
+        return showPopUpMenu;
     }
 
     @Override
