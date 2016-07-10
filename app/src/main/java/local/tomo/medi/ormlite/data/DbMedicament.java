@@ -5,7 +5,10 @@ import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 
 
-public class MedicamentDb implements Serializable {
+public class DbMedicament implements Serializable {
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "productLineID")
+    private MedicamentAdditional medicamentAdditional;
 
     @DatabaseField(id = true)
     private int packageID;
@@ -66,8 +69,6 @@ public class MedicamentDb implements Serializable {
     @DatabaseField
     private int productID;
     @DatabaseField
-    private int productLineID;
-    @DatabaseField
     private String productLineName;
     @DatabaseField
     private String productName;
@@ -100,18 +101,65 @@ public class MedicamentDb implements Serializable {
     @DatabaseField
     private int oi;
 
+    public DbMedicament() {
+    }
 
-
-    public MedicamentDb() {
+    public DbMedicament(MedicamentAdditional medicamentAdditional, int packageID, int idServer, String activeSubstance, int distributorID, String dosage, int driving, String drivingInfo, int drugCardLimit, int drugPromoID, String ean, int finalSort, String form, int isAlco, String isAlcoInfo, int isNarcPsych, String isNarcPsychInfo, int isReimbursed, int lactatio, String lactatioInfo, String pack, int pregnancy, String pregnancyInfo, int prescriptionID, String prescriptionName, String prescriptionShortName, double price, String producer, int producerID, int productID, String productLineName, String productName, int productTypeID, String productTypeName, String productTypeShortName, String regNo, int sponsorID, String therapeuticClass, int trimester1, String trimester1Info, int trimester2, String trimester2Info, int trimester3, String trimester3Info, int isFavorite, int oi) {
+        this.medicamentAdditional = medicamentAdditional;
+        this.packageID = packageID;
+        this.idServer = idServer;
+        this.activeSubstance = activeSubstance;
+        this.distributorID = distributorID;
+        this.dosage = dosage;
+        this.driving = driving;
+        this.drivingInfo = drivingInfo;
+        this.drugCardLimit = drugCardLimit;
+        this.drugPromoID = drugPromoID;
+        this.ean = ean;
+        this.finalSort = finalSort;
+        this.form = form;
+        this.isAlco = isAlco;
+        this.isAlcoInfo = isAlcoInfo;
+        this.isNarcPsych = isNarcPsych;
+        this.isNarcPsychInfo = isNarcPsychInfo;
+        this.isReimbursed = isReimbursed;
+        this.lactatio = lactatio;
+        this.lactatioInfo = lactatioInfo;
+        this.pack = pack;
+        this.pregnancy = pregnancy;
+        this.pregnancyInfo = pregnancyInfo;
+        this.prescriptionID = prescriptionID;
+        this.prescriptionName = prescriptionName;
+        this.prescriptionShortName = prescriptionShortName;
+        this.price = price;
+        this.producer = producer;
+        this.producerID = producerID;
+        this.productID = productID;
+        this.productLineName = productLineName;
+        this.productName = productName;
+        this.productTypeID = productTypeID;
+        this.productTypeName = productTypeName;
+        this.productTypeShortName = productTypeShortName;
+        this.regNo = regNo;
+        this.sponsorID = sponsorID;
+        this.therapeuticClass = therapeuticClass;
+        this.trimester1 = trimester1;
+        this.trimester1Info = trimester1Info;
+        this.trimester2 = trimester2;
+        this.trimester2Info = trimester2Info;
+        this.trimester3 = trimester3;
+        this.trimester3Info = trimester3Info;
+        this.isFavorite = isFavorite;
+        this.oi = oi;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (obj == this) return true;
-        if (!(obj instanceof MedicamentDb))return false;
-        MedicamentDb medicamentDb = (MedicamentDb)obj;
-        if(this.hashCode() == medicamentDb.hashCode()) return true;
+        if (!(obj instanceof DbMedicament))return false;
+        DbMedicament dbMedicament = (DbMedicament)obj;
+        if(this.hashCode() == dbMedicament.hashCode()) return true;
         else return false;
     }
 
@@ -122,6 +170,14 @@ public class MedicamentDb implements Serializable {
         //int
         result = multipler * result + packageID;
         return result;
+    }
+
+    public MedicamentAdditional getMedicamentAdditional() {
+        return medicamentAdditional;
+    }
+
+    public void setMedicamentAdditional(MedicamentAdditional medicamentAdditional) {
+        this.medicamentAdditional = medicamentAdditional;
     }
 
     public int getPackageID() {
@@ -356,14 +412,6 @@ public class MedicamentDb implements Serializable {
         this.productID = productID;
     }
 
-    public int getProductLineID() {
-        return productLineID;
-    }
-
-    public void setProductLineID(int productLineID) {
-        this.productLineID = productLineID;
-    }
-
     public String getProductLineName() {
         return productLineName;
     }
@@ -494,8 +542,9 @@ public class MedicamentDb implements Serializable {
 
     @Override
     public String toString() {
-        return "MedicamentDb{" +
-                "packageID=" + packageID +
+        return "DbMedicament{" +
+                "medicamentAdditional=" + medicamentAdditional +
+                ", packageID=" + packageID +
                 ", idServer=" + idServer +
                 ", activeSubstance='" + activeSubstance + '\'' +
                 ", distributorID=" + distributorID +
@@ -524,7 +573,6 @@ public class MedicamentDb implements Serializable {
                 ", producer='" + producer + '\'' +
                 ", producerID=" + producerID +
                 ", productID=" + productID +
-                ", productLineID=" + productLineID +
                 ", productLineName='" + productLineName + '\'' +
                 ", productName='" + productName + '\'' +
                 ", productTypeID=" + productTypeID +

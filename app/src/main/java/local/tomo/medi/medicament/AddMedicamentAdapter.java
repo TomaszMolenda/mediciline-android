@@ -10,16 +10,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import local.tomo.medi.R;
-import local.tomo.medi.ormlite.data.MedicamentDb;
+import local.tomo.medi.ormlite.data.DbMedicament;
 
 
-public class AddMedicamentAdapter extends ArrayAdapter<MedicamentDb> {
+public class AddMedicamentAdapter extends ArrayAdapter<DbMedicament> {
 
-    private ArrayList<MedicamentDb> medicamentDbs;
+    private ArrayList<DbMedicament> dbMedicaments;
 
-    public AddMedicamentAdapter(Context context, int resource, ArrayList<MedicamentDb> medicamentDbs) {
-        super(context, resource, medicamentDbs);
-        this.medicamentDbs = medicamentDbs;
+    public AddMedicamentAdapter(Context context, int resource, ArrayList<DbMedicament> dbMedicaments) {
+        super(context, resource, dbMedicaments);
+        this.dbMedicaments = dbMedicaments;
     }
 
     @Override
@@ -32,15 +32,15 @@ public class AddMedicamentAdapter extends ArrayAdapter<MedicamentDb> {
             v = vi.inflate(R.layout.adapter_add_medicament_list_row, null);
         }
 
-        MedicamentDb medicamentDb = getItem(position);
+        DbMedicament dbMedicament = getItem(position);
 
-        if(medicamentDb!=null) {
+        if(dbMedicament !=null) {
             TextView rowAddMedicamentName = (TextView) v.findViewById(R.id.rowAddMedicamentName);
             TextView rowAddMedicamentProducer = (TextView) v.findViewById(R.id.rowAddMedicamentProducer);
             TextView rowAddMedicamentPack = (TextView) v.findViewById(R.id.rowAddMedicamentPack);
-            rowAddMedicamentName.setText(medicamentDb.getProductName());
-            rowAddMedicamentProducer.setText("Producent: " + medicamentDb.getProducer());
-            rowAddMedicamentPack.setText("Rodzaj: " + medicamentDb.getPack());
+            rowAddMedicamentName.setText(dbMedicament.getProductName());
+            rowAddMedicamentProducer.setText("Producent: " + dbMedicament.getProducer());
+            rowAddMedicamentPack.setText("Rodzaj: " + dbMedicament.getPack());
         }
         return  v;
     }

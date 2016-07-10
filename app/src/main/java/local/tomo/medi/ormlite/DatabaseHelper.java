@@ -12,8 +12,9 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 
 import local.tomo.medi.R;
+import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.Medicament;
-import local.tomo.medi.ormlite.data.MedicamentDb;
+import local.tomo.medi.ormlite.data.MedicamentAdditional;
 import local.tomo.medi.ormlite.data.User;
 
 
@@ -22,16 +23,16 @@ import local.tomo.medi.ormlite.data.User;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "medis.db";
+    private static final String DATABASE_NAME = "medis11.db";
     private static final int DATABASE_VERSION = 1;
 
     private Dao<User, Integer> userDao;
-    private Dao<MedicamentDb, Integer> medicamentDbDao;
+    private Dao<DbMedicament, Integer> medicamentDbDao;
     private Dao<Medicament, Integer> medicamentDao;
-
+    private Dao<MedicamentAdditional, Integer> medicamentAdditionalsDao;
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
 
@@ -39,8 +40,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, User.class);
-            TableUtils.createTable(connectionSource, MedicamentDb.class);
+            TableUtils.createTable(connectionSource, DbMedicament.class);
             TableUtils.createTable(connectionSource, Medicament.class);
+            TableUtils.createTable(connectionSource, MedicamentAdditional.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
         }
@@ -50,8 +52,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
             TableUtils.dropTable(connectionSource, User.class, true);
-            TableUtils.dropTable(connectionSource, MedicamentDb.class, true);
+            TableUtils.dropTable(connectionSource, DbMedicament.class, true);
             TableUtils.dropTable(connectionSource, Medicament.class, true);
+            TableUtils.dropTable(connectionSource, MedicamentAdditional.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVersion + " to new "
@@ -66,9 +69,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return userDao;
     }
 
-    public Dao<MedicamentDb, Integer> getMedicamentDbDao() throws SQLException {
+    public Dao<DbMedicament, Integer> getMedicamentDbDao() throws SQLException {
         if(medicamentDbDao == null) {
-            medicamentDbDao = getDao(MedicamentDb.class);
+            medicamentDbDao = getDao(DbMedicament.class);
         }
         return medicamentDbDao;
     }
@@ -78,5 +81,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             medicamentDao = getDao(Medicament.class);
         }
         return medicamentDao;
+    }
+
+    public Dao<MedicamentAdditional, Integer> getMedicamentAdditionalsDao() throws SQLException {
+        if(medicamentAdditionalsDao == null) {
+            medicamentAdditionalsDao = getDao(MedicamentAdditional.class);
+        }
+        return medicamentAdditionalsDao;
     }
 }

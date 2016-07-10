@@ -39,13 +39,12 @@ public class Medicament {
     public Medicament() {
     }
 
-    public Medicament(MedicamentDb medicamentDb) {
-        this.name = medicamentDb.getProductName();
-        this.producent = medicamentDb.getProducer();
-        this.price = medicamentDb.getPrice();
-        this.kind = medicamentDb.getPack();
-        this.productLineID = medicamentDb.getProductLineID();
-        this.packageID = medicamentDb.getPackageID();
+    public Medicament(DbMedicament dbMedicament) {
+        this.name = dbMedicament.getProductName();
+        this.producent = dbMedicament.getProducer();
+        this.price = dbMedicament.getPrice();
+        this.kind = dbMedicament.getPack();
+        this.packageID = dbMedicament.getPackageID();
     }
 
     public static Medicament containsId(Collection<Medicament> c, int id) {

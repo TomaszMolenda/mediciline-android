@@ -37,8 +37,8 @@ import local.tomo.medi.model.Months;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
+import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.Medicament;
-import local.tomo.medi.ormlite.data.MedicamentDb;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,10 +79,10 @@ public class AddMedicamentActivity extends Activity {
 
     private ListView listView ;
     private AddMedicamentAdapter addMedicamentAdapter;
-    List<MedicamentDb> medicamentDbs;
+    List<DbMedicament> dbMedicaments;
 
     Calendar calendar = Calendar.getInstance();
-    private MedicamentDb medicamentDb;
+    private DbMedicament dbMedicament;
     private Medicament medicament;
     private long date;
 
@@ -146,7 +146,7 @@ public class AddMedicamentActivity extends Activity {
 
 
 
-        medicamentDbs = new ArrayList<MedicamentDb>();
+        dbMedicaments = new ArrayList<DbMedicament>();
         addMedicamentAdapter = null;
 
         editTextAddMedicament.addTextChangedListener(new TextWatcher() {
@@ -161,26 +161,26 @@ public class AddMedicamentActivity extends Activity {
                 searchText = s.toString();
                 if(searchText.length() >= 3) {
                     try {
-                        Dao<MedicamentDb, Integer> medicamentDbDao = getHelper().getMedicamentDbDao();
-                        QueryBuilder<MedicamentDb, Integer> queryBuilder = medicamentDbDao.queryBuilder();
+                        Dao<DbMedicament, Integer> medicamentDbDao = getHelper().getMedicamentDbDao();
+                        QueryBuilder<DbMedicament, Integer> queryBuilder = medicamentDbDao.queryBuilder();
                         queryBuilder.where().like("productName", "%"+searchText+"%").or().like("ean", "%"+searchText+"%");
-                        PreparedQuery<MedicamentDb> prepare = queryBuilder.prepare();
-                        medicamentDbs = medicamentDbDao.query(prepare);
+                        PreparedQuery<DbMedicament> prepare = queryBuilder.prepare();
+                        dbMedicaments = medicamentDbDao.query(prepare);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
 
-                    addMedicamentAdapter = new AddMedicamentAdapter(getApplicationContext(), R.layout.adapter_add_medicament_list_row, (ArrayList<MedicamentDb>) medicamentDbs);
+                    addMedicamentAdapter = new AddMedicamentAdapter(getApplicationContext(), R.layout.adapter_add_medicament_list_row, (ArrayList<DbMedicament>) dbMedicaments);
                     listView.setAdapter(addMedicamentAdapter);
                 }
                 else {
                     listView.setAdapter(null);
-                    medicamentDbs.clear();
+                    dbMedicaments.clear();
                 }
                 int i = text.indexOf("(");
                 if(i != -1)
                     text = text.substring(0, i - 1);
-                textViewAddMedicamentInfo.setText(text + " (znaleziono " + medicamentDbs.size() + " szt.)");
+                textViewAddMedicamentInfo.setText(text + " (znaleziono " + dbMedicaments.size() + " szt.)");
 
             }
 
@@ -201,17 +201,17 @@ public class AddMedicamentActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                medicamentDb = (MedicamentDb) parent.getItemAtPosition(position);
+                dbMedicament = (DbMedicament) parent.getItemAtPosition(position);
                 listView.setAdapter(null);
-                editTextAddMedicamentName.setText(medicamentDb.getProductName());
-                editTextAddMedicamentProducer.setText("Producent: " + medicamentDb.getProducer());
-                editTextAddMedicamentKind.setText("Rodzaj: " + medicamentDb.getPack());
-                editTextAddMedicamentPrice.setText(Double.toString(medicamentDb.getPrice()));
+                editTextAddMedicamentName.setText(dbMedicament.getProductName());
+                editTextAddMedicamentProducer.setText("Producent: " + dbMedicament.getProducer());
+                editTextAddMedicamentKind.setText("Rodzaj: " + dbMedicament.getPack());
+                editTextAddMedicamentPrice.setText(Double.toString(dbMedicament.getPrice()));
                 setVisibility(true);
                 buttonAddMedicamentSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        medicament = new Medicament(medicamentDb);
+                        medicament = new Medicament(dbMedicament);
                         medicament.setDate(date);
                         try {
                             Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
