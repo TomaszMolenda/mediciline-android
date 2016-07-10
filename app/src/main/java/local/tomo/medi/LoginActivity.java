@@ -1,10 +1,8 @@
 package local.tomo.medi;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -21,15 +19,18 @@ import com.j256.ormlite.dao.Dao;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.sql.SQLException;
 import java.util.List;
 
+import local.tomo.medi.json.MedicamentsDbAdditionalJSON;
 import local.tomo.medi.json.MedicamentsDbJSON;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
-import local.tomo.medi.ormlite.data.MedicamentDb;
+import local.tomo.medi.ormlite.data.DbMedicament;
+import local.tomo.medi.ormlite.data.MedicamentAdditional;
 import local.tomo.medi.ormlite.data.User;
 import retrofit2.Call;
 
@@ -47,7 +48,6 @@ public class LoginActivity extends Activity {
     private static User user = new User();
 
     private DatabaseHelper databaseHelper = null;
-    private MedicamentsDbJSON medicamentsDbJSON;
 
     private EditText editTextLoginUserName;
     private EditText editTextLoginPassword;
@@ -67,20 +67,12 @@ public class LoginActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            try {
-                int countDb = (int) getHelper().getMedicamentDbDao().countOf();
-                if(countDb < MEDICAMENTDB_COUNT) {
-                    medicamentsDbJSON = new MedicamentsDbJSON(getResources());
-                    List<MedicamentDb> medicamentsDbFromFile = medicamentsDbJSON.getMedicamentsDbFromFile();
-                    Dao<MedicamentDb, Integer> medicamentDbDao = getHelper().getMedicamentDbDao();
-                    for (MedicamentDb medicamentDb : medicamentsDbFromFile) {
-                        medicamentDbDao.createIfNotExists(medicamentDb);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext());
+            medicamentsDbJSON.getMedicamentsDbFromFile();
 
+            MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext());
+            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
+            
             return null;
         }
 
@@ -111,7 +103,7 @@ public class LoginActivity extends Activity {
         Background background = new Background(getApplicationContext(), getResources());
         background.execute();
 
-        Log.d("meditomo", "222222");
+        Log.d("meditomo", "22222");
 
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         String userName = preference.getString(PREF_USER, null);
@@ -123,7 +115,7 @@ public class LoginActivity extends Activity {
             user.setPassword(password);
             user.setEmail(email);
             user.setUniqueID(uniqueID);
-            login();
+            //login();
         }
     }
 
@@ -156,7 +148,7 @@ public class LoginActivity extends Activity {
                         .putString(PREF_UNIQUE_ID, user.getUniqueID())
                         .putString(PREF_EMAIL, user.getEmail())
                         .commit();
-                login();
+                //login();
             } else
                 Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
         } catch (SocketTimeoutException e) {
