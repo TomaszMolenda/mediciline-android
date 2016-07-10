@@ -68,13 +68,10 @@ public class LoginActivity extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
             MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext(), progressDialog);
-            //medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
+            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
 
             MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext(), progressDialog);
-            //medicamentsDbJSON.getMedicamentsDbFromFile();
-
-
-
+            medicamentsDbJSON.getMedicamentsDbFromFile();
             return null;
         }
 
@@ -123,7 +120,7 @@ public class LoginActivity extends Activity {
             user.setPassword(password);
             user.setEmail(email);
             user.setUniqueID(uniqueID);
-            //login();
+            login();
         }
     }
 
@@ -156,7 +153,7 @@ public class LoginActivity extends Activity {
                         .putString(PREF_UNIQUE_ID, user.getUniqueID())
                         .putString(PREF_EMAIL, user.getEmail())
                         .commit();
-                //login();
+                login();
             } else
                 Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
         } catch (SocketTimeoutException e) {

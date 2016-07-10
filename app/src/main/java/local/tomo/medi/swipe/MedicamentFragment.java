@@ -13,6 +13,7 @@ import android.widget.Button;
 import local.tomo.medi.medicament.AddMedicamentActivity;
 import local.tomo.medi.medicament.MedicamentsActivity;
 import local.tomo.medi.R;
+import local.tomo.medi.medicament.MedicamentsDbActivity;
 
 
 /**
@@ -44,6 +45,8 @@ public class MedicamentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 buttonMenuMedicamentAll.setEnabled(false);
+                Intent intent = new Intent(getActivity(), MedicamentsDbActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

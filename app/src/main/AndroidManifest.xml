@@ -22,9 +22,12 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".medicament.MedicamentsActivity" />
-        <activity android:name=".medicament.AddMedicamentActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity
+            android:name=".medicament.AddMedicamentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity android:name=".medicament.MedicamentsDbActivity" />
+        <activity android:name=".medicament.MedicamentDbDetailsActivity"></activity>
     </application>
 
 </manifest>
