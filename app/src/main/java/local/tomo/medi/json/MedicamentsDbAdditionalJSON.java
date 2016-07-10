@@ -1,5 +1,6 @@
 package local.tomo.medi.json;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.JsonReader;
@@ -25,15 +26,20 @@ import local.tomo.medi.ormlite.data.MedicamentAdditional;
 
 public class MedicamentsDbAdditionalJSON {
 
-    Context context;
+    public static int count = 5704;
+
+    private Context context;
 
     private DatabaseHelper databaseHelper;
 
     private Resources resources;
 
-    public MedicamentsDbAdditionalJSON(Resources resources, Context applicationContext) {
+    private ProgressDialog progressDialog;
+
+    public MedicamentsDbAdditionalJSON(Resources resources, Context applicationContext, ProgressDialog progressDialog) {
         this.resources = resources;
         this.context = applicationContext;
+        this.progressDialog = progressDialog;
     }
 
     public void getMedicamentAdditionalFromFile() {
@@ -60,8 +66,11 @@ public class MedicamentsDbAdditionalJSON {
 
     public void readMessagesArray(JsonReader reader) throws IOException, SQLException {
         reader.beginArray();
+        int i = 1;
         while (reader.hasNext()) {
             MedicamentAdditional medicamentAdditional = readMedicamentAdditional(reader);
+            progressDialog.setProgress(i);
+            i++;
             saveMedicamentAdditional(medicamentAdditional);
         }
         reader.endArray();

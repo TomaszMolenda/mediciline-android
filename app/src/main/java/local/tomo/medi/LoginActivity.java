@@ -67,18 +67,26 @@ public class LoginActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext());
+            MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext(), progressDialog);
+            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
+
+            MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext(), progressDialog);
             medicamentsDbJSON.getMedicamentsDbFromFile();
 
-            MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext());
-            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
-            
+
+
             return null;
         }
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(LoginActivity.this, "Czekaj...", "Trwa budowanie bazy leków", true, false);
+            progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog.setMessage("Trwa budowanie bazy leków");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setIndeterminate(false);
+            progressDialog.setProgress(0);
+            progressDialog.setMax(MedicamentsDbJSON.count + MedicamentsDbAdditionalJSON.count);
+            progressDialog.show();
         }
 
         @Override
