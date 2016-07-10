@@ -68,10 +68,10 @@ public class LoginActivity extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
             MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext(), progressDialog);
-            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
+            //medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
 
             MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext(), progressDialog);
-            medicamentsDbJSON.getMedicamentsDbFromFile();
+            //medicamentsDbJSON.getMedicamentsDbFromFile();
 
 
 

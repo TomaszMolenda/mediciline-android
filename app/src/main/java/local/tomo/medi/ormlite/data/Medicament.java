@@ -7,10 +7,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
 public class Medicament {
-
-
 
     @DatabaseField(generatedId = true)
     private int id;
@@ -102,108 +106,4 @@ public class Medicament {
         return result;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getProducent() {
-        return producent;
-    }
-
-    public void setProducent(String producent) {
-        this.producent = producent;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-
-    public int getIdServer() {
-        return idServer;
-    }
-
-    public void setIdServer(int idServer) {
-        this.idServer = idServer;
-    }
-
-    public int getProductLineID() {
-        return productLineID;
-    }
-
-    public void setProductLineID(int productLineID) {
-        this.productLineID = productLineID;
-    }
-
-    public int getPackageID() {
-        return packageID;
-    }
-
-    public void setPackageID(int packageID) {
-        this.packageID = packageID;
-    }
-
-    public Date getDateExpiration() {
-        return dateExpiration;
-    }
-
-    public void setDateExpiration(Date dateExpiration) {
-        this.dateExpiration = dateExpiration;
-    }
-
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
-    }
-
-    public boolean isArchive() {
-        return archive;
-    }
-
-    public void setArchive(boolean archive) {
-        this.archive = archive;
-    }
-
-    @Override
-    public String toString() {
-        return "Medicament{" +
-                "id=" + id +
-                ", idServer=" + idServer +
-                ", name='" + name + '\'' +
-                ", producent='" + producent + '\'' +
-                ", price=" + price +
-                ", kind='" + kind + '\'' +
-                ", dateExpiration=" + dateExpiration +
-                ", date=" + date +
-                ", productLineID=" + productLineID +
-                ", packageID=" + packageID +
-                ", archive=" + archive +
-                '}';
-    }
 }

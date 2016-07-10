@@ -4,12 +4,13 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-/**
- * Created by tomo on 2016-07-04.
- */
+@Setter
+@Getter
+@ToString
 public class MedicamentAdditional {
 
     @ForeignCollectionField
@@ -82,119 +83,5 @@ public class MedicamentAdditional {
         //int
         result = multipler * result + productLineID;
         return result;
-    }
-
-    public ForeignCollection<DbMedicament> getMedicamentSet() {
-        return medicamentSet;
-    }
-
-    public void setMedicamentSet(ForeignCollection<DbMedicament> medicamentSet) {
-        this.medicamentSet = medicamentSet;
-    }
-
-    public int getProductLineID() {
-        return productLineID;
-    }
-
-    public void setProductLineID(int productLineID) {
-        this.productLineID = productLineID;
-    }
-
-    public String getComposition() {
-        return composition;
-    }
-
-    public void setComposition(String composition) {
-        this.composition = composition;
-    }
-
-    public String getEffects() {
-        return effects;
-    }
-
-    public void setEffects(String effects) {
-        this.effects = effects;
-    }
-
-    public String getIndications() {
-        return indications;
-    }
-
-    public void setIndications(String indications) {
-        this.indications = indications;
-    }
-
-    public String getContraindications() {
-        return contraindications;
-    }
-
-    public void setContraindications(String contraindications) {
-        this.contraindications = contraindications;
-    }
-
-    public String getPrecaution() {
-        return precaution;
-    }
-
-    public void setPrecaution(String precaution) {
-        this.precaution = precaution;
-    }
-
-    public String getPregnancy() {
-        return pregnancy;
-    }
-
-    public void setPregnancy(String pregnancy) {
-        this.pregnancy = pregnancy;
-    }
-
-    public String getSideeffects() {
-        return sideeffects;
-    }
-
-    public void setSideeffects(String sideeffects) {
-        this.sideeffects = sideeffects;
-    }
-
-    public String getInteractions() {
-        return interactions;
-    }
-
-    public void setInteractions(String interactions) {
-        this.interactions = interactions;
-    }
-
-    public String getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    @Override
-    public String toString() {
-        return "MedicamentAdditional{" +
-                "medicamentSet=" + medicamentSet +
-                ", productLineID=" + productLineID +
-                ", composition='" + composition + '\'' +
-                ", effects='" + effects + '\'' +
-                ", indications='" + indications + '\'' +
-                ", contraindications='" + contraindications + '\'' +
-                ", precaution='" + precaution + '\'' +
-                ", pregnancy='" + pregnancy + '\'' +
-                ", sideeffects='" + sideeffects + '\'' +
-                ", interactions='" + interactions + '\'' +
-                ", dosage='" + dosage + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
     }
 }
