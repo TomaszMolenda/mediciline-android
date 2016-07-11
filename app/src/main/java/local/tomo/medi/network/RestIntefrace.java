@@ -20,8 +20,8 @@ public interface RestIntefrace {
     public static final String url = "http://212.244.79.82:8085";
 
 
-    @GET("/api/login/{username}/{password}.json")
-    Call<User> user(@Path("username") String username, @Path("password") String password);
+    @GET("/api/login")
+    Call<User> login();
 
     @GET("/api/medicaments/{uniqueId}.json")
     Call<List<Medicament>> getMedicaments(@Path("uniqueId") String uniqueId);

@@ -28,6 +28,11 @@ public class User implements Serializable {
     @DatabaseField
     private String email;
 
+    @DatabaseField
+    private String auth;
+
+
+
     public User() {
     }
 

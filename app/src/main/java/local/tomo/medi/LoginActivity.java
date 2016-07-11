@@ -15,22 +15,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.SocketTimeoutException;
-import java.sql.SQLException;
-import java.util.List;
 
 import local.tomo.medi.json.MedicamentsDbAdditionalJSON;
 import local.tomo.medi.json.MedicamentsDbJSON;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
-import local.tomo.medi.ormlite.data.DbMedicament;
-import local.tomo.medi.ormlite.data.MedicamentAdditional;
 import local.tomo.medi.ormlite.data.User;
 import retrofit2.Call;
 
@@ -43,6 +37,7 @@ public class LoginActivity extends Activity {
     private static String PREF_USER = "username";
     private static String PREF_PASSWORD = "password";
     private static String PREF_UNIQUE_ID = "uniqueId";
+    private static String PREF_AUTH = "auth";
     private static String PREF_EMAIL = "email";
 
     private static User user = new User();
@@ -108,18 +103,21 @@ public class LoginActivity extends Activity {
         Background background = new Background(getApplicationContext(), getResources());
         background.execute();
 
-        Log.d("meditomo", "22222");
+
 
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         String userName = preference.getString(PREF_USER, null);
         String password = preference.getString(PREF_PASSWORD, null);
         String uniqueID = preference.getString(PREF_UNIQUE_ID, null);
         String email = preference.getString(PREF_EMAIL, null);
-        if (userName != null & password != null & uniqueID != null) {
+        String auth = preference.getString(PREF_AUTH, null);
+        if (userName != null & password != null & uniqueID != null & auth != null) {
             user.setName(userName);
             user.setPassword(password);
             user.setEmail(email);
             user.setUniqueID(uniqueID);
+            user.setAuth(auth);
+            Log.d("meditomo", "22222:" + auth);
             login();
         }
     }
@@ -142,8 +140,10 @@ public class LoginActivity extends Activity {
 
 
     public void loginClick(View view) {
-        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace();
-        Call<User> call = restIntefrace.user(editTextLoginUserName.getText().toString(), editTextLoginPassword.getText().toString());
+        String userName = editTextLoginUserName.getText().toString();
+        String password = editTextLoginPassword.getText().toString();
+        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace(userName, password);
+        Call<User> call = restIntefrace.login();
         try {
             user = call.execute().body();
             if (user != null) {
@@ -152,6 +152,7 @@ public class LoginActivity extends Activity {
                         .putString(PREF_PASSWORD, user.getPassword())
                         .putString(PREF_UNIQUE_ID, user.getUniqueID())
                         .putString(PREF_EMAIL, user.getEmail())
+                        .putString(PREF_AUTH, user.getAuth())
                         .commit();
                 login();
             } else

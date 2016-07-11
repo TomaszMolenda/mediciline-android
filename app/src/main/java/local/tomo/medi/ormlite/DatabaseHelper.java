@@ -23,7 +23,7 @@ import local.tomo.medi.ormlite.data.User;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "medis12.db";
+    private static final String DATABASE_NAME = "medis13.db";
     private static final int DATABASE_VERSION = 1;
 
     private Dao<User, Integer> userDao;

@@ -58,4 +58,28 @@ public class RetrofitBuilder {
 
         return restIntefrace;
     }
+
+    public static RestIntefrace getRestIntefrace(final String userName, final String password) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request().newBuilder().addHeader("userName", userName).addHeader("password", password).build();
+                        return chain.proceed(request);
+                    }
+                })
+                .connectTimeout(300, TimeUnit.MILLISECONDS)
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RestIntefrace.url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+        RestIntefrace restIntefrace = retrofit.create(RestIntefrace.class);
+
+        return restIntefrace;
+    }
 }
