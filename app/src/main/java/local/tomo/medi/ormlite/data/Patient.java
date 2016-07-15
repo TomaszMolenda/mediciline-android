@@ -23,13 +23,16 @@ public class Patient {
     private Date birthday;
     @DatabaseField
     private long birthdayLong;
+    @DatabaseField
+    private String photoUrl;
 
     public Patient() {
     }
 
-    public Patient(String name, Date birthday) {
+    public Patient(String name, Date birthday, String path) {
         this.name = name;
         this.birthdayLong = birthday.getTime();
+        this.photoUrl = path;
     }
 
     //private Set<Disease> diseases;

@@ -18,7 +18,7 @@
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="10dp"
         android:textColor="#DF013A"
         android:textStyle="bold"/>
 
@@ -50,7 +50,7 @@
         android:id="@+id/textView5"
         android:layout_below="@+id/editTextName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:textColor="#000000"/>
 
     <EditText
@@ -64,12 +64,21 @@
         android:editable="false"
         android:focusable="false"/>
 
+    <ImageView
+        android:id="@+id/imageViewPhoto"
+        android:src="@drawable/add_user"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/editTextBirthday"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zapisz"
         android:id="@+id/buttonSave"
-        android:layout_below="@+id/editTextBirthday"
+        android:layout_below="@+id/imageViewPhoto"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="10dp"/>
 </RelativeLayout>

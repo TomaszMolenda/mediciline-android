@@ -1,6 +1,7 @@
 package local.tomo.medi.patient;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,14 +42,19 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
     @Override
     public void onBindViewHolder(AllPatientsAdapter.PatientViewHolder holder, int position) {
         Patient patient = patients.get(position);
+        if(patient.getPhotoUrl() != null) {
+            holder.ivProfilePic.setImageURI(Uri.fromFile(new File(patient.getPhotoUrl())));
+            holder.ivProfilePic.setRotation(270);
+        }
+
         holder.tvPatientName.setText(patient.getName().toString());
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(patient.getBirthdayLong());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        holder.tvBirthdate.setText(sdf.format(calendar.getTime()).toString());
+        holder.tvBirthdate.setText("Data urodzenia " + sdf.format(calendar.getTime()).toString());
         holder.tvId.setText(patient.getId()+"");
         holder.tvIdServer.setText(patient.getIdServer()+"");
+
 
 
     }
@@ -59,14 +66,14 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
 
     public static class PatientViewHolder extends RecyclerView.ViewHolder {
 
-        //ImageView ivProfilePic;
+        ImageView ivProfilePic;
         TextView tvPatientName;
         TextView tvBirthdate;
         TextView tvId;
         TextView tvIdServer;
         public PatientViewHolder(View itemView) {
             super(itemView);
-            //ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
+            ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
             tvPatientName = (TextView) itemView.findViewById(R.id.tvPatientName);
             tvBirthdate = (TextView) itemView.findViewById(R.id.tvBirthdate);
             tvId = (TextView) itemView.findViewById(R.id.tvId);

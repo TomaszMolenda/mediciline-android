@@ -25,8 +25,8 @@ import local.tomo.medi.ormlite.data.User;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "medis13.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final String DATABASE_NAME = "medis14.db";
+    private static final int DATABASE_VERSION = 1;
 
     private Dao<User, Integer> userDao;
     private Dao<Medicament, Integer> medicamentDao;
@@ -45,8 +45,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, User.class);
             TableUtils.createTable(connectionSource, Medicament.class);
             TableUtils.createTable(connectionSource, Patient.class);
-            //TableUtils.createTable(connectionSource, DbMedicament.class);
-            //TableUtils.createTable(connectionSource, MedicamentAdditional.class);
+//            TableUtils.createTable(connectionSource, DbMedicament.class);
+//            TableUtils.createTable(connectionSource, MedicamentAdditional.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
         }
@@ -58,8 +58,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, User.class, true);
             TableUtils.dropTable(connectionSource, Medicament.class, true);
             TableUtils.dropTable(connectionSource, Patient.class, true);
-            //TableUtils.dropTable(connectionSource, DbMedicament.class, true);
-            //TableUtils.dropTable(connectionSource, MedicamentAdditional.class, true);
+//            TableUtils.dropTable(connectionSource, DbMedicament.class, true);
+//            TableUtils.dropTable(connectionSource, MedicamentAdditional.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVersion + " to new "

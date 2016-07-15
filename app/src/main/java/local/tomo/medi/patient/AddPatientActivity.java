@@ -1,8 +1,16 @@
 package local.tomo.medi.patient;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,15 +18,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
+import local.tomo.medi.MainActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
@@ -31,11 +45,16 @@ import retrofit2.Response;
 
 public class AddPatientActivity extends Activity {
 
+    public static final int REQUEST_CAMERA = 1;
+
     private DatabaseHelper databaseHelper = null;
 
     private EditText editTextName;
     private EditText editTextBirthday;
     private Button buttonSave;
+    private ImageView imageViewPhoto;
+    private Uri outputFileUri;
+    private String photoUrl;
 
     private DatePickerDialog datePickerDialog;
 
@@ -67,6 +86,8 @@ public class AddPatientActivity extends Activity {
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextBirthday = (EditText) findViewById(R.id.editTextBirthday);
         buttonSave = (Button) findViewById(R.id.buttonSave);
+        imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
+
 
         editTextBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +97,22 @@ public class AddPatientActivity extends Activity {
             }
         });
 
+
+        imageViewPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                takePicture.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(takePicture, 0);
+            }
+        });
+
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = editTextName.getText().toString().trim();
-                final Patient patient = new Patient(name, chooseDate.getTime());
+                final Patient patient = new Patient(name, chooseDate.getTime(), photoUrl);
                 try {
                     Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
                     patientDao.create(patient);
@@ -92,9 +124,14 @@ public class AddPatientActivity extends Activity {
                 call.enqueue(new Callback<Patient>() {
                     @Override
                     public void onResponse(Call<Patient> call, Response<Patient> response) {
-                        Toast.makeText(getApplicationContext(), "Osobę  " + response.body().getName() + " wysłano na serwer", Toast.LENGTH_SHORT).show();
+                        Patient body = response.body();
+                        Toast.makeText(getApplicationContext(), "Osobę  " + body.getName() + " wysłano na serwer", Toast.LENGTH_SHORT).show();
                         try {
-                            getHelper().getPatientDao().update(response.body());
+                            UpdateBuilder<Patient, Integer> updateBuilder = getHelper().getPatientDao().updateBuilder();
+                            updateBuilder.updateColumnValue("idServer", body.getIdServer());
+                            updateBuilder.where().eq("id", body.getId());
+                            updateBuilder.update();
+                            //getHelper().getPatientDao().update(body);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -102,14 +139,29 @@ public class AddPatientActivity extends Activity {
 
                     @Override
                     public void onFailure(Call<Patient> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Błąd wysłania leku  " + patient.getName() + "  na serwer", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Błąd wysłania osoby  " + patient.getName() + "  na serwer", Toast.LENGTH_SHORT).show();
                     }
                 });
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();
+
+
             }
         });
+    }
+
+    private Uri setImageUri() {
+        File directory = Environment.getExternalStorageDirectory();
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        File file = new File(directory,System.currentTimeMillis() + ".png");
+
+
+        outputFileUri = Uri.fromFile(file);
+        this.photoUrl = outputFileUri.getPath().toString();
+        return outputFileUri;
     }
 
     private DatabaseHelper getHelper() {
@@ -120,11 +172,38 @@ public class AddPatientActivity extends Activity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode) {
+            case 0:
+                if(resultCode == RESULT_OK){
+                    imageViewPhoto.setImageURI(outputFileUri);
+                    imageViewPhoto.setRotation(270);
+                }
+
+                break;
+            case 1:
+                if(resultCode == RESULT_OK){
+                    imageViewPhoto.setImageURI(outputFileUri);
+                    imageViewPhoto.setRotation(270);
+                }
+                break;
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (databaseHelper != null) {
             OpenHelperManager.releaseHelper();
             databaseHelper = null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //photoFile.delete();
     }
 }
