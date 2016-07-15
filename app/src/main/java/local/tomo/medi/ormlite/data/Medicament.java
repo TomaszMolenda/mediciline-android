@@ -27,7 +27,7 @@ public class Medicament {
     @DatabaseField
     private double price;
     @DatabaseField
-    private String kind;
+    private String pack;
     @DatabaseField
     private Date dateExpiration;
     @DatabaseField
@@ -47,7 +47,7 @@ public class Medicament {
         this.name = dbMedicament.getProductName();
         this.producent = dbMedicament.getProducer();
         this.price = dbMedicament.getPrice();
-        this.kind = dbMedicament.getPack();
+        this.pack = dbMedicament.getPack();
         this.packageID = dbMedicament.getPackageID();
     }
 
@@ -96,7 +96,7 @@ public class Medicament {
         //String
         result = multipler * result + (name == null ? 0 : name.hashCode());
         result = multipler * result + (producent == null ? 0 : producent.hashCode());
-        result = multipler * result + (kind == null ? 0 : kind.hashCode());
+        result = multipler * result + (pack == null ? 0 : pack.hashCode());
         //double
         long priceBits = Double.doubleToLongBits(price);
         result = multipler * result + (int)(priceBits ^ (priceBits >>> 32));

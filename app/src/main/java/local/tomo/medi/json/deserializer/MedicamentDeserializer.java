@@ -20,7 +20,7 @@ public class MedicamentDeserializer implements JsonDeserializer<Medicament> {
         JsonElement name = json.getAsJsonObject().get("name");
         JsonElement producent = json.getAsJsonObject().get("producent");
         JsonElement price = json.getAsJsonObject().get("price");
-        JsonElement kind = json.getAsJsonObject().get("kind");
+        JsonElement kind = json.getAsJsonObject().get("pack");
         JsonElement productLineID = json.getAsJsonObject().get("productLineID");
         JsonElement packageID = json.getAsJsonObject().get("packageID");
         JsonElement dateExpiration = json.getAsJsonObject().get("dateExpiration");
@@ -29,7 +29,7 @@ public class MedicamentDeserializer implements JsonDeserializer<Medicament> {
         medicament.setName(name.getAsString());
         medicament.setProducent(producent.getAsString());
         medicament.setPrice(price.getAsDouble());
-        medicament.setKind(kind.getAsString());
+        medicament.setPack(kind.getAsString());
         medicament.setProductLineID(productLineID.getAsInt());
         medicament.setPackageID(packageID.getAsInt());
         Date date = new Date(dateExpiration.getAsLong());

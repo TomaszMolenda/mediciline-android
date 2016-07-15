@@ -232,14 +232,13 @@ public class AddMedicamentActivity extends Activity {
                                     medicamentDao.update(response.body());
                                     Toast.makeText(getApplicationContext(), "Lek  " + response.body().getName() + " wysłano na serwer", Toast.LENGTH_SHORT).show();
                                 } catch (SQLException e) {
-                                    Toast.makeText(getApplicationContext(), "Błąd wysłania leku  " + response.body().getName() + "  na serwer", Toast.LENGTH_SHORT).show();
                                     e.printStackTrace();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Medicament> call, Throwable t) {
-
+                                Toast.makeText(getApplicationContext(), "Błąd wysłania leku  " + medicament.getName() + "  na serwer", Toast.LENGTH_SHORT).show();
                             }
                         });
                         Intent intent = new Intent();

@@ -3,6 +3,7 @@ package local.tomo.medi.network;
 import java.util.List;
 
 import local.tomo.medi.ormlite.data.Medicament;
+import local.tomo.medi.ormlite.data.Patient;
 import local.tomo.medi.ormlite.data.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,12 +27,12 @@ public interface RestIntefrace {
     @GET("/api/medicaments/{uniqueId}.json")
     Call<List<Medicament>> getMedicaments(@Path("uniqueId") String uniqueId);
 
-    @GET("/api/medicamentsdb/count.json")
-    Integer getMedicamentsDbCount();
-
-    @POST("/api/medicament/save.json")
+    @POST("/api/medicament")
     Call<Medicament> saveMedicament(@Body Medicament medicament);
 
     @POST("/api/medicaments/save.json")
     Call<List<Medicament>> saveMedicaments(@Body List<Medicament> medicaments);
+
+    @POST("/api/patient")
+    Call<Patient> savePatient(@Body Patient patient);
 }

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -131,7 +130,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             rowAllMedicamentProductLineID.setText("ProductLineId: "+medicament.getProductLineID());
             rowAllMedicamentPackageID.setText("PackageId: "+medicament.getPackageID());
             rowAllMedicamentPrice.setText("Cena: " + medicament.getPrice());
-            rowAllMedicamentPack.setText("Rodzaj: " + medicament.getKind());
+            rowAllMedicamentPack.setText("Rodzaj: " + medicament.getPack());
 
             long date = medicament.getDate();
             Calendar calendar = Calendar.getInstance();

@@ -62,11 +62,11 @@ public class LoginActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext(), progressDialog);
-            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
-
-            MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext(), progressDialog);
-            medicamentsDbJSON.getMedicamentsDbFromFile();
+//            MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext(), progressDialog);
+//            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
+//
+//            MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext(), progressDialog);
+//            medicamentsDbJSON.getMedicamentsDbFromFile();
             return null;
         }
 
@@ -117,7 +117,7 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
-            Log.d("meditomo", "22222:" + auth);
+            Log.d("meditomo", "55555:");
             login();
         }
     }

@@ -1,10 +1,13 @@
 package local.tomo.medi.network;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import local.tomo.medi.LoginActivity;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -18,6 +21,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitBuilder {
 
+    static String auth = LoginActivity.getUser().getAuth();
+
+
     public static RestIntefrace getRestIntefrace() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -26,7 +32,7 @@ public class RetrofitBuilder {
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request().newBuilder().addHeader("Cookie", "AUTH=tomo").build();
+                        Request request = chain.request().newBuilder().addHeader("Cookie", "AUTH=" + auth).build();
                         return chain.proceed(request);
                     }
                 })
@@ -47,6 +53,13 @@ public class RetrofitBuilder {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request().newBuilder().addHeader("Cookie", "AUTH=" + auth).build();
+                        return chain.proceed(request);
+                    }
+                })
                 .connectTimeout(300, TimeUnit.MILLISECONDS)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
