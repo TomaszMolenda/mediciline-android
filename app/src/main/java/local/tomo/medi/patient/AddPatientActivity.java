@@ -2,6 +2,7 @@ package local.tomo.medi.patient;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -104,6 +105,8 @@ public class AddPatientActivity extends Activity {
                         Toast.makeText(getApplicationContext(), "Błąd wysłania leku  " + patient.getName() + "  na serwer", Toast.LENGTH_SHORT).show();
                     }
                 });
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
