@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import local.tomo.medi.R;
+import local.tomo.medi.RecyclerItemClickListener;
 import local.tomo.medi.disease.AddDiseaseActivity;
+import local.tomo.medi.disease.DiseaseDetailsActivity;
 import local.tomo.medi.disease.DiseasesAdapter;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
@@ -46,6 +48,8 @@ public class DiseaseFragment extends Fragment {
 
     List<Patient> patients;
     private int patientId = 0;
+
+    List<Disease> diseases;
 
     private Spinner spinnerPatient;
     private Spinner spinnerStatus;
@@ -113,14 +117,26 @@ public class DiseaseFragment extends Fragment {
             }
         });
 
+        //http://stackoverflow.com/a/26196831
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getActivity(), DiseaseDetailsActivity.class);
+                        intent.putExtra("diseaseId", diseases.get(position).getId());
+                        startActivityForResult(intent, 1);
+                    }
 
+                    @Override public void onLongItemClick(View view, int position) {
+                        Log.d(TAG, "onLongItemClick: longclick"+position+diseases.get(position).getName());
+                    }
+                })
+        );
 
         return view;
 
     }
 
     private void setDiseases() {
-        List<Disease> diseases = null;
         String status = spinnerStatus.getSelectedItem().toString();
         try {
             QueryBuilder<Disease, Integer> queryBuilder = getHelper().getDiseaseDao().queryBuilder();
@@ -138,7 +154,6 @@ public class DiseaseFragment extends Fragment {
                     break;
             }
             diseases = queryBuilder.query();
-            Log.d(TAG, "setDiseases: koniec");
         } catch (SQLException e) {
             e.printStackTrace();
         }
