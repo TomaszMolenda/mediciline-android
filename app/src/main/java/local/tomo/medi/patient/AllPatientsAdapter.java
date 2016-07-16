@@ -54,7 +54,7 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
         holder.tvBirthdate.setText("Data urodzenia " + sdf.format(calendar.getTime()).toString());
         holder.tvId.setText(patient.getId()+"");
         holder.tvIdServer.setText(patient.getIdServer()+"");
-
+        holder.tvLastUse.setText(patient.isLastUse()+"");
 
 
     }
@@ -71,6 +71,7 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
         TextView tvBirthdate;
         TextView tvId;
         TextView tvIdServer;
+        TextView tvLastUse;
         public PatientViewHolder(View itemView) {
             super(itemView);
             ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
@@ -78,6 +79,9 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
             tvBirthdate = (TextView) itemView.findViewById(R.id.tvBirthdate);
             tvId = (TextView) itemView.findViewById(R.id.tvId);
             tvIdServer = (TextView) itemView.findViewById(R.id.tvIdServer);
+            tvLastUse = (TextView) itemView.findViewById(R.id.tvLastUse);
+
+
 
         }
     }

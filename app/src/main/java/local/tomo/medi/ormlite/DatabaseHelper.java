@@ -26,7 +26,7 @@ import local.tomo.medi.ormlite.data.User;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "medis14.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private Dao<User, Integer> userDao;
     private Dao<Medicament, Integer> medicamentDao;

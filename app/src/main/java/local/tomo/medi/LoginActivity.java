@@ -117,7 +117,7 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
-            Log.d("meditomo", "111111:");
+            Log.d("meditomo", "2222222:");
             login();
         }
     }

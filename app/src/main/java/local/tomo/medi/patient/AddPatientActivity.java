@@ -1,19 +1,12 @@
 package local.tomo.medi.patient;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,18 +19,14 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-import local.tomo.medi.MainActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
-import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.Patient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -119,34 +108,38 @@ public class AddPatientActivity extends Activity {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace();
-                Call<Patient> call = restIntefrace.savePatient(patient);
-                call.enqueue(new Callback<Patient>() {
-                    @Override
-                    public void onResponse(Call<Patient> call, Response<Patient> response) {
-                        Patient body = response.body();
-                        Toast.makeText(getApplicationContext(), "Osobę  " + body.getName() + " wysłano na serwer", Toast.LENGTH_SHORT).show();
-                        try {
-                            UpdateBuilder<Patient, Integer> updateBuilder = getHelper().getPatientDao().updateBuilder();
-                            updateBuilder.updateColumnValue("idServer", body.getIdServer());
-                            updateBuilder.where().eq("id", body.getId());
-                            updateBuilder.update();
-                            //getHelper().getPatientDao().update(body);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Patient> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Błąd wysłania osoby  " + patient.getName() + "  na serwer", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                //sendPatientToServer(patient);
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();
 
 
+            }
+        });
+    }
+
+    private void sendPatientToServer(final Patient patient) {
+        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace();
+        Call<Patient> call = restIntefrace.savePatient(patient);
+        call.enqueue(new Callback<Patient>() {
+            @Override
+            public void onResponse(Call<Patient> call, Response<Patient> response) {
+                Patient body = response.body();
+                Toast.makeText(getApplicationContext(), "Osobę  " + body.getName() + " wysłano na serwer", Toast.LENGTH_SHORT).show();
+                try {
+                    UpdateBuilder<Patient, Integer> updateBuilder = getHelper().getPatientDao().updateBuilder();
+                    updateBuilder.updateColumnValue("idServer", body.getIdServer());
+                    updateBuilder.where().eq("id", body.getId());
+                    updateBuilder.update();
+                    //getHelper().getPatientDao().update(body);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Patient> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Błąd wysłania osoby  " + patient.getName() + "  na serwer", Toast.LENGTH_SHORT).show();
             }
         });
     }

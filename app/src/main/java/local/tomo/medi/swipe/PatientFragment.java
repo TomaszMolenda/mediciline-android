@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -67,6 +69,10 @@ public class PatientFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         setPatients();
+        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
+        FragmentStatePagerAdapter a = (FragmentStatePagerAdapter) pager.getAdapter();
+        DiseaseFragment diseaseFragment = (DiseaseFragment) a.instantiateItem(pager, 1);
+        diseaseFragment.refreshSpinner();
     }
 
     private DatabaseHelper getHelper() {

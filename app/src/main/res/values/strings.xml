@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Medi</string>
+    <string name="spinner_Patient">Osoba</string>
+
 </resources>

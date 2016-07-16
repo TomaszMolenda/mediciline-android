@@ -57,4 +57,8 @@ public class SwipeFragment extends Fragment {
 
         return view;
     }
+
+    public static String getFragmentTag(int pos){
+        return "android:switcher:"+R.id.pager+":"+pos;
+    }
 }
