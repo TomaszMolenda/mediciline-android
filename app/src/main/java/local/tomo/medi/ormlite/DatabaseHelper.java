@@ -17,6 +17,7 @@ import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.MedicamentAdditional;
+import local.tomo.medi.ormlite.data.Medicament_Disease;
 import local.tomo.medi.ormlite.data.Patient;
 import local.tomo.medi.ormlite.data.User;
 
@@ -27,12 +28,13 @@ import local.tomo.medi.ormlite.data.User;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "medis14.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     private Dao<User, Integer> userDao;
     private Dao<Medicament, Integer> medicamentDao;
     private Dao<Patient, Integer> patientDao;
     private Dao<Disease, Integer> diseaseDao;
+    private Dao<Medicament_Disease, Integer> medicament_diseaseDao;
     private Dao<DbMedicament, Integer> medicamentDbDao;
     private Dao<MedicamentAdditional, Integer> medicamentAdditionalsDao;
 
@@ -48,6 +50,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Medicament.class);
             TableUtils.createTable(connectionSource, Patient.class);
             TableUtils.createTable(connectionSource, Disease.class);
+            TableUtils.createTable(connectionSource, Medicament_Disease.class);
 //            TableUtils.createTable(connectionSource, DbMedicament.class);
 //            TableUtils.createTable(connectionSource, MedicamentAdditional.class);
         } catch (SQLException e) {
@@ -62,6 +65,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Medicament.class, true);
             TableUtils.dropTable(connectionSource, Patient.class, true);
             TableUtils.dropTable(connectionSource, Disease.class, true);
+            TableUtils.dropTable(connectionSource, Medicament_Disease.class, true);
 //            TableUtils.dropTable(connectionSource, DbMedicament.class, true);
 //            TableUtils.dropTable(connectionSource, MedicamentAdditional.class, true);
             onCreate(database, connectionSource);
@@ -97,6 +101,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             diseaseDao = getDao(Disease.class);
         }
         return diseaseDao;
+    }
+
+    public Dao<Medicament_Disease, Integer> getMedicament_DiseaseDao() throws SQLException {
+        if(medicament_diseaseDao == null) {
+            medicament_diseaseDao = getDao(Medicament_Disease.class);
+        }
+        return medicament_diseaseDao;
     }
 
     public Dao<DbMedicament, Integer> getMedicamentDbDao() throws SQLException {

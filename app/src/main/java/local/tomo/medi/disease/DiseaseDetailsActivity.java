@@ -1,7 +1,10 @@
 package local.tomo.medi.disease;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -25,6 +28,8 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
     private TextView textViewFinish;
     private TextView textViewDescription;
 
+    private Button buttonAddMedicament;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,7 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_disease_details);
 
         Bundle bundle = getIntent().getExtras();
-        int diseaseId = bundle.getInt("diseaseId");
+        final int diseaseId = bundle.getInt("diseaseId");
 
         try {
             disease = getHelper().getDiseaseDao().queryForId(diseaseId);
@@ -48,6 +53,7 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
         textViewStart = (TextView) findViewById(R.id.textViewStart);
         textViewFinish = (TextView) findViewById(R.id.textViewFinish);
         textViewDescription = (TextView) findViewById(R.id.textViewDescription);
+        buttonAddMedicament = (Button) findViewById(R.id.buttonAddMedicament);
 
         textViewName.append(disease.getName());
 
@@ -62,6 +68,15 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
             textViewFinish.append("niezakończona");
 
         textViewDescription.append(disease.getDescription());
+
+        buttonAddMedicament.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MedicamentsListActivity.class);
+                intent.putExtra("diseaseId", diseaseId);
+                startActivity(intent);
+            }
+        });
 
 
     }

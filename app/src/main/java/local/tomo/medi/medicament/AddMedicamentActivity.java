@@ -230,7 +230,7 @@ public class AddMedicamentActivity extends Activity {
                                 try {
                                     Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
                                     medicamentDao.update(response.body());
-                                    Toast.makeText(getApplicationContext(), "Lek  " + response.body().getName() + " wysłano na serwer", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Lek  " + medicament.getName() + " wysłano na serwer", Toast.LENGTH_SHORT).show();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }

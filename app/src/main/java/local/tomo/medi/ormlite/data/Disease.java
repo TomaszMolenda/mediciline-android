@@ -1,6 +1,8 @@
 package local.tomo.medi.ormlite.data;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.util.Date;
 
@@ -13,6 +15,9 @@ public class Disease {
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "patient_id")
     private Patient patient;
+
+    @ForeignCollectionField
+    private ForeignCollection<Medicament_Disease> medicament_diseases;
 
     @DatabaseField(generatedId = true)
     private int id;

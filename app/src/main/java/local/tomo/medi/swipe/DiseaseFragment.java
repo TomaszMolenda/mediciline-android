@@ -173,7 +173,8 @@ public class DiseaseFragment extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        patientId = patients.get(0).getId();
+        if (patients.size() != 0)
+            patientId = patients.get(0).getId();
         for (Patient patient : patients) {
                 listPatients.add(patient.getName());
         }
