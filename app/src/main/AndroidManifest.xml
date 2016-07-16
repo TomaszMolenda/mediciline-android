@@ -29,7 +29,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".medicament.MedicamentsDbActivity" />
         <activity android:name=".medicament.MedicamentDbDetailsActivity" />
-        <activity android:name=".patient.AddPatientActivity"></activity>
+        <activity android:name=".patient.AddPatientActivity" />
+        <activity android:name=".disease.AddDiseaseActivity"></activity>
     </application>
 
 </manifest>

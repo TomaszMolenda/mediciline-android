@@ -1,8 +1,12 @@
 package local.tomo.medi.swipe;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import local.tomo.medi.R;
+import local.tomo.medi.disease.AddDiseaseActivity;
+import local.tomo.medi.disease.DiseasesAdapter;
 import local.tomo.medi.ormlite.DatabaseHelper;
+import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Patient;
+import local.tomo.medi.patient.AddPatientActivity;
+import local.tomo.medi.patient.AllPatientsAdapter;
 
 
 public class DiseaseFragment extends Fragment {
@@ -40,13 +49,28 @@ public class DiseaseFragment extends Fragment {
     private Spinner spinnerPatient;
     private Spinner spinnerStatus;
 
+    private RecyclerView recyclerView;
+    private FloatingActionButton fabAdd;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swipe_fragment_disease, container, false);
         spinnerPatient = (Spinner) view.findViewById(R.id.spinnerPatient);
         spinnerStatus = (Spinner) view.findViewById(R.id.spinnerStatus);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rvDiseases);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refreshSpinner();
+        setDiseases();
+
+        fabAdd = (FloatingActionButton) view.findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddDiseaseActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
 
         spinnerPatient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -70,8 +94,23 @@ public class DiseaseFragment extends Fragment {
             }
         });
 
+
+
         return view;
 
+    }
+
+    private void setDiseases() {
+        List<Disease> diseases = null;
+
+        try {
+            diseases = getHelper().getDiseaseDao().queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        DiseasesAdapter diseasesAdapter = new DiseasesAdapter(diseases, getContext());
+        recyclerView.setAdapter(diseasesAdapter);
     }
 
     public void refreshSpinner() {
@@ -110,7 +149,10 @@ public class DiseaseFragment extends Fragment {
         return databaseHelper;
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        setDiseases();
+    }
 
     @Override
     public void onDestroy() {

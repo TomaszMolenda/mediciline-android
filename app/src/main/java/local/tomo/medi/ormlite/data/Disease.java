@@ -4,6 +4,11 @@ import com.j256.ormlite.field.DatabaseField;
 
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Disease {
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "patient_id")
