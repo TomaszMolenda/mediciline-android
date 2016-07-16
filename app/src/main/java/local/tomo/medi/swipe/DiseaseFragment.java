@@ -45,6 +45,7 @@ public class DiseaseFragment extends Fragment {
     private DatabaseHelper databaseHelper;
 
     List<Patient> patients;
+    private int patientId = 0;
 
     private Spinner spinnerPatient;
     private Spinner spinnerStatus;
@@ -53,7 +54,7 @@ public class DiseaseFragment extends Fragment {
     private FloatingActionButton fabAdd;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swipe_fragment_disease, container, false);
         spinnerPatient = (Spinner) view.findViewById(R.id.spinnerPatient);
@@ -63,11 +64,15 @@ public class DiseaseFragment extends Fragment {
         refreshSpinner();
         setDiseases();
 
+
         fabAdd = (FloatingActionButton) view.findViewById(R.id.fabAdd);
+        if(patientId == 0)
+            fabAdd.setVisibility(View.INVISIBLE);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddDiseaseActivity.class);
+                intent.putExtra("patientId", patientId);
                 startActivityForResult(intent, 1);
             }
         });
@@ -76,6 +81,7 @@ public class DiseaseFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Patient patient = patients.get(position);
+                patientId = patient.getId();
                 for (Patient patientIter  : patients) {
                     if (patientIter.equals(patient))
                         patientIter.setLastUse(true);
@@ -86,6 +92,19 @@ public class DiseaseFragment extends Fragment {
                         patientDao.update(patientIter);
                     } catch (SQLException e) {}
                 }
+                setDiseases();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setDiseases();
             }
 
             @Override
@@ -102,13 +121,27 @@ public class DiseaseFragment extends Fragment {
 
     private void setDiseases() {
         List<Disease> diseases = null;
-
+        String status = spinnerStatus.getSelectedItem().toString();
         try {
-            diseases = getHelper().getDiseaseDao().queryForAll();
+            QueryBuilder<Disease, Integer> queryBuilder = getHelper().getDiseaseDao().queryBuilder();
+            queryBuilder.where().eq("patient_id", patientId);
+            switch (status) {
+                case ALL:
+                    break;
+                case ACTIVE:
+                    queryBuilder.where().eq("patient_id", patientId).and().eq("stopLong", 0);
+                    break;
+                case ENDED:
+                    queryBuilder.where().eq("patient_id", patientId).and().ne("stopLong", 0);
+                    break;
+                default:
+                    break;
+            }
+            diseases = queryBuilder.query();
+            Log.d(TAG, "setDiseases: koniec");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         DiseasesAdapter diseasesAdapter = new DiseasesAdapter(diseases, getContext());
         recyclerView.setAdapter(diseasesAdapter);
     }
@@ -125,6 +158,7 @@ public class DiseaseFragment extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        patientId = patients.get(0).getId();
         for (Patient patient : patients) {
                 listPatients.add(patient.getName());
         }

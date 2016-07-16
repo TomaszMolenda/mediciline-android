@@ -36,4 +36,9 @@ public class Disease {
     public Disease() {}
 
 
+    public Disease(String name, Date time, String description) {
+        this.name = name;
+        this.startLong = time.getTime();
+        this.description = description;
+    }
 }

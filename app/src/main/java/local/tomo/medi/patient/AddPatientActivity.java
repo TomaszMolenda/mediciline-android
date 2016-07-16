@@ -34,8 +34,6 @@ import retrofit2.Response;
 
 public class AddPatientActivity extends Activity {
 
-    public static final int REQUEST_CAMERA = 1;
-
     private DatabaseHelper databaseHelper = null;
 
     private EditText editTextName;
