@@ -127,7 +127,7 @@ public class DiseaseFragment extends Fragment {
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
-                        Log.d(TAG, "onLongItemClick: longclick"+position+diseases.get(position).getName());
+
                     }
                 })
         );
