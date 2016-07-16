@@ -42,24 +42,14 @@
                 android:id="@+id/tvId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvBirthdate"
-                android:layout_toRightOf="@id/ivProfilePic"
                 android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/tvIdServer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvId"
-                android:layout_toRightOf="@id/ivProfilePic"
                 android:visibility="invisible"/>
 
-            <TextView
-                android:id="@+id/tvLastUse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvIdServer"
-                android:layout_toRightOf="@id/ivProfilePic" />
 
         </RelativeLayout>
 
