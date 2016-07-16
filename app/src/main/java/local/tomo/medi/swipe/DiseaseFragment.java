@@ -28,17 +28,24 @@ public class DiseaseFragment extends Fragment {
 
     private static final String TAG = "meditomo";
 
+    private static final String ALL = "Wszystkie";
+    private static final String ACTIVE = "Aktywne";
+    private static final String ENDED = "Zakończone";
+
+
     private DatabaseHelper databaseHelper;
 
     List<Patient> patients;
 
     private Spinner spinnerPatient;
+    private Spinner spinnerStatus;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swipe_fragment_disease, container, false);
         spinnerPatient = (Spinner) view.findViewById(R.id.spinnerPatient);
+        spinnerStatus = (Spinner) view.findViewById(R.id.spinnerStatus);
         refreshSpinner();
 
         spinnerPatient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -68,7 +75,9 @@ public class DiseaseFragment extends Fragment {
     }
 
     public void refreshSpinner() {
-        List<String> list = new ArrayList<String>();
+        List<String> listPatients = new ArrayList<String>();
+        List<String> listStatus = new ArrayList<String>();
+
         try {
             Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
             QueryBuilder<Patient, Integer> queryBuilder = patientDao.queryBuilder();
@@ -77,14 +86,21 @@ public class DiseaseFragment extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "refreshSpinner: "+patients.toString());
         for (Patient patient : patients) {
-                list.add(patient.getName());
+                listPatients.add(patient.getName());
         }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPatient.setAdapter(dataAdapter);
+        listStatus.add(ACTIVE);
+        listStatus.add(ENDED);
+        listStatus.add(ALL);
+        ArrayAdapter<String> dataAdapterPatients = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, listPatients);
+        dataAdapterPatients.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPatient.setAdapter(dataAdapterPatients);
+
+        ArrayAdapter<String> dataAdapterStatus = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, listStatus);
+        dataAdapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStatus.setAdapter(dataAdapterStatus);
     }
 
     private DatabaseHelper getHelper() {

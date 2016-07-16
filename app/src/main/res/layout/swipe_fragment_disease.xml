@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,4 +12,13 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
 
-</FrameLayout>
+    <Spinner
+        android:id="@+id/spinnerStatus"
+        android:prompt="@string/spinner_Patient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:layout_below="@id/spinnerPatient"/>
+
+</RelativeLayout>
