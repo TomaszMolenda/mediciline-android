@@ -1,6 +1,8 @@
 package local.tomo.medi.ormlite.data;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.util.Date;
 
@@ -12,6 +14,9 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Patient {
+
+    @ForeignCollectionField
+    private ForeignCollection<Disease> diseases;
 
     @DatabaseField(generatedId = true)
     private int id;
@@ -56,6 +61,5 @@ public class Patient {
         return result;
     }
 
-    //private Set<Disease> diseases;
 
 }
