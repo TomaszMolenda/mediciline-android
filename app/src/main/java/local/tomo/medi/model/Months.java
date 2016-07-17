@@ -1,6 +1,7 @@
 package local.tomo.medi.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -36,6 +37,16 @@ public abstract class Months {
         months.add(DECEMBER);
         months.add(NOVEMBER);
         return months;
+    }
+
+    public static String createDate(long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int monthId = calendar.get(Calendar.MONTH);
+        String month = getMonths().get(monthId);
+        int year = calendar.get(Calendar.YEAR);
+        return day + " " + month + " " + year;
     }
 
 

@@ -7,11 +7,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -26,6 +28,8 @@ import local.tomo.medi.patient.AllPatientsAdapter;
 
 
 public class PatientFragment extends Fragment {
+
+    private static final String TAG = "meditomo";
 
     private DatabaseHelper databaseHelper;
 
@@ -72,11 +76,14 @@ public class PatientFragment extends Fragment {
 
     private void setPatients() {
         try {
-            patients = getHelper().getPatientDao().queryForAll();
+            //patients = getHelper().getPatientDao().queryForAll();
+            QueryBuilder<Patient, Integer> queryBuilder = getHelper().getPatientDao().queryBuilder();
+            patients = queryBuilder.query();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         AllPatientsAdapter allPatientsAdapter = new AllPatientsAdapter(patients, getContext());
         recyclerViewAllPatients.setAdapter(allPatientsAdapter);
     }

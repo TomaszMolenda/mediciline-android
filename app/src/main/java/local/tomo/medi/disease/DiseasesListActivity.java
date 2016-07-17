@@ -20,6 +20,7 @@ import java.util.List;
 
 import local.tomo.medi.R;
 import local.tomo.medi.RecyclerItemClickListener;
+import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Patient;
@@ -60,7 +61,7 @@ public class DiseasesListActivity extends AppCompatActivity {
             imageViewProfilePic.setImageURI(Uri.fromFile(new File(patient.getPhotoUrl())));
         }
         textViewName.setText(patient.getName());
-        textViewBirthday.setText(patient.getBirthdayLong()+"");
+        textViewBirthday.setText(Months.createDate(patient.getBirthdayLong()));
 
 
         recyclerViewDiseases.setLayoutManager(new LinearLayoutManager(this));

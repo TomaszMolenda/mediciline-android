@@ -15,40 +15,38 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/ivProfilePic"
+                android:id="@+id/imageViewProfilePic"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginRight="16dp" />
 
             <TextView
-                android:id="@+id/tvPatientName"
+                android:id="@+id/textViewPatientName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
-                android:layout_toRightOf="@id/ivProfilePic" />
+                android:textColor="#B40431"
+                android:layout_toRightOf="@id/imageViewProfilePic" />
 
             <TextView
-                android:id="@+id/tvBirthdate"
+                android:id="@+id/textViewBirthdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvPatientName"
-                android:layout_toRightOf="@id/ivProfilePic" />
+                android:layout_below="@id/textViewPatientName"
+                android:textColor="#000000"
+                android:layout_toRightOf="@id/imageViewProfilePic" />
 
             <TextView
-                android:id="@+id/tvId"
+                android:id="@+id/textViewDiseasesCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/tvIdServer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"/>
+                android:text="Liczba chorób: "
+                android:textColor="#000000"
+                android:layout_below="@id/textViewBirthdate"
+                android:layout_toRightOf="@id/imageViewProfilePic" />
 
 
         </RelativeLayout>

@@ -3,7 +3,6 @@ package local.tomo.medi.patient;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import local.tomo.medi.R;
+import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.data.Patient;
 
 /**
@@ -43,17 +40,13 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
     public void onBindViewHolder(AllPatientsAdapter.PatientViewHolder holder, int position) {
         Patient patient = patients.get(position);
         if(patient.getPhotoUrl() != null) {
-            holder.ivProfilePic.setImageURI(Uri.fromFile(new File(patient.getPhotoUrl())));
-            holder.ivProfilePic.setRotation(270);
+            holder.imageViewProfilePic.setImageURI(Uri.fromFile(new File(patient.getPhotoUrl())));
+            holder.imageViewProfilePic.setRotation(270);
         }
 
-        holder.tvPatientName.setText(patient.getName().toString());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(patient.getBirthdayLong());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        holder.tvBirthdate.setText("Data urodzenia " + sdf.format(calendar.getTime()).toString());
-        holder.tvId.setText(patient.getId()+"");
-        holder.tvIdServer.setText(patient.getIdServer()+"");
+        holder.textViewPatientName.setText(patient.getName().toString());
+        holder.textViewBirthdate.setText(Months.createDate(patient.getBirthdayLong()));
+        holder.textViewDiseasesCount.append(patient.getDiseases().size()+"");
     }
 
     @Override
@@ -63,18 +56,16 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
 
     public static class PatientViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView ivProfilePic;
-        TextView tvPatientName;
-        TextView tvBirthdate;
-        TextView tvId;
-        TextView tvIdServer;
+        ImageView imageViewProfilePic;
+        TextView textViewPatientName;
+        TextView textViewBirthdate;
+        TextView textViewDiseasesCount;
         public PatientViewHolder(View itemView) {
             super(itemView);
-            ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
-            tvPatientName = (TextView) itemView.findViewById(R.id.tvPatientName);
-            tvBirthdate = (TextView) itemView.findViewById(R.id.tvBirthdate);
-            tvId = (TextView) itemView.findViewById(R.id.tvId);
-            tvIdServer = (TextView) itemView.findViewById(R.id.tvIdServer);
+            imageViewProfilePic = (ImageView) itemView.findViewById(R.id.imageViewProfilePic);
+            textViewPatientName = (TextView) itemView.findViewById(R.id.textViewPatientName);
+            textViewBirthdate = (TextView) itemView.findViewById(R.id.textViewBirthdate);
+            textViewDiseasesCount = (TextView) itemView.findViewById(R.id.textViewDiseasesCount);
         }
     }
 }

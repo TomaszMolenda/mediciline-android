@@ -1,22 +1,17 @@
 package local.tomo.medi.disease;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import local.tomo.medi.R;
+import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.data.Disease;
-import local.tomo.medi.ormlite.data.Patient;
 
 /**
  * Created by tomo on 2016-07-15.
@@ -41,7 +36,8 @@ public class DiseasesAdapter extends RecyclerView.Adapter<DiseasesAdapter.Diseas
     @Override
     public void onBindViewHolder(DiseasesAdapter.DiseaseViewHolder holder, int position) {
         Disease disease = diseases.get(position);
-        holder.tvDiseaseName.setText(disease.getName());
+        holder.textViewName.setText(disease.getName());
+        holder.textViewStartDate.append(Months.createDate(disease.getStartLong()));
     }
 
     @Override
@@ -51,11 +47,13 @@ public class DiseasesAdapter extends RecyclerView.Adapter<DiseasesAdapter.Diseas
 
     public static class DiseaseViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvDiseaseName;
+        TextView textViewName;
+        TextView textViewStartDate;
 
         public DiseaseViewHolder(View itemView) {
             super(itemView);
-            tvDiseaseName = (TextView) itemView.findViewById(R.id.tvDiseaseName);
+            textViewName = (TextView) itemView.findViewById(R.id.textViewName);
+            textViewStartDate = (TextView) itemView.findViewById(R.id.textViewStartDate);
         }
     }
 }
