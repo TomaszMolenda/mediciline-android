@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.query.In;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -27,8 +26,8 @@ import local.tomo.medi.ormlite.data.User;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "medis14.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final String DATABASE_NAME = "medis.db";
+    private static final int DATABASE_VERSION = 1;
 
     private Dao<User, Integer> userDao;
     private Dao<Medicament, Integer> medicamentDao;
@@ -51,8 +50,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Patient.class);
             TableUtils.createTable(connectionSource, Disease.class);
             TableUtils.createTable(connectionSource, Medicament_Disease.class);
-//            TableUtils.createTable(connectionSource, DbMedicament.class);
-//            TableUtils.createTable(connectionSource, MedicamentAdditional.class);
+            if(DATABASE_VERSION == 1) {
+                TableUtils.createTable(connectionSource, DbMedicament.class);
+                TableUtils.createTable(connectionSource, MedicamentAdditional.class);
+            }
+
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
         }
@@ -66,8 +68,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Patient.class, true);
             TableUtils.dropTable(connectionSource, Disease.class, true);
             TableUtils.dropTable(connectionSource, Medicament_Disease.class, true);
-//            TableUtils.dropTable(connectionSource, DbMedicament.class, true);
-//            TableUtils.dropTable(connectionSource, MedicamentAdditional.class, true);
+            if (DATABASE_VERSION == 1) {
+                TableUtils.dropTable(connectionSource, DbMedicament.class, true);
+                TableUtils.dropTable(connectionSource, MedicamentAdditional.class, true);
+            }
+
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVersion + " to new "

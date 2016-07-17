@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +17,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import local.tomo.medi.R;
+import local.tomo.medi.RecyclerItemClickListener;
+import local.tomo.medi.disease.DiseasesListActivity;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Patient;
 import local.tomo.medi.patient.AddPatientActivity;
@@ -28,34 +27,50 @@ import local.tomo.medi.patient.AllPatientsAdapter;
 
 public class PatientFragment extends Fragment {
 
-    private DatabaseHelper databaseHelper = null;
+    private DatabaseHelper databaseHelper;
 
-    private RecyclerView recyclerView;
-    private FloatingActionButton fabAdd;
+    List<Patient> patients;
+
+    private RecyclerView recyclerViewAllPatients;
+    private FloatingActionButton floatingActionButtonAdd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swipe_fragment_patient, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.rvAllPatients);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewAllPatients = (RecyclerView) view.findViewById(R.id.recyclerViewAllPatients);
+        recyclerViewAllPatients.setLayoutManager(new LinearLayoutManager(getActivity()));
         setPatients();
 
-        fabAdd = (FloatingActionButton) view.findViewById(R.id.fabAdd);
-        fabAdd.setOnClickListener(new View.OnClickListener() {
+        floatingActionButtonAdd = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonAdd);
+        floatingActionButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddPatientActivity.class);
                 startActivityForResult(intent, 1);
             }
         });
+
+        //http://stackoverflow.com/a/26196831
+        recyclerViewAllPatients.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), recyclerViewAllPatients,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getActivity(), DiseasesListActivity.class);
+                        intent.putExtra("patientId", patients.get(position).getId());
+                        startActivityForResult(intent, 1);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
+
         return view;
     }
 
     private void setPatients() {
-        List<Patient> patients = null;
-
         try {
             patients = getHelper().getPatientDao().queryForAll();
         } catch (SQLException e) {
@@ -63,16 +78,12 @@ public class PatientFragment extends Fragment {
         }
 
         AllPatientsAdapter allPatientsAdapter = new AllPatientsAdapter(patients, getContext());
-        recyclerView.setAdapter(allPatientsAdapter);
+        recyclerViewAllPatients.setAdapter(allPatientsAdapter);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         setPatients();
-        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
-        FragmentStatePagerAdapter a = (FragmentStatePagerAdapter) pager.getAdapter();
-        DiseaseFragment diseaseFragment = (DiseaseFragment) a.instantiateItem(pager, 1);
-        diseaseFragment.refreshSpinner();
     }
 
     private DatabaseHelper getHelper() {

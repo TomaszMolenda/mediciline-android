@@ -29,6 +29,7 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
     private TextView textViewDescription;
 
     private Button buttonAddMedicament;
+    private Button buttonMedicaments;
 
 
     @Override
@@ -54,6 +55,7 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
         textViewFinish = (TextView) findViewById(R.id.textViewFinish);
         textViewDescription = (TextView) findViewById(R.id.textViewDescription);
         buttonAddMedicament = (Button) findViewById(R.id.buttonAddMedicament);
+        buttonMedicaments = (Button) findViewById(R.id.buttonMedicaments);
 
         textViewName.append(disease.getName());
 
@@ -74,6 +76,16 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MedicamentsListActivity.class);
                 intent.putExtra("diseaseId", diseaseId);
+                intent.putExtra("action", MedicamentsListActivity.ADD);
+                startActivity(intent);
+            }
+        });
+        buttonMedicaments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MedicamentsListActivity.class);
+                intent.putExtra("diseaseId", diseaseId);
+                intent.putExtra("action", MedicamentsListActivity.REMOVE);
                 startActivity(intent);
             }
         });

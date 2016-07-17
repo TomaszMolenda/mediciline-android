@@ -31,7 +31,7 @@ import retrofit2.Call;
 
 public class LoginActivity extends Activity {
 
-    private static final int MEDICAMENTDB_COUNT = 11575;
+    public static final int MEDICAMENTDB_COUNT = 11575;
 
     private static String PREF_NAME = "medi_pref";
     private static String PREF_USER = "username";
@@ -62,11 +62,11 @@ public class LoginActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-//            MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext(), progressDialog);
-//            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
-//
-//            MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext(), progressDialog);
-//            medicamentsDbJSON.getMedicamentsDbFromFile();
+            MedicamentsDbAdditionalJSON medicamentsDbAdditionalJSON = new MedicamentsDbAdditionalJSON(getResources(), getApplicationContext(), progressDialog);
+            medicamentsDbAdditionalJSON.getMedicamentAdditionalFromFile();
+
+            MedicamentsDbJSON medicamentsDbJSON = new MedicamentsDbJSON(getResources(), getApplicationContext(), progressDialog);
+            medicamentsDbJSON.getMedicamentsDbFromFile();
             return null;
         }
 
@@ -100,8 +100,7 @@ public class LoginActivity extends Activity {
         editTextLoginUserName = (EditText) findViewById(R.id.editTextLoginUserName);
         editTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
 
-        Background background = new Background(getApplicationContext(), getResources());
-        background.execute();
+
 
 
 
@@ -119,6 +118,10 @@ public class LoginActivity extends Activity {
             user.setAuth(auth);
             Log.d("meditomo", "2222222:");
             login();
+        }
+        else {
+            Background background = new Background(getApplicationContext(), getResources());
+            background.execute();
         }
     }
 

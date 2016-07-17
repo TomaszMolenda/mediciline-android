@@ -10,6 +10,15 @@
     android:orientation="vertical"
     tools:context="local.tomo.medi.disease.MedicamentsListActivity">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextSearch"
+        android:hint="szukaj leku"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#000000"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

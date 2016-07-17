@@ -32,7 +32,8 @@
         <activity android:name=".patient.AddPatientActivity" />
         <activity android:name=".disease.AddDiseaseActivity" />
         <activity android:name=".disease.DiseaseDetailsActivity" />
-        <activity android:name=".disease.MedicamentsListActivity"></activity>
+        <activity android:name=".disease.MedicamentsListActivity" />
+        <activity android:name=".disease.DiseasesListActivity"></activity>
     </application>
 
 </manifest>

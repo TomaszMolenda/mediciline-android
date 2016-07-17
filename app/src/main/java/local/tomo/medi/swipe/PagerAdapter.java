@@ -25,12 +25,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 MedicamentFragment medicamentFragment = new MedicamentFragment();
                 return medicamentFragment;
             case 1:
-                DiseaseFragment diseaseFragment = new DiseaseFragment();
-                return diseaseFragment;
-            case 2:
                 PatientFragment patientFragment = new PatientFragment();
                 return patientFragment;
-            case 3:
+            case 2:
                 DosageFragment dosageFragment = new DosageFragment();
                 return dosageFragment;
             default:

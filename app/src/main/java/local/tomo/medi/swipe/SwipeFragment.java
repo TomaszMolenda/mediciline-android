@@ -23,7 +23,6 @@ public class SwipeFragment extends Fragment {
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Leki"));
-        tabLayout.addTab(tabLayout.newTab().setText("Choroby"));
         tabLayout.addTab(tabLayout.newTab().setText("Osoby"));
         tabLayout.addTab(tabLayout.newTab().setText("Dawki"));
 
@@ -33,7 +32,7 @@ public class SwipeFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.pager);
 
         PagerAdapter adapter = new PagerAdapter
-                (getChildFragmentManager(), 4);
+                (getChildFragmentManager(), 3);
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

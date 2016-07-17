@@ -91,7 +91,6 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Log.d(TAG, "onCheckedChanged: " + medicament.getName() + "     ssss:" + isChecked);
                     if (isChecked)
                         medicament.setChecked(true);
                     else
