@@ -5,6 +5,7 @@ package local.tomo.medi.medicament;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import local.tomo.medi.R;
+import local.tomo.medi.disease.DiseasesInMedicamentActivity;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
@@ -98,14 +100,21 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-
+                            Intent intent = null;
                             switch (item.getItemId()) {
                                 case R.id.menuMedicamentArchive:
                                     AlertDialog alertDialog = confirmDelete(medicament);
                                     alertDialog.show();
                                     return true;
-                                case R.id.menuMedicamentChangeDate:
-                                    //// TODO: 2016-07-02 implement change date
+                                case R.id.menuMedicamentInfo:
+                                    intent = new Intent(getContext(), MedicamentDbDetailsActivity.class);
+                                    intent.putExtra("packageID", medicament.getPackageID());
+                                    medicamentsActivity.startActivity(intent);
+                                    return true;
+                                case R.id.menuMedicamentDiseases:
+                                    intent = new Intent(getContext(), DiseasesInMedicamentActivity.class);
+                                    intent.putExtra("medicamentId", medicament.getId());
+                                    medicamentsActivity.startActivity(intent);
                                     return true;
                                 default:
                                     return false;
