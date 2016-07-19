@@ -70,10 +70,6 @@ public class MedicamentsDbActivity extends AppCompatActivity {
                     listView.setAdapter(null);
                     dbMedicaments.clear();
                 }
-//                int i = text.indexOf("(");
-//                if(i != -1)
-//                    text = text.substring(0, i - 1);
-//                textViewAddMedicamentInfo.setText(text + " (znaleziono " + dbMedicaments.size() + " szt.)");
             }
 
             @Override

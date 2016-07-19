@@ -103,8 +103,8 @@ public class DiseasesListActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        DiseasesAdapter diseasesAdapter = new DiseasesAdapter(diseases, this);
-        recyclerViewDiseases.setAdapter(diseasesAdapter);
+        DiseasesListAdapter diseasesListAdapter = new DiseasesListAdapter(diseases, this);
+        recyclerViewDiseases.setAdapter(diseasesListAdapter);
     }
 
     private DatabaseHelper getHelper() {
