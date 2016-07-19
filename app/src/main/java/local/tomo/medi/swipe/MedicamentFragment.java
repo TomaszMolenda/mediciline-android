@@ -10,16 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+
+import java.sql.SQLException;
+
 import local.tomo.medi.medicament.AddMedicamentActivity;
 import local.tomo.medi.medicament.MedicamentsActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.medicament.MedicamentsDbActivity;
+import local.tomo.medi.ormlite.DatabaseHelper;
+import local.tomo.medi.ormlite.data.Medicament;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MedicamentFragment extends Fragment {
+
+    private DatabaseHelper databaseHelper;
 
     private Button buttonMenuMedicamentAll;
     private Button buttonMenuMedicamentAdd;
@@ -41,6 +51,8 @@ public class MedicamentFragment extends Fragment {
         buttonMenuMedicamentAdd = (Button) view.findViewById(R.id.buttonMenuMedicamentAdd);
         buttonMenuMedicamentOutOfDate = (Button) view.findViewById(R.id.buttonMenuMedicamentOutOfDate);
 
+        prepareButtonsCount();
+
         buttonMenuMedicamentAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +68,7 @@ public class MedicamentFragment extends Fragment {
                 buttonMenuMedicamentActive.setEnabled(false);
                 Intent intent = new Intent(getActivity(), MedicamentsActivity.class);
                 intent.putExtra("medicaments", MedicamentsActivity.ACTIVE_MEDICAMENTS);
-                getActivity().startActivity(intent);
+                getActivity().startActivityForResult(intent, 1);
             }
         });
 
@@ -104,6 +116,32 @@ public class MedicamentFragment extends Fragment {
 
     }
 
+    private void prepareButtonsCount() {
+        try {
+            QueryBuilder<Medicament, Integer> queryBuilder = getHelper().getMedicamentDao().queryBuilder();
+            queryBuilder.where().eq("archive", false);
+            buttonMenuMedicamentActive.setText("W apteczce\n" + queryBuilder.countOf());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = OpenHelperManager.getHelper(getContext(),DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroyView();
+        if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -113,6 +151,12 @@ public class MedicamentFragment extends Fragment {
         buttonMenuMedicamentScan.setEnabled(true);
         buttonMenuMedicamentArchive.setEnabled(true);
         buttonMenuMedicamentOutOfDate.setEnabled(true);
+        prepareButtonsCount();
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        prepareButtonsCount();
     }
 }
