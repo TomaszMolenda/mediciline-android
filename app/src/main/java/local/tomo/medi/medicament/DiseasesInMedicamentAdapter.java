@@ -1,4 +1,4 @@
-package local.tomo.medi.disease;
+package local.tomo.medi.medicament;
 
 import android.content.Context;
 import android.net.Uri;

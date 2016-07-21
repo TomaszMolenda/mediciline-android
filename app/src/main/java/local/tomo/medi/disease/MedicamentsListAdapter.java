@@ -84,6 +84,7 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
             TextView textViewName = (TextView) v.findViewById(R.id.textViewName);
             TextView textViewProducer = (TextView) v.findViewById(R.id.textViewProducer);
             TextView textViewPack = (TextView) v.findViewById(R.id.textViewPack);
+            TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
             TextView textViewPrice = (TextView) v.findViewById(R.id.textViewPrice);
             TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
 
@@ -102,7 +103,8 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
 
             textViewName.setText(medicament.getName());
             textViewProducer.setText("Producent: " + medicament.getProducent());
-            textViewPack.setText("Rodzaj: " + medicament.getPack());
+            textViewPack.setText("Opakowanie: " + medicament.getPack());
+            textViewKind.setText("Rodzaj: " + medicament.getKind());
             textViewPrice.setText("Cena: " + medicament.getPrice());
 
             long date = medicament.getDate();

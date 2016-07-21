@@ -26,7 +26,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import local.tomo.medi.R;
-import local.tomo.medi.disease.DiseasesInMedicamentActivity;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
@@ -78,18 +77,15 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
         final Medicament medicament = getItem(position);
 
         if(medicament!=null) {
-            TextView rowAllMedicamentName = (TextView) v.findViewById(R.id.rowAllMedicamentName);
-            TextView rowAllMedicamentProducer = (TextView) v.findViewById(R.id.rowAllMedicamentProducer);
-            TextView rowAllMedicamentId = (TextView) v.findViewById(R.id.rowAllMedicamentId);
-            TextView rowAllMedicamentIdServer = (TextView) v.findViewById(R.id.rowAllMedicamentIdServer);
-            TextView rowAllMedicamentProductLineID = (TextView) v.findViewById(R.id.rowAllMedicamentProductLineID);
-            TextView rowAllMedicamentPackageID = (TextView) v.findViewById(R.id.rowAllMedicamentPackageID);
-            TextView rowAllMedicamentPrice = (TextView) v.findViewById(R.id.rowAllMedicamentPrice);
-            TextView rowAllMedicamentDate = (TextView) v.findViewById(R.id.rowAllMedicamentDate);
-            TextView rowAllMedicamentPack = (TextView) v.findViewById(R.id.rowAllMedicamentPack);
+            TextView textViewName = (TextView) v.findViewById(R.id.textViewName);
+            TextView textViewProducer = (TextView) v.findViewById(R.id.textViewProducer);
+            TextView textViewPrice = (TextView) v.findViewById(R.id.textViewPrice);
+            TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
+            TextView textViewPack = (TextView) v.findViewById(R.id.textViewPack);
+            TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
 
-            ImageView rowAllMedicamentNoSynchro = (ImageView) v.findViewById(R.id.rowAllMedicamentNoSynchro);
-            View menuIcon = v.findViewById(R.id.rowAllMedicamentMenu);
+            ImageView imageViewNoSynchro = (ImageView) v.findViewById(R.id.imageViewNoSynchro);
+            View menuIcon = v.findViewById(R.id.imageButtonMenu);
             if(medicamentsActivity.showPopUpMenu()) {
                 menuIcon.setVisibility(View.VISIBLE);
             }
@@ -128,25 +124,23 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             });
 
 
-            rowAllMedicamentName.setText(medicament.getName());
-            rowAllMedicamentProducer.setText("Producent: " + medicament.getProducent());
+            textViewName.setText(medicament.getName());
+            textViewProducer.setText("Producent: " + medicament.getProducent());
 
-            rowAllMedicamentId.setText(""+medicament.getId());
             int idServer = medicament.getIdServer();
-            if (idServer == 0) rowAllMedicamentNoSynchro.setVisibility(ImageView.VISIBLE);
-            else rowAllMedicamentNoSynchro.setVisibility(ImageView.INVISIBLE);
-            rowAllMedicamentIdServer.setText("idServer: "+ idServer);
-            rowAllMedicamentProductLineID.setText("ProductLineId: "+medicament.getProductLineID());
-            rowAllMedicamentPackageID.setText("PackageId: "+medicament.getPackageID());
-            rowAllMedicamentPrice.setText("Cena: " + medicament.getPrice());
-            rowAllMedicamentPack.setText("Rodzaj: " + medicament.getPack());
+            if (idServer == 0) imageViewNoSynchro.setVisibility(ImageView.VISIBLE);
+            else imageViewNoSynchro.setVisibility(ImageView.INVISIBLE);
+            textViewPrice.setText("Cena: " + medicament.getPrice());
+            textViewPack.setText("Opakowanie: " + medicament.getPack());
+            textViewKind.setText("Rodzaj: " + medicament.getKind());
+
 
             long date = medicament.getDate();
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(date);
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
-            rowAllMedicamentDate.setText("Data: " + months.get(month) + " " + year);
+            textViewDate.setText("Data: " + months.get(month) + " " + year);
         }
         return  v;
     }

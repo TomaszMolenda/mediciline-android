@@ -4,30 +4,6 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/rowAllMedicamentDbId"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textSize="15sp"
-        android:visibility="visible">
-    </TextView>
-
-    <TextView
-        android:id="@+id/rowAllMedicamentDbProductLineID"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textSize="15sp"
-        android:visibility="invisible">
-    </TextView>
-
-    <TextView
-        android:id="@+id/rowAllMedicamentDbPackageID"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textSize="15sp"
-        android:visibility="invisible">
-    </TextView>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

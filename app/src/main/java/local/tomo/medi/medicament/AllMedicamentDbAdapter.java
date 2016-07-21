@@ -69,18 +69,12 @@ public class AllMedicamentDbAdapter extends ArrayAdapter<DbMedicament> {
         if(dbMedicament!=null) {
             TextView rowAllMedicamentDbName = (TextView) v.findViewById(R.id.rowAllMedicamentDbName);
             TextView rowAllMedicamentDbProducer = (TextView) v.findViewById(R.id.rowAllMedicamentDbProducer);
-            TextView rowAllMedicamentDbId = (TextView) v.findViewById(R.id.rowAllMedicamentDbId);
-            TextView rowAllMedicamentDbProductLineID = (TextView) v.findViewById(R.id.rowAllMedicamentDbProductLineID);
-            TextView rowAllMedicamentDbPackageID = (TextView) v.findViewById(R.id.rowAllMedicamentDbPackageID);
             TextView rowAllMedicamentDbPrice = (TextView) v.findViewById(R.id.rowAllMedicamentDbPrice);
             TextView rowAllMedicamentDbPack = (TextView) v.findViewById(R.id.rowAllMedicamentDbPack);
 
             rowAllMedicamentDbName.setText(dbMedicament.getProductName());
             rowAllMedicamentDbProducer.setText("Producent: " + dbMedicament.getProducer());
 
-            rowAllMedicamentDbId.setText(""+dbMedicament.getPackageID());
-            rowAllMedicamentDbProductLineID.setText("ProductLineId: "+dbMedicament.getMedicamentAdditional().getProductLineID());
-            rowAllMedicamentDbPackageID.setText("PackageId: "+dbMedicament.getPackageID());
             rowAllMedicamentDbPrice.setText("Cena: " + dbMedicament.getPrice());
             rowAllMedicamentDbPack.setText("Rodzaj: " + dbMedicament.getPack());
         }

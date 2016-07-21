@@ -4,40 +4,6 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/rowAllMedicamentId"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textSize="15sp"
-        android:visibility="visible">
-    </TextView>
-
-    <TextView
-        android:id="@+id/rowAllMedicamentIdServer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textSize="15sp"
-        android:visibility="visible">
-    </TextView>
-
-    <TextView
-        android:id="@+id/rowAllMedicamentProductLineID"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textSize="15sp"
-        android:visibility="invisible">
-    </TextView>
-
-    <TextView
-        android:id="@+id/rowAllMedicamentPackageID"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textSize="15sp"
-        android:visibility="invisible">
-    </TextView>
-
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +12,7 @@
 
 
         <ImageView
-            android:id="@+id/rowAllMedicamentNoSynchro"
+            android:id="@+id/imageViewNoSynchro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -54,7 +20,7 @@
             android:src="@drawable/ic_sync_disabled_black_18dp"
             android:visibility="invisible"/>
         <TextView
-            android:id="@+id/rowAllMedicamentName"
+            android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -80,34 +46,39 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/rowAllMedicamentProducer"
+                android:id="@+id/textViewProducer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="ddddd"
                 android:textColor="#000000">
             </TextView>
 
             <TextView
-                android:id="@+id/rowAllMedicamentPack"
+                android:id="@+id/textViewPack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="ddddd"
                 android:textColor="#000000">
             </TextView>
 
             <TextView
-                android:id="@+id/rowAllMedicamentPrice"
+                android:id="@+id/textViewKind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="ddddd"
                 android:textColor="#000000">
             </TextView>
 
             <TextView
-                android:id="@+id/rowAllMedicamentDate"
+                android:id="@+id/textViewPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textColor="#000000">
+            </TextView>
+
+            <TextView
+                android:id="@+id/textViewDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
@@ -119,7 +90,7 @@
 
 
         <ImageButton
-            android:id="@+id/rowAllMedicamentMenu"
+            android:id="@+id/imageButtonMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

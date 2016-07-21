@@ -34,7 +34,7 @@
         <activity android:name=".disease.DiseaseDetailsActivity" />
         <activity android:name=".disease.MedicamentsListActivity" />
         <activity android:name=".disease.DiseasesListActivity" />
-        <activity android:name=".disease.DiseasesInMedicamentActivity"></activity>
+        <activity android:name=".medicament.DiseasesInMedicamentActivity"></activity>
     </application>
 
 </manifest>

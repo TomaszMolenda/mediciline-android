@@ -1,11 +1,13 @@
 package local.tomo.medi.medicament;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,11 +54,12 @@ public class AddMedicamentActivity extends Activity {
 
     TextView textViewAddMedicamentInfo;
 
-    EditText editTextAddMedicament;
-    EditText editTextAddMedicamentName;
-    EditText editTextAddMedicamentProducer;
-    EditText editTextAddMedicamentKind;
-    EditText editTextAddMedicamentPrice;
+    EditText editTextSearch;
+    EditText editTextName;
+    EditText editTextProducer;
+    EditText editTextKind;
+    EditText editTextPack;
+    EditText editTextPrice;
 
     LinearLayout linearLayout1;
     LinearLayout linearLayout2;
@@ -73,7 +76,7 @@ public class AddMedicamentActivity extends Activity {
     private int month;
     private int year;
 
-    Button buttonAddMedicamentSave;
+    Button buttonSave;
 
     String searchText;
 
@@ -109,16 +112,17 @@ public class AddMedicamentActivity extends Activity {
             }
         }
 
-        editTextAddMedicament = (EditText) findViewById(R.id.editTextAddMedicament);
+        editTextSearch = (EditText) findViewById(R.id.editTextSearch);
 
-        listView = (ListView) findViewById(R.id.listViewAddMedicament);
+        listView = (ListView) findViewById(R.id.listView);
 
-        textViewAddMedicamentInfo = (TextView) findViewById(R.id.textViewAddMedicamentInfo);
+        textViewAddMedicamentInfo = (TextView) findViewById(R.id.textViewInfo);
 
-        editTextAddMedicamentName = (EditText) findViewById(R.id.editTextAddMedicamentName);
-        editTextAddMedicamentProducer = (EditText) findViewById(R.id.editTextAddMedicamentProducer);
-        editTextAddMedicamentKind = (EditText) findViewById(R.id.editTextAddMedicamentKind);
-        editTextAddMedicamentPrice = (EditText) findViewById(R.id.editTextAddMedicamentPrice);
+        editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextProducer = (EditText) findViewById(R.id.editTextProducer);
+        editTextKind = (EditText) findViewById(R.id.editTextKind);
+        editTextPack = (EditText) findViewById(R.id.editTextPack);
+        editTextPrice = (EditText) findViewById(R.id.editTextPrice);
 
         linearLayout1 = (LinearLayout) findViewById(R.id.linearLayout1);
         linearLayout2 = (LinearLayout) findViewById(R.id.linearLayout2);
@@ -132,7 +136,7 @@ public class AddMedicamentActivity extends Activity {
         imageButtonYearDown = (ImageButton) findViewById(R.id.imageButtonYearDown);
         imageButtonYearUp = (ImageButton) findViewById(R.id.imageButtonYearUp);
 
-        buttonAddMedicamentSave = (Button) findViewById(R.id.buttonAddMedicamentSave);
+        buttonSave = (Button) findViewById(R.id.buttonSave);
 
         calendar.setTime(new Date());
         date = calendar.getTimeInMillis();
@@ -149,7 +153,7 @@ public class AddMedicamentActivity extends Activity {
         dbMedicaments = new ArrayList<DbMedicament>();
         addMedicamentAdapter = null;
 
-        editTextAddMedicament.addTextChangedListener(new TextWatcher() {
+        editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 setVisibility(false);
@@ -189,7 +193,7 @@ public class AddMedicamentActivity extends Activity {
             }
         });
 
-        editTextAddMedicament.setOnClickListener(new View.OnClickListener() {
+        editTextSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setVisibility(false);
@@ -201,16 +205,24 @@ public class AddMedicamentActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                //View view = this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
                 dbMedicament = (DbMedicament) parent.getItemAtPosition(position);
                 listView.setAdapter(null);
-                editTextAddMedicamentName.setText(dbMedicament.getProductName());
-                editTextAddMedicamentProducer.setText("Producent: " + dbMedicament.getProducer());
-                editTextAddMedicamentKind.setText("Rodzaj: " + dbMedicament.getPack());
-                editTextAddMedicamentPrice.setText(Double.toString(dbMedicament.getPrice()));
+                editTextName.setText(dbMedicament.getProductName());
+                editTextProducer.setText("Producent: " + dbMedicament.getProducer());
+                editTextPack.setText("Opakowanie: " + dbMedicament.getPack());
+                editTextKind.setText("Rodzaj: " + dbMedicament.getForm());
+                editTextPrice.setText(Double.toString(dbMedicament.getPrice()));
                 setVisibility(true);
-                buttonAddMedicamentSave.setOnClickListener(new View.OnClickListener() {
+                buttonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dbMedicament.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
                         medicament = new Medicament(dbMedicament);
                         medicament.setDate(date);
                         try {
@@ -308,21 +320,23 @@ public class AddMedicamentActivity extends Activity {
 
     public void setVisibility(boolean visibility) {
         if (visibility) {
-            editTextAddMedicamentName.setVisibility(EditText.VISIBLE);
-            editTextAddMedicamentProducer.setVisibility(EditText.VISIBLE);
-            editTextAddMedicamentKind.setVisibility(EditText.VISIBLE);
-            editTextAddMedicamentPrice.setVisibility(EditText.VISIBLE);
-            buttonAddMedicamentSave.setVisibility(Button.VISIBLE);
+            editTextName.setVisibility(EditText.VISIBLE);
+            editTextProducer.setVisibility(EditText.VISIBLE);
+            editTextKind.setVisibility(EditText.VISIBLE);
+            editTextPack.setVisibility(EditText.VISIBLE);
+            editTextPrice.setVisibility(EditText.VISIBLE);
+            buttonSave.setVisibility(Button.VISIBLE);
             linearLayout1.setVisibility(LinearLayout.VISIBLE);
             linearLayout2.setVisibility(LinearLayout.VISIBLE);
             linearLayout3.setVisibility(LinearLayout.VISIBLE);
         }
         else {
-            editTextAddMedicamentName.setVisibility(EditText.INVISIBLE);
-            editTextAddMedicamentProducer.setVisibility(EditText.INVISIBLE);
-            editTextAddMedicamentKind.setVisibility(EditText.INVISIBLE);
-            editTextAddMedicamentPrice.setVisibility(EditText.INVISIBLE);
-            buttonAddMedicamentSave.setVisibility(Button.INVISIBLE);
+            editTextName.setVisibility(EditText.INVISIBLE);
+            editTextProducer.setVisibility(EditText.INVISIBLE);
+            editTextKind.setVisibility(EditText.INVISIBLE);
+            editTextPack.setVisibility(EditText.INVISIBLE);
+            editTextPrice.setVisibility(EditText.INVISIBLE);
+            buttonSave.setVisibility(Button.INVISIBLE);
             linearLayout1.setVisibility(LinearLayout.INVISIBLE);
             linearLayout2.setVisibility(LinearLayout.INVISIBLE);
             linearLayout3.setVisibility(LinearLayout.INVISIBLE);
@@ -352,7 +366,7 @@ public class AddMedicamentActivity extends Activity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result.getContents() != null) {
             String barCode = result.getContents().toString();
-            editTextAddMedicament.setText(barCode);
+            editTextSearch.setText(barCode);
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

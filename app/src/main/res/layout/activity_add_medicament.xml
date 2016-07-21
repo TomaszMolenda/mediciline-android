@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wpisz nazwę leku"
-        android:id="@+id/textViewAddMedicamentInfo"
+        android:id="@+id/textViewInfo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textColor="#000000"/>
@@ -21,9 +21,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextAddMedicament"
+        android:id="@+id/editTextSearch"
         android:hint="minimum 3 znaki"
-        android:layout_below="@+id/textViewAddMedicamentInfo"
+        android:layout_below="@+id/textViewInfo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#000000"/>
@@ -31,51 +31,66 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listViewAddMedicament"
-        android:layout_below="@+id/editTextAddMedicament"
+        android:id="@+id/listView"
+        android:layout_below="@+id/editTextSearch"
         android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextAddMedicamentName"
-        android:layout_below="@+id/editTextAddMedicament"
+        android:id="@+id/editTextName"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/editTextSearch"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:visibility="invisible"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:textColor="#0000FF"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextAddMedicamentProducer"
-        android:layout_below="@+id/editTextAddMedicamentName"
+        android:id="@+id/editTextProducer"
+        android:layout_below="@+id/editTextName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:visibility="invisible"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:textColor="#000000"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextAddMedicamentKind"
-        android:layout_below="@+id/editTextAddMedicamentProducer"
+        android:id="@+id/editTextPack"
+        android:layout_below="@+id/editTextProducer"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:visibility="invisible"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:textColor="#000000"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextKind"
+        android:layout_below="@+id/editTextPack"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible"
+        android:focusable="false"
+        android:textColor="#000000"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editTextAddMedicamentPrice"
-        android:layout_below="@+id/editTextAddMedicamentKind"
+        android:id="@+id/editTextPrice"
+        android:layout_below="@+id/editTextKind"
         android:visibility="invisible"
-        android:focusable="false"/>
+        android:textColor="#000000"/>
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/editTextAddMedicamentPrice"
+        android:layout_below="@+id/editTextPrice"
         android:orientation="horizontal"
         android:visibility="invisible">
         <ImageButton
@@ -145,7 +160,7 @@
 
 
     <Button
-        android:id="@+id/buttonAddMedicamentSave"
+        android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

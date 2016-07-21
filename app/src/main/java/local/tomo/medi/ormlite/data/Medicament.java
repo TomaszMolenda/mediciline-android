@@ -34,6 +34,8 @@ public class Medicament {
     @DatabaseField
     private String pack;
     @DatabaseField
+    private String kind;
+    @DatabaseField
     private Date dateExpiration;
     @DatabaseField
     private long date;
@@ -56,6 +58,7 @@ public class Medicament {
         this.price = dbMedicament.getPrice();
         this.pack = dbMedicament.getPack();
         this.packageID = dbMedicament.getPackageID();
+        this.kind = dbMedicament.getForm();
     }
 
     public static Medicament containsId(Collection<Medicament> c, int id) {

@@ -48,13 +48,23 @@
             android:layout_below="@+id/textViewProducer">
         </TextView>
 
+
+        <TextView
+            android:id="@+id/textViewKind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:layout_below="@+id/textViewPack">
+        </TextView>
+
         <TextView
             android:id="@+id/textViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:textColor="#000000"
-            android:layout_below="@+id/textViewPack">
+            android:layout_below="@+id/textViewKind">
         </TextView>
 
         <TextView
