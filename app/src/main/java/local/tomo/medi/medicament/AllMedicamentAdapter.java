@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,9 +88,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
             ImageView imageViewNoSynchro = (ImageView) v.findViewById(R.id.imageViewNoSynchro);
             View menuIcon = v.findViewById(R.id.imageButtonMenu);
-            if(medicamentsActivity.showPopUpMenu()) {
-                menuIcon.setVisibility(View.VISIBLE);
-            }
+
             menuIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,16 +98,16 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
                         public boolean onMenuItemClick(MenuItem item) {
                             Intent intent = null;
                             switch (item.getItemId()) {
-                                case R.id.menuMedicamentArchive:
+                                case R.id.archive:
                                     AlertDialog alertDialog = confirmDelete(medicament);
                                     alertDialog.show();
                                     return true;
-                                case R.id.menuMedicamentInfo:
+                                case R.id.info:
                                     intent = new Intent(getContext(), MedicamentDbDetailsActivity.class);
                                     intent.putExtra("packageID", medicament.getPackageID());
                                     medicamentsActivity.startActivity(intent);
                                     return true;
-                                case R.id.menuMedicamentDiseases:
+                                case R.id.diseases:
                                     intent = new Intent(getContext(), DiseasesInMedicamentActivity.class);
                                     intent.putExtra("medicamentId", medicament.getId());
                                     medicamentsActivity.startActivity(intent);
@@ -119,6 +119,12 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
                         }
                     });
                     popupMenu.inflate(R.menu.medicaments_poupup_menu);
+                    if(medicamentsActivity.isHideArchive()) {
+                        Menu menu = popupMenu.getMenu();
+                        MenuItem item = menu.findItem(R.id.archive);
+                        item.setEnabled(false);
+
+                    }
                     popupMenu.show();
                 }
             });
@@ -140,6 +146,8 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             calendar.setTimeInMillis(date);
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
+            if(medicament.isOverdue() & medicament.isArchive() == false)
+                textViewDate.setTextColor(Color.parseColor("#DF013A"));
             textViewDate.setText("Data: " + months.get(month) + " " + year);
         }
         return  v;
@@ -190,4 +198,6 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
         return databaseHelper;
 
     }
+
+
 }

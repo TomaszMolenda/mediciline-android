@@ -19,11 +19,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import local.tomo.medi.MainActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.DbMedicament;
-import local.tomo.medi.ormlite.data.Medicament;
 
 public class MedicamentsDbActivity extends AppCompatActivity {
 
@@ -41,7 +39,7 @@ public class MedicamentsDbActivity extends AppCompatActivity {
         setContentView(R.layout.activity_medicaments_db);
 
         listView = (ListView) findViewById(android.R.id.list);
-        editTextMedicamentDbSearch = (EditText) findViewById(R.id.EditTextMedicamentDbSearch);
+        editTextMedicamentDbSearch = (EditText) findViewById(R.id.EditTextSearch);
 
         editTextMedicamentDbSearch.addTextChangedListener(new TextWatcher() {
             @Override

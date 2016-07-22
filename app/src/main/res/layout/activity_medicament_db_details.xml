@@ -4,10 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
     tools:context="local.tomo.medi.medicament.MedicamentDbDetailsActivity">
 
         <LinearLayout
@@ -22,21 +22,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nazwa leku"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#B40431"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewName"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#B40431"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Aktywna substancja"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,8 +54,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Postać"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,8 +69,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Dawka"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,8 +84,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Opakowanie"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,8 +99,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Producent"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -100,8 +114,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Recepta"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,8 +129,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Typ"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,15 +144,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ryzyko stosowania"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="SPRAWNOŚĆ PSYCHOMOTORYCZNA"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:text="Sprawność spychomotoryczna"
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -145,9 +167,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="OKRES LAKTACJI"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:text="Okres laktacji"
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -158,9 +182,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="I TRYMESTR CIĄŻY"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:text="I trymest ciąży"
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -171,9 +197,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="II TRYMESTR CIĄŻY"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:text="II trymest ciąży"
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,9 +212,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="III TRYMESTR CIĄŻY"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:text="III trymest ciąży"
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -197,9 +227,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="ALKOHOL"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:text="Alkohol"
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -211,8 +243,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Skład"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -224,8 +258,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Działanie"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -237,8 +273,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Wskazania"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -250,8 +288,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Przeciwwskazania"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -262,9 +302,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Srodki ostrożności"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:text="Środki ostrożności"
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -276,8 +318,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ciąża i karmienie piersią"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -289,8 +333,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Działanie niepożądane"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -302,8 +348,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Interakcje"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -315,8 +363,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Dawkowanie"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -328,8 +378,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Uwagi"
-                    android:textSize="15dp"
-                    android:textColor="#000000"/>
+                    android:textSize="20dp"
+                    android:textColor="#0000FF"
+                    android:textStyle="bold"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

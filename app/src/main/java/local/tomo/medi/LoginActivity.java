@@ -15,16 +15,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import local.tomo.medi.json.MedicamentsDbAdditionalJSON;
 import local.tomo.medi.json.MedicamentsDbJSON;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
+import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.User;
 import retrofit2.Call;
 
@@ -116,12 +124,48 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
-            Log.d("meditomo", "22222:");
+            Log.d("meditomo", "2222:");
+            setOverdueMedicaments();
             login();
         }
         else {
             Background background = new Background(getApplicationContext(), getResources());
             background.execute();
+        }
+    }
+
+    private void setOverdueMedicaments() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        List<Medicament> medicaments = null;
+        try {
+            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+            QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
+            queryBuilder.where().eq("archive", false).and().eq("overdue", false);
+            PreparedQuery<Medicament> prepare = queryBuilder.prepare();
+            medicaments = medicamentDao.query(prepare);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        for (Medicament medicament : medicaments) {
+            calendar.setTimeInMillis(medicament.getDate());
+            int mYear = calendar.get(Calendar.YEAR);
+            int mMonth = calendar.get(Calendar.MONTH);
+            if(mYear < year) setOverdue(medicament);
+            if(mYear == year && mMonth < month) setOverdue(medicament);
+        }
+    }
+
+    private void setOverdue(Medicament medicament) {
+        medicament.setOverdue(true);
+        try {
+            getHelper().getMedicamentDao().update(medicament);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

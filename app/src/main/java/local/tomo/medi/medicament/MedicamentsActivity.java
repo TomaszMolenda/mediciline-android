@@ -8,6 +8,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.EditText;
@@ -30,11 +32,13 @@ import local.tomo.medi.ormlite.data.Medicament;
 
 public class MedicamentsActivity extends Activity {
 
+    private static final String TAG = "meditomo";
+
     public static final int OUT_OF_DATE_MEDICAMENTS = 1;
     public static final int ACTIVE_MEDICAMENTS = 2;
     public static final int ARCHIVE_MEDICAMENTS = 3;
 
-    private boolean showPopUpMenu;
+    private boolean hideArchive;
 
     private DatabaseHelper databaseHelper = null;
 
@@ -60,16 +64,15 @@ public class MedicamentsActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         switch (bundle.getInt("medicaments")) {
             case ACTIVE_MEDICAMENTS:
-                showPopUpMenu = true;
                 fabAddMedicament.setVisibility(View.VISIBLE);
                 setActiveMedicaments();
                 break;
             case ARCHIVE_MEDICAMENTS:
+                hideArchive = true;
                 fabAddMedicament.setVisibility(View.INVISIBLE);
                 setArchiveMedicaments();
                 break;
             case OUT_OF_DATE_MEDICAMENTS:
-                showPopUpMenu = true;
                 fabAddMedicament.setVisibility(View.INVISIBLE);
                 setOutOfDateMedicaments();
                 break;
@@ -137,23 +140,11 @@ public class MedicamentsActivity extends Activity {
 
     private void setOutOfDateMedicaments() {
         try {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
             Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
             QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
-            queryBuilder.orderBy("date", false).where().eq("archive", false);
-            PreparedQuery<Medicament> prepare = queryBuilder.prepare();
-            List<Medicament> list = medicamentDao.query(prepare);
-            medicaments = new ArrayList<>();
-            for (Medicament medicament : list) {
-                calendar.setTimeInMillis(medicament.getDate());
-                int mYear = calendar.get(Calendar.YEAR);
-                int mMonth = calendar.get(Calendar.MONTH);
-                if(mYear < year) medicaments.add(medicament);
-                if(mYear == year && mMonth < month) medicaments.add(medicament);
-            }
+            queryBuilder.orderBy("date", false).where().eq("overdue", true).and().eq("archive", false);
+            queryBuilder.prepare();
+            medicaments = queryBuilder.query();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -185,7 +176,7 @@ public class MedicamentsActivity extends Activity {
         try {
             Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
             QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
-            queryBuilder.orderBy("id", false).where().eq("archive", false);
+            queryBuilder.orderBy("overdue", false).orderBy("id", false).where().eq("archive", false);
             PreparedQuery<Medicament> prepare = queryBuilder.prepare();
             medicaments = medicamentDao.query(prepare);
         } catch (SQLException e) {
@@ -215,8 +206,8 @@ public class MedicamentsActivity extends Activity {
         return databaseHelper;
     }
 
-    public boolean showPopUpMenu() {
-        return showPopUpMenu;
+    public boolean isHideArchive() {
+        return hideArchive;
     }
 
     @Override

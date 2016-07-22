@@ -2,31 +2,19 @@ package local.tomo.medi.medicament;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import local.tomo.medi.R;
-import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.DbMedicament;
-import local.tomo.medi.ormlite.data.Medicament;
 
 /**
  * Created by tomo on 2016-05-27.
@@ -46,8 +34,6 @@ public class AllMedicamentDbAdapter extends ArrayAdapter<DbMedicament> {
 
     public AllMedicamentDbAdapter(MedicamentsDbActivity medicamentsDbActivity, Context context, int textViewResourceId, ArrayList<DbMedicament> medicaments) {
         super(context, textViewResourceId, medicaments);
-        this.medicaments = medicaments;
-        this.medicamentsDbActivity = medicamentsDbActivity;
         mContext = context;
 
 
@@ -67,16 +53,15 @@ public class AllMedicamentDbAdapter extends ArrayAdapter<DbMedicament> {
         final DbMedicament dbMedicament = getItem(position);
 
         if(dbMedicament!=null) {
-            TextView rowAllMedicamentDbName = (TextView) v.findViewById(R.id.rowAllMedicamentDbName);
-            TextView rowAllMedicamentDbProducer = (TextView) v.findViewById(R.id.rowAllMedicamentDbProducer);
-            TextView rowAllMedicamentDbPrice = (TextView) v.findViewById(R.id.rowAllMedicamentDbPrice);
-            TextView rowAllMedicamentDbPack = (TextView) v.findViewById(R.id.rowAllMedicamentDbPack);
+            TextView textViewName = (TextView) v.findViewById(R.id.textViewName);
+            TextView textViewProducer = (TextView) v.findViewById(R.id.textViewProducer);
+            TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
+            TextView textViewPack = (TextView) v.findViewById(R.id.textViewPack);
 
-            rowAllMedicamentDbName.setText(dbMedicament.getProductName());
-            rowAllMedicamentDbProducer.setText("Producent: " + dbMedicament.getProducer());
-
-            rowAllMedicamentDbPrice.setText("Cena: " + dbMedicament.getPrice());
-            rowAllMedicamentDbPack.setText("Rodzaj: " + dbMedicament.getPack());
+            textViewName.setText(dbMedicament.getProductName());
+            textViewProducer.setText("Producent: " + dbMedicament.getProducer());
+            textViewKind.setText("Rodzaj: " + dbMedicament.getForm());
+            textViewPack.setText("Opakowanie: " + dbMedicament.getPack());
         }
         return  v;
     }

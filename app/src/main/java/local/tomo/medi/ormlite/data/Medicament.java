@@ -45,6 +45,8 @@ public class Medicament {
     private int packageID;
     @DatabaseField
     private boolean archive;
+    @DatabaseField
+    private boolean overdue;
 
     private boolean isChecked;
 

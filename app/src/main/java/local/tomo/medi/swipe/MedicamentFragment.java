@@ -121,6 +121,13 @@ public class MedicamentFragment extends Fragment {
             QueryBuilder<Medicament, Integer> queryBuilder = getHelper().getMedicamentDao().queryBuilder();
             queryBuilder.where().eq("archive", false);
             buttonMenuMedicamentActive.setText("W apteczce\n" + queryBuilder.countOf());
+            queryBuilder.reset();
+            queryBuilder.where().eq("archive", true);
+            buttonMenuMedicamentArchive.setText("Zużyte\n" + queryBuilder.countOf());
+            queryBuilder.reset();
+            queryBuilder.where().eq("overdue", true).and().eq("archive", false);
+            buttonMenuMedicamentOutOfDate.setText("Przeterminowane\n" + queryBuilder.countOf());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

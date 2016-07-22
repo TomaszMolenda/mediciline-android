@@ -1,15 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menuMedicamentInfo"
+        android:id="@+id/info"
         android:title="Informacje" />
 
     <item
-        android:id="@+id/menuMedicamentArchive"
+        android:id="@+id/archive"
         android:title="Zużyty"/>
 
     <item
-        android:id="@+id/menuMedicamentDiseases"
+        android:id="@+id/diseases"
         android:title="Choroby"/>
 
 </menu>
