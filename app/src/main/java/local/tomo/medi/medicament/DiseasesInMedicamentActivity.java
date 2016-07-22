@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.ForeignCollection;
@@ -29,6 +31,7 @@ public class DiseasesInMedicamentActivity extends AppCompatActivity {
     Medicament medicament;
 
     private RecyclerView recyclerViewDiseases;
+    private TextView textViewNoDiseases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,23 @@ public class DiseasesInMedicamentActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         medicamentId = bundle.getInt("medicamentId");
+        Medicament medicament = null;
+        try {
+            medicament = getHelper().getMedicamentDao().queryForId(medicamentId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        TextView textViewName = (TextView) findViewById(R.id.textViewName);
+        TextView textViewProducer = (TextView) findViewById(R.id.textViewProducer);
+        TextView textViewPack = (TextView) findViewById(R.id.textViewPack);
+        TextView textViewKind = (TextView) findViewById(R.id.textViewKind);
+        textViewNoDiseases = (TextView) findViewById(R.id.textViewNoDiseases);
+
+        textViewName.setText(medicament.getName());
+        textViewProducer.setText("Producent: " + medicament.getProducent());
+        textViewPack.setText("Opakowanie: " + medicament.getPack());
+        textViewKind.setText("Rodzaj: " + medicament.getKind());
+
 
         recyclerViewDiseases = (RecyclerView) findViewById(R.id.recyclerViewDiseases);
         recyclerViewDiseases.setLayoutManager(new LinearLayoutManager(this));
@@ -55,6 +75,8 @@ public class DiseasesInMedicamentActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if(diseases.isEmpty())
+            textViewNoDiseases.setVisibility(View.VISIBLE);
         DiseasesInMedicamentAdapter diseasesInMedicamentAdapter = new DiseasesInMedicamentAdapter(diseases, medicament, this);
         recyclerViewDiseases.setAdapter(diseasesInMedicamentAdapter);
     }

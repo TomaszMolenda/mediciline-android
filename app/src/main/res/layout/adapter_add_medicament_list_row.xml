@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/rowAddMedicamentName"
+        android:id="@+id/textViewName"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
     </TextView>
 
     <TextView
-        android:id="@+id/rowAddMedicamentProducer"
+        android:id="@+id/textViewProducer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15dp"
@@ -24,7 +24,7 @@
     </TextView>
 
     <TextView
-        android:id="@+id/rowAddMedicamentPack"
+        android:id="@+id/textViewPack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15dp"
@@ -33,7 +33,7 @@
     </TextView>
 
     <TextView
-        android:id="@+id/rowAddMedicamentKind"
+        android:id="@+id/textViewKind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15dp"

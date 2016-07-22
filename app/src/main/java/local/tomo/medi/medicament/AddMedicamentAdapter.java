@@ -35,10 +35,10 @@ public class AddMedicamentAdapter extends ArrayAdapter<DbMedicament> {
         DbMedicament dbMedicament = getItem(position);
 
         if(dbMedicament !=null) {
-            TextView rowAddMedicamentName = (TextView) v.findViewById(R.id.rowAddMedicamentName);
-            TextView rowAddMedicamentProducer = (TextView) v.findViewById(R.id.rowAddMedicamentProducer);
-            TextView rowAddMedicamentPack = (TextView) v.findViewById(R.id.rowAddMedicamentPack);
-            TextView rowAddMedicamentKind = (TextView) v.findViewById(R.id.rowAddMedicamentKind);
+            TextView rowAddMedicamentName = (TextView) v.findViewById(R.id.textViewName);
+            TextView rowAddMedicamentProducer = (TextView) v.findViewById(R.id.textViewProducer);
+            TextView rowAddMedicamentPack = (TextView) v.findViewById(R.id.textViewPack);
+            TextView rowAddMedicamentKind = (TextView) v.findViewById(R.id.textViewKind);
             rowAddMedicamentName.setText(dbMedicament.getProductName());
             rowAddMedicamentProducer.setText("Producent: " + dbMedicament.getProducer());
             rowAddMedicamentPack.setText("Opakowanie: " + dbMedicament.getPack());
