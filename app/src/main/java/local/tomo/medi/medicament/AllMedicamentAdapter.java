@@ -85,6 +85,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
             TextView textViewPack = (TextView) v.findViewById(R.id.textViewPack);
             TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
+            TextView textViewDiseases = (TextView) v.findViewById(R.id.textViewDiseases);
 
             ImageView imageViewNoSynchro = (ImageView) v.findViewById(R.id.imageViewNoSynchro);
             View menuIcon = v.findViewById(R.id.imageButtonMenu);
@@ -119,11 +120,15 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
                         }
                     });
                     popupMenu.inflate(R.menu.medicaments_poupup_menu);
+                    Menu menu = popupMenu.getMenu();
                     if(medicamentsActivity.isHideArchive()) {
-                        Menu menu = popupMenu.getMenu();
                         MenuItem item = menu.findItem(R.id.archive);
                         item.setEnabled(false);
 
+                    }
+                    if(medicament.getMedicament_diseases().size() == 0) {
+                        MenuItem item = menu.findItem(R.id.diseases);
+                        item.setEnabled(false);
                     }
                     popupMenu.show();
                 }
@@ -139,7 +144,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             textViewPrice.setText("Cena: " + medicament.getPrice());
             textViewPack.setText("Opakowanie: " + medicament.getPack());
             textViewKind.setText("Rodzaj: " + medicament.getKind());
-
+            textViewDiseases.setText("Choroby: " + medicament.getMedicament_diseases().size());
 
             long date = medicament.getDate();
             Calendar calendar = Calendar.getInstance();
