@@ -2,11 +2,16 @@ package local.tomo.medi.patient;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,7 +23,12 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,6 +44,9 @@ import retrofit2.Response;
 
 public class AddPatientActivity extends Activity {
 
+    private final int CAMERA_CAPTURE = 1;
+    private final int CROP_PIC = 2;
+
     private DatabaseHelper databaseHelper = null;
 
     private EditText editTextName;
@@ -41,7 +54,7 @@ public class AddPatientActivity extends Activity {
     private Button buttonSave;
     private ImageView imageViewPhoto;
     private Uri outputFileUri;
-    private String photoUrl;
+    private byte[] photo;
 
     private DatePickerDialog datePickerDialog;
 
@@ -90,8 +103,7 @@ public class AddPatientActivity extends Activity {
             public void onClick(View v) {
 
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                takePicture.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                startActivityForResult(takePicture, 0);
+                startActivityForResult(takePicture, CAMERA_CAPTURE);
             }
         });
 
@@ -99,7 +111,7 @@ public class AddPatientActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String name = editTextName.getText().toString().trim();
-                final Patient patient = new Patient(name, chooseDate.getTime(), photoUrl);
+                final Patient patient = new Patient(name, chooseDate.getTime(), photo);
                 try {
                     Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
                     patientDao.create(patient);
@@ -142,18 +154,6 @@ public class AddPatientActivity extends Activity {
         });
     }
 
-    private Uri setImageUri() {
-        File directory = Environment.getExternalStorageDirectory();
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-        File file = new File(directory,System.currentTimeMillis() + ".png");
-
-
-        outputFileUri = Uri.fromFile(file);
-        this.photoUrl = outputFileUri.getPath().toString();
-        return outputFileUri;
-    }
 
     private DatabaseHelper getHelper() {
         if (databaseHelper == null) {
@@ -164,24 +164,48 @@ public class AddPatientActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if(requestCode == CAMERA_CAPTURE) {
+                outputFileUri = data.getData();
+                performCrop();
+            }
+            else if (requestCode == CROP_PIC) {
+                Bundle extras = data.getExtras();
+                Bitmap thePic = extras.getParcelable("data");
+                photo = getBitmapAsByteArray(thePic);
+                imageViewPhoto.setImageBitmap(thePic);
 
-        switch(requestCode) {
-            case 0:
-                if(resultCode == RESULT_OK){
-                    imageViewPhoto.setImageURI(outputFileUri);
-                    imageViewPhoto.setRotation(270);
-                }
+            }
+        }
 
-                break;
-            case 1:
-                if(resultCode == RESULT_OK){
-                    imageViewPhoto.setImageURI(outputFileUri);
-                    imageViewPhoto.setRotation(270);
-                }
-                break;
+    }
+
+    private static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        return outputStream.toByteArray();
+    }
+
+    private void performCrop() {
+        try {
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            cropIntent.setDataAndType(outputFileUri, "image/*");
+            cropIntent.putExtra("crop", "true");
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            cropIntent.putExtra("outputX", 256);
+            cropIntent.putExtra("outputY", 256);
+            cropIntent.putExtra("return-data", true);
+            startActivityForResult(cropIntent, CROP_PIC);
+        }
+        catch (ActivityNotFoundException anfe) {
+            Toast toast = Toast
+                    .makeText(this, "This device doesn't support the crop action!", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
+
+
 
     @Override
     protected void onDestroy() {
@@ -190,11 +214,5 @@ public class AddPatientActivity extends Activity {
             OpenHelperManager.releaseHelper();
             databaseHelper = null;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //photoFile.delete();
     }
 }

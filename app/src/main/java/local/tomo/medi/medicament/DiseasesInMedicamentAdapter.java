@@ -1,6 +1,8 @@
 package local.tomo.medi.medicament;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,8 +45,11 @@ public class DiseasesInMedicamentAdapter extends RecyclerView.Adapter<DiseasesIn
     @Override
     public void onBindViewHolder(DiseasesInMedicamentAdapter.DiseaseViewHolder holder, int position) {
         Disease disease = diseases.get(position);
-        if(disease.getPatient().getPhotoUrl() != null)
-            holder.imageView.setImageURI(Uri.fromFile(new File(disease.getPatient().getPhotoUrl())));
+        byte[] photo = disease.getPatient().getPhoto();
+        if(photo != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+            holder.imageView.setImageBitmap(bitmap);
+        }
         holder.textViewPatientName.setText(disease.getPatient().getName());
         holder.textViewName.setText(disease.getName());
         holder.textViewStartDate.append(Months.createDate(disease.getStartLong()));

@@ -76,7 +76,6 @@ public class PatientFragment extends Fragment {
 
     private void setPatients() {
         try {
-            //patients = getHelper().getPatientDao().queryForAll();
             QueryBuilder<Patient, Integer> queryBuilder = getHelper().getPatientDao().queryBuilder();
             patients = queryBuilder.query();
 

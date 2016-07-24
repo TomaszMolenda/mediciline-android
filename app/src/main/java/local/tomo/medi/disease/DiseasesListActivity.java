@@ -1,6 +1,8 @@
 package local.tomo.medi.disease;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -56,9 +58,10 @@ public class DiseasesListActivity extends AppCompatActivity {
         TextView textViewEndedDiseasesCount = (TextView) findViewById(R.id.textViewEndedDiseasesCount);
         recyclerViewDiseases = (RecyclerView) findViewById(R.id.recyclerViewDiseases);
         FloatingActionButton floatingActionButtonAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonAdd);
-
-        if(patient.getPhotoUrl() != null) {
-            imageViewProfilePic.setImageURI(Uri.fromFile(new File(patient.getPhotoUrl())));
+        byte[] photo = patient.getPhoto();
+        if(photo != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+            imageViewProfilePic.setImageBitmap(bitmap);
         }
         textViewName.setText(patient.getName());
         textViewBirthday.setText(Months.createDate(patient.getBirthdayLong()));

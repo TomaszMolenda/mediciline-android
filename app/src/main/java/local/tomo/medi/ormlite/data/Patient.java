@@ -1,6 +1,7 @@
 package local.tomo.medi.ormlite.data;
 
 import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 
@@ -29,17 +30,17 @@ public class Patient {
     @DatabaseField
     private long birthdayLong;
     @DatabaseField
-    private String photoUrl;
-    @DatabaseField
     private boolean lastUse;
+    @DatabaseField(dataType = DataType.BYTE_ARRAY)
+    byte[] photo;
 
     public Patient() {
     }
 
-    public Patient(String name, Date birthday, String path) {
+    public Patient(String name, Date birthday, byte[] photo) {
         this.name = name;
         this.birthdayLong = birthday.getTime();
-        this.photoUrl = path;
+        this.photo = photo;
     }
 
     @Override
