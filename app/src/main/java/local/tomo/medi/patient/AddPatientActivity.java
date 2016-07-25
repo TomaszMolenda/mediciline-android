@@ -103,6 +103,7 @@ public class AddPatientActivity extends Activity {
             public void onClick(View v) {
 
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //Intent takePicture = new Intent(getApplicationContext(), LiveCameraActivity.class);
                 startActivityForResult(takePicture, CAMERA_CAPTURE);
             }
         });
