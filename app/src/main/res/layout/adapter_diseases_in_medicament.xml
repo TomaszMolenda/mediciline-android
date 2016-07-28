@@ -46,8 +46,8 @@
                 android:background="#FF0000FF"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/textViewPatientName"
-                android:layout_toEndOf="@+id/textViewPatientName"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toEndOf="@+id/imageView"
                 android:layout_marginLeft="25dp"/>
 
             <TextView

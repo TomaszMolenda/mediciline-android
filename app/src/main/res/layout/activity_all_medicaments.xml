@@ -8,11 +8,12 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
         <EditText
             android:layout_width="match_parent"
@@ -28,24 +29,21 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_below="@id/EditTextSearch"
             android:id="@android:id/list"
             android:layout_centerHorizontal="true" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabAdd"
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:src="@android:drawable/ic_menu_add"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
+            android:text="Przypisz leki do choroby"
+            android:id="@+id/button"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:visibility="invisible"
-            />
-    </RelativeLayout>
+            android:layout_centerHorizontal="true" />
+
+
+    </LinearLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

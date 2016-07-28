@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.EditText;
@@ -22,8 +19,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import local.tomo.medi.R;
@@ -40,7 +35,7 @@ public class MedicamentsActivity extends Activity {
 
     private boolean hideArchive;
 
-    private DatabaseHelper databaseHelper = null;
+    private DatabaseHelper databaseHelper;
 
     private List<Medicament> medicaments;
 
@@ -57,8 +52,8 @@ public class MedicamentsActivity extends Activity {
         setContentView(R.layout.activity_medicaments);
 
         listView = (ListView) findViewById(android.R.id.list);
-        fabAddMedicament = (FloatingActionButton) findViewById(R.id.fabAddMedicament);
-        editTextMedicamentSearch = (EditText) findViewById(R.id.EditTextMedicamentSearch);
+        fabAddMedicament = (FloatingActionButton) findViewById(R.id.fabAdd);
+        editTextMedicamentSearch = (EditText) findViewById(R.id.EditTextSearch);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         Bundle bundle = getIntent().getExtras();

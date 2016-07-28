@@ -28,8 +28,10 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
     private TextView textViewFinish;
     private TextView textViewDescription;
 
-    private Button buttonAddMedicament;
+    private Button buttonFiles;
     private Button buttonMedicaments;
+    private Button buttonDosages;
+    private Button buttonFinish;
 
 
     @Override
@@ -54,8 +56,11 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
         textViewStart = (TextView) findViewById(R.id.textViewStart);
         textViewFinish = (TextView) findViewById(R.id.textViewFinish);
         textViewDescription = (TextView) findViewById(R.id.textViewDescription);
-        buttonAddMedicament = (Button) findViewById(R.id.buttonAddMedicament);
+
         buttonMedicaments = (Button) findViewById(R.id.buttonMedicaments);
+        buttonFiles = (Button) findViewById(R.id.buttonFiles);
+        buttonDosages = (Button) findViewById(R.id.buttonDosages);
+        buttonFinish = (Button) findViewById(R.id.buttonFinish);
 
         textViewName.append(disease.getName());
 
@@ -71,21 +76,11 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
 
         textViewDescription.append(disease.getDescription());
 
-        buttonAddMedicament.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MedicamentsListActivity.class);
-                intent.putExtra("diseaseId", diseaseId);
-                intent.putExtra("action", MedicamentsListActivity.ADD);
-                startActivity(intent);
-            }
-        });
         buttonMedicaments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MedicamentsListActivity.class);
                 intent.putExtra("diseaseId", diseaseId);
-                intent.putExtra("action", MedicamentsListActivity.REMOVE);
                 startActivity(intent);
             }
         });
