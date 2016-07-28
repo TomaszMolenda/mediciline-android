@@ -22,18 +22,29 @@ public class User implements Serializable {
     @DatabaseField
     private String password;
 
+    private String confirmPassword;
+
     @DatabaseField
     private String uniqueID;
 
     @DatabaseField
     private String email;
 
+    private String confirmEmail;
+
     @DatabaseField
     private String auth;
 
+    public User() {}
 
 
-    public User() {
+    public User(String name, String email, String confirmEmail, String password, String confirmPassword) {
+        this.name = name;
+        this.email = email;
+        this.confirmEmail = confirmEmail;
+        this.password = password;
+        this.confirmPassword = password;
     }
+
 
 }

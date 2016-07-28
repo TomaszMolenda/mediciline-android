@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="local.tomo.medi.LoginActivity">
+    tools:context=".user.LoginActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,6 +27,7 @@
         android:id="@+id/editTextLoginUserName"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
+        android:inputType="textPersonName"
         android:ems="10"
         android:nextFocusUp="@id/editTextLoginUserName"
         android:nextFocusLeft="@id/editTextLoginUserName"/>
@@ -53,21 +54,20 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="loguj"
+        android:text="Zaloguj"
         android:id="@+id/buttonLogin"
         android:layout_below="@+id/editTextLoginPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
         android:onClick="loginClick" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Zarejestruj"
-        android:id="@+id/textViewRegister"
+        android:id="@+id/buttonRegister"
         android:layout_below="@+id/buttonLogin"
         android:layout_centerHorizontal="true"
-        android:onClick="registerClick" />
+        android:layout_marginTop="40dp" />
 
 </RelativeLayout>

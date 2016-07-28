@@ -1,4 +1,4 @@
-package local.tomo.medi;
+package local.tomo.medi.user;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,10 +24,11 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import local.tomo.medi.MainActivity;
+import local.tomo.medi.R;
 import local.tomo.medi.json.MedicamentsDbAdditionalJSON;
 import local.tomo.medi.json.MedicamentsDbJSON;
 import local.tomo.medi.network.RestIntefrace;
@@ -54,6 +56,7 @@ public class LoginActivity extends Activity {
 
     private EditText editTextLoginUserName;
     private EditText editTextLoginPassword;
+    private Button buttonRegister;
 
 
     private class Background extends AsyncTask<Void, Void, Void> {
@@ -108,8 +111,15 @@ public class LoginActivity extends Activity {
         editTextLoginUserName = (EditText) findViewById(R.id.editTextLoginUserName);
         editTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
 
+        buttonRegister = (Button) findViewById(R.id.buttonRegister);
 
-
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -124,9 +134,9 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
-            Log.d("meditomo", "22222:");
+            Log.d("meditomo", "111111:");
             setOverdueMedicaments();
-            login();
+            //login();
         }
         else {
             Background background = new Background(getApplicationContext(), getResources());

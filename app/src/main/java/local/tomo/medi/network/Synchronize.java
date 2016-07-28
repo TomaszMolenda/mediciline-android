@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import local.tomo.medi.medicament.AllMedicamentAdapter;
-import local.tomo.medi.LoginActivity;
+import local.tomo.medi.user.LoginActivity;
 import local.tomo.medi.json.MedicamentExclusion;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;

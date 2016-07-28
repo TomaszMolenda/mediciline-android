@@ -35,4 +35,7 @@ public interface RestIntefrace {
 
     @POST("/api/patient")
     Call<Patient> savePatient(@Body Patient patient);
+
+    @POST("/api/register")
+    Call<User> register(@Body User user);
 }

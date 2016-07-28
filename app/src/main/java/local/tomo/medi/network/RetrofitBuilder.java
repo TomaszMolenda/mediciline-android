@@ -1,13 +1,11 @@
 package local.tomo.medi.network;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import local.tomo.medi.LoginActivity;
+import local.tomo.medi.user.LoginActivity;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
