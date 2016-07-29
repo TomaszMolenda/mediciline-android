@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import local.tomo.medi.R;
+import local.tomo.medi.model.Months;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
@@ -34,6 +36,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddPatientActivity extends Activity {
+
+    public static final String TAG = "meditomo";
 
     private final int CAMERA_CAPTURE = 1;
     private final int CROP_PIC = 2;
@@ -49,8 +53,6 @@ public class AddPatientActivity extends Activity {
 
     private DatePickerDialog datePickerDialog;
 
-    private SimpleDateFormat dateFormatter;
-
     private Calendar chooseDate;
 
 
@@ -61,7 +63,6 @@ public class AddPatientActivity extends Activity {
 
         final Calendar calendar = Calendar.getInstance();
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
         chooseDate = Calendar.getInstance();
 
@@ -69,7 +70,7 @@ public class AddPatientActivity extends Activity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 chooseDate.set(year, monthOfYear, dayOfMonth);
-                editTextBirthday.setText(dateFormatter.format(chooseDate.getTime()));
+                editTextBirthday.setText(Months.createDate(chooseDate.getTimeInMillis()));
 
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -102,18 +103,21 @@ public class AddPatientActivity extends Activity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = editTextName.getText().toString().trim();
-                final Patient patient = new Patient(name, chooseDate.getTime(), photo);
-                try {
-                    Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
-                    patientDao.create(patient);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if(isValidate()){
+                    String name = editTextName.getText().toString().trim();
+                    final Patient patient = new Patient(name, chooseDate.getTime(), photo);
+                    try {
+                        Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
+                        patientDao.create(patient);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    //sendPatientToServer(patient);
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
-                //sendPatientToServer(patient);
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
+
 
 
             }
@@ -165,6 +169,7 @@ public class AddPatientActivity extends Activity {
                 Bundle extras = data.getExtras();
                 Bitmap thePic = extras.getParcelable("data");
                 photo = getBitmapAsByteArray(thePic);
+
                 imageViewPhoto.setImageBitmap(thePic);
 
             }
@@ -175,6 +180,7 @@ public class AddPatientActivity extends Activity {
     private static byte[] getBitmapAsByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+
         return outputStream.toByteArray();
     }
 
@@ -191,9 +197,7 @@ public class AddPatientActivity extends Activity {
             startActivityForResult(cropIntent, CROP_PIC);
         }
         catch (ActivityNotFoundException anfe) {
-            Toast toast = Toast
-                    .makeText(this, "This device doesn't support the crop action!", Toast.LENGTH_SHORT);
-            toast.show();
+            Toast.makeText(this, "This device doesn't support the crop action!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -206,5 +210,21 @@ public class AddPatientActivity extends Activity {
             OpenHelperManager.releaseHelper();
             databaseHelper = null;
         }
+    }
+
+    public boolean isValidate() {
+        if(editTextName.getText().toString().trim().length() < 4) {
+            Toast.makeText(this, "Imię musi mieć min 4 znaki", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(editTextBirthday.getText().length() == 0) {
+            Toast.makeText(this, "Podaj datę urodzin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(photo == null) {
+            Toast.makeText(this, "Dodaj zdjęcie", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
