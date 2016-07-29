@@ -134,9 +134,9 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
-            Log.d("meditomo", "111111:");
+            Log.d("meditomo", "2222:");
             setOverdueMedicaments();
-            //login();
+            login();
         }
         else {
             Background background = new Background(getApplicationContext(), getResources());
@@ -215,7 +215,7 @@ public class LoginActivity extends Activity {
             } else
                 Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
         } catch (SocketTimeoutException e) {
-            Toast.makeText(getApplicationContext(), "Brak połączenia z Internetem", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Brak połączenia z serwerem", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }

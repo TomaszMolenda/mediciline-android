@@ -36,6 +36,12 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         final EditText editTextConfirmPassword = (EditText) findViewById(R.id.editTextConfirmPassword);
 
+        editTextName.setText("tomo");
+        editTextEmail.setText("pina@tomo.pl");
+        editTextConfirmEmail.setText("pina@tomo.pl");
+        editTextPassword.setText("tomo");
+        editTextConfirmPassword.setText("tomo");
+
         Button buttonRegister = (Button) findViewById(R.id.buttonRegister);
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -70,20 +76,24 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.d(TAG, "onResponse: " + response.message());
-                try {
-                    Log.d(TAG, "onResponse: " + response.errorBody().string());
-                    String s = Utills.readJsonError(response.errorBody().string());
-                    Log.d(TAG, "onResponse: " + s);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(response.errorBody() != null) {
+                    try {
+                        String error = Utills.readJsonError(response.errorBody().string());
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                Toast.makeText(getApplicationContext(), "Konto założone. Potwierdź rejestracje w emailu", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(getApplicationContext(), "Konto założone. Potwierdź rejestracje w emailu", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.d(TAG, "onFailure: ");
+                Toast.makeText(getApplicationContext(), "Wystąpił błąd", Toast.LENGTH_SHORT).show();
             }
         });
     }
