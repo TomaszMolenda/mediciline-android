@@ -64,7 +64,7 @@ public class DiseasesListActivity extends AppCompatActivity {
             imageViewProfilePic.setImageBitmap(bitmap);
         }
         textViewName.setText(patient.getName());
-        textViewBirthday.setText(Months.createDate(patient.getBirthdayLong()));
+        textViewBirthday.setText("ur. " + Months.createDate(patient.getBirthdayLong()));
 
 
         recyclerViewDiseases.setLayoutManager(new LinearLayoutManager(this));

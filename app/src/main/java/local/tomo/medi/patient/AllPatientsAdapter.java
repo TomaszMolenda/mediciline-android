@@ -47,7 +47,7 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
             holder.imageViewProfilePic.setImageBitmap(bitmap);
         }
         holder.textViewPatientName.setText(patient.getName().toString());
-        holder.textViewBirthdate.setText(Months.createDate(patient.getBirthdayLong()));
+        holder.textViewBirthdate.setText("ur. " + Months.createDate(patient.getBirthdayLong()));
         holder.textViewDiseasesCount.append(patient.getDiseases().size()+"");
     }
 

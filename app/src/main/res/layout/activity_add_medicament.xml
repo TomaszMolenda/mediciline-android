@@ -23,6 +23,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/editTextSearch"
         android:hint="minimum 3 znaki"
+        android:inputType="textPersonName"
+        android:ems="10"
         android:layout_below="@+id/textViewInfo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
