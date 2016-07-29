@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -19,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import local.tomo.medi.R;
+import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Patient;
@@ -33,8 +35,6 @@ public class AddDiseaseActivity extends AppCompatActivity {
     private Button buttonSave;
 
     private DatePickerDialog datePickerDialog;
-
-    private SimpleDateFormat dateFormatter;
 
     private Calendar chooseDate;
 
@@ -57,15 +57,13 @@ public class AddDiseaseActivity extends AppCompatActivity {
 
         final Calendar calendar = Calendar.getInstance();
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-
         chooseDate = Calendar.getInstance();
 
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 chooseDate.set(year, monthOfYear, dayOfMonth);
-                editTextStartDate.setText(dateFormatter.format(chooseDate.getTime()));
+                editTextStartDate.setText(Months.createDate(chooseDate.getTimeInMillis()));
 
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -86,19 +84,22 @@ public class AddDiseaseActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = editTextName.getText().toString().trim();
-                String description = editTextDescription.getText().toString();
-                disease = new Disease(name, chooseDate.getTime(), description);
-                disease.setPatient(patient);
-                try {
-                    getHelper().getDiseaseDao().create(disease);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if(isValidate()) {
+                    String name = editTextName.getText().toString().trim();
+                    String description = editTextDescription.getText().toString();
+                    disease = new Disease(name, chooseDate.getTime(), description);
+                    disease.setPatient(patient);
+                    try {
+                        getHelper().getDiseaseDao().create(disease);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    //sendPatientToServer(patient);
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
-                //sendPatientToServer(patient);
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
+
 
 
             }
@@ -123,5 +124,17 @@ public class AddDiseaseActivity extends AppCompatActivity {
             OpenHelperManager.releaseHelper();
             databaseHelper = null;
         }
+    }
+
+    public boolean isValidate() {
+        if(editTextName.getText().toString().trim().length() < 4) {
+            Toast.makeText(this, "Nazwa musi mieć min 4 znaki", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(editTextStartDate.getText().length() == 0) {
+            Toast.makeText(this, "Podaj datę", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
