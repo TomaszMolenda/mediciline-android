@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import local.tomo.medi.R;
+import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 
@@ -48,10 +49,6 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Calendar startDate = Calendar.getInstance();
-        startDate.setTimeInMillis(disease.getStartLong());
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-
         textViewName = (TextView) findViewById(R.id.textViewName);
         textViewStart = (TextView) findViewById(R.id.textViewStart);
         textViewFinish = (TextView) findViewById(R.id.textViewFinish);
@@ -64,13 +61,11 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
 
         textViewName.append(disease.getName());
 
-        textViewStart.append(dateFormatter.format(startDate.getTime()));
+        textViewStart.append(Months.createDate(disease.getStartLong()));
 
         long stopLong = disease.getStopLong();
         if(stopLong != 0) {
-            Calendar stopDate = Calendar.getInstance();
-            stopDate.setTimeInMillis(stopLong);
-            textViewFinish.append(dateFormatter.format(stopDate.getTime()));
+            textViewFinish.append(Months.createDate(stopLong));
         } else
             textViewFinish.append("niezakończona");
 

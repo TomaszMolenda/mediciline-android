@@ -50,6 +50,8 @@ public class Medicament {
 
     private boolean isChecked;
 
+    private int diseaseMedicamentId;
+
 
     public Medicament() {
     }

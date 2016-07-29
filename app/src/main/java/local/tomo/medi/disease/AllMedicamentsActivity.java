@@ -3,12 +3,11 @@ package local.tomo.medi.disease;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import local.tomo.medi.R;
-import local.tomo.medi.medicament.AllMedicamentAdapter;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Medicament;
@@ -41,7 +39,7 @@ public class AllMedicamentsActivity extends AppCompatActivity {
 
     private AllMedicamentsAdapter allMedicamentsAdapter;
     private ListView listView;
-    private EditText editTextMedicamentSearch;
+    private EditText editTextSearch;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Button button;
 
@@ -54,7 +52,7 @@ public class AllMedicamentsActivity extends AppCompatActivity {
         diseaseId = bundle.getInt("diseaseId");
 
         listView = (ListView) findViewById(android.R.id.list);
-        editTextMedicamentSearch = (EditText) findViewById(R.id.EditTextSearch);
+        editTextSearch = (EditText) findViewById(R.id.EditTextSearch);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         button = (Button) findViewById(R.id.button);
 
@@ -65,15 +63,6 @@ public class AllMedicamentsActivity extends AppCompatActivity {
         }
 
         setMedicaments();
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckBox checkBox = allMedicamentsAdapter.getCheckBox();
-                if(checkBox.isChecked()) checkBox.setChecked(false);
-                else checkBox.setChecked(true);
-            }
-        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +106,31 @@ public class AllMedicamentsActivity extends AppCompatActivity {
                 swipeRefreshLayout.setEnabled(enable);
             }
         });
+
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = editTextSearch.getText().toString().toLowerCase();
+                List<Medicament> searchedMedicaments = new ArrayList<Medicament>();
+                for (Medicament medicament : medicaments) {
+                    if(medicament.getName().toLowerCase().contains(text) || medicament.getProducent().toLowerCase().contains(text))
+                        searchedMedicaments.add(medicament);
+                }
+                allMedicamentsAdapter = new AllMedicamentsAdapter(listView, getApplicationContext(), R.layout.adapter_all_medicaments, (ArrayList<Medicament>) searchedMedicaments);
+                listView.setAdapter(allMedicamentsAdapter);
+                allMedicamentsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void setMedicaments() {
@@ -136,7 +150,7 @@ public class AllMedicamentsActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        allMedicamentsAdapter = new AllMedicamentsAdapter(listView, this, getApplicationContext(), R.layout.adapter_all_medicaments, medicaments);
+        allMedicamentsAdapter = new AllMedicamentsAdapter(listView, getApplicationContext(), R.layout.adapter_all_medicaments, medicaments);
         listView.setAdapter(allMedicamentsAdapter);
     }
 

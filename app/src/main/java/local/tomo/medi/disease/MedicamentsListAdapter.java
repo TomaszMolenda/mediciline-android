@@ -3,12 +3,15 @@ package local.tomo.medi.disease;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,6 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import local.tomo.medi.R;
+import local.tomo.medi.dosage.DosagesActivity;
 import local.tomo.medi.medicament.MedicamentsActivity;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
@@ -41,25 +45,19 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
 
     private ArrayList<Medicament> medicaments;
 
-    private final List<String> months = Months.getMonths();
-
-    private MedicamentsListActivity medicamentsListActivity;
-
-    private Context mContext;
-
-    private DatabaseHelper databaseHelper = null;
-
     private ListView mListView;
+
+    private CheckBox checkBox;
+
+    MedicamentsListActivity medicamentsListActivity;
 
 
 
     public MedicamentsListAdapter(ListView listView, MedicamentsListActivity medicamentsListActivity, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
         this.medicaments = medicaments;
-        this.medicamentsListActivity = medicamentsListActivity;
-        mContext = context;
         mListView = listView;
-
+        this.medicamentsListActivity = medicamentsListActivity;
     }
 
 
@@ -87,8 +85,10 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
             TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
             TextView textViewPrice = (TextView) v.findViewById(R.id.textViewPrice);
             TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
+            TextView textViewDosageCount = (TextView) v.findViewById(R.id.textViewDosageCount);
+            ImageView imageViewDosage = (ImageView) v.findViewById(R.id.imageViewDosage);
 
-            CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox);
+            checkBox = (CheckBox) v.findViewById(R.id.checkBox);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -99,29 +99,34 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
                 }
             });
 
-
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                    if(checkBox.isChecked())
+                        checkBox.setChecked(false);
+                    else
+                        checkBox.setChecked(true);
+                }
+            });
+            
+            imageViewDosage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), DosagesActivity.class);
+                    intent.putExtra("diseaseMedicamentId", medicament.getDiseaseMedicamentId());
+                    Log.d(TAG, "onClick: " +  medicament.getDiseaseMedicamentId());
+                    medicamentsListActivity.startActivityForResult(intent, 1);
+                }
+            });
 
             textViewName.setText(medicament.getName());
-            textViewProducer.setText("Producent: " + medicament.getProducent());
-            textViewPack.setText("Opakowanie: " + medicament.getPack());
-            textViewKind.setText("Rodzaj: " + medicament.getKind());
-            textViewPrice.setText("Cena: " + medicament.getPrice());
-
-            long date = medicament.getDate();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(date);
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            textViewDate.setText("Data: " + months.get(month) + " " + year);
+            textViewProducer.setText(medicament.getProducent());
+            textViewPack.setText(medicament.getPack());
+            textViewKind.setText(medicament.getKind());
+            textViewPrice.setText(medicament.getPrice() + " zł");
+            textViewDate.setText(Months.createDate(medicament.getDate()));
         }
         return  v;
-    }
-
-    private DatabaseHelper getHelper() {
-        if (databaseHelper == null) {
-            databaseHelper = OpenHelperManager.getHelper(mContext,DatabaseHelper.class);
-        }
-        return databaseHelper;
-
     }
 }

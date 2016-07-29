@@ -33,28 +33,15 @@ public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> {
 
     private ArrayList<Medicament> medicaments;
 
-    private final List<String> months = Months.getMonths();
-
-    private AllMedicamentsActivity allMedicamentsActivity;
-
-    private Context mContext;
-
     private ListView mListView;
 
-    private CheckBox checkBox;
 
-
-
-    public AllMedicamentsAdapter(ListView listView, AllMedicamentsActivity allMedicamentsActivity, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
+    public AllMedicamentsAdapter(ListView listView, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
         this.medicaments = medicaments;
-        this.allMedicamentsActivity = allMedicamentsActivity;
-        mContext = context;
         mListView = listView;
 
     }
-
-
 
     public List<Medicament> getMedicaments() {
         return medicaments;
@@ -80,7 +67,7 @@ public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> {
             TextView textViewPrice = (TextView) v.findViewById(R.id.textViewPrice);
             TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
 
-            checkBox = (CheckBox) v.findViewById(R.id.checkBox);
+            CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -94,26 +81,23 @@ public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> {
 
 
             textViewName.setText(medicament.getName());
-            textViewProducer.setText("Producent: " + medicament.getProducent());
-            textViewPack.setText("Opakowanie: " + medicament.getPack());
-            textViewKind.setText("Rodzaj: " + medicament.getKind());
-            textViewPrice.setText("Cena: " + medicament.getPrice());
+            textViewProducer.setText(medicament.getProducent());
+            textViewPack.setText(medicament.getPack());
+            textViewKind.setText(medicament.getKind());
+            textViewPrice.setText(medicament.getPrice()+ " zł");
+            textViewDate.setText(Months.createDate(medicament.getDate()));
 
-            long date = medicament.getDate();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(date);
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            textViewDate.setText("Data: " + months.get(month) + " " + year);
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                    if(checkBox.isChecked())
+                        checkBox.setChecked(false);
+                    else
+                        checkBox.setChecked(true);
+                }
+            });
         }
         return  v;
-    }
-
-    public CheckBox getCheckBox() {
-        return checkBox;
-    }
-
-    public void setCheckBox(CheckBox checkBox) {
-        this.checkBox = checkBox;
     }
 }

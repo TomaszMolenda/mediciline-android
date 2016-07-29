@@ -18,65 +18,132 @@
             android:layout_width="match_parent"
             android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:id="@+id/linearLayout1">
+                        <TextView
+                            android:id="@+id/textViewName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="Nazwa leki"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center"
+                            android:textSize="15dp"
+                            android:textColor="#0000FF"
+                            >
+                        </TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:text=" - "
+                            android:textColor="#000000">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/textViewProducer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:text="producent"
+                            android:textColor="#000000">
+                        </TextView>
 
-        <TextView
-            android:id="@+id/textViewName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textColor="#0000FF"
-           >
-        </TextView>
 
-        <TextView
-            android:id="@+id/textViewProducer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textColor="#000000"
-            android:layout_below="@+id/textViewName">
-        </TextView>
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/textViewPack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textColor="#000000"
-            android:layout_below="@+id/textViewProducer">
-        </TextView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/linearLayout1"
+                    android:id="@+id/linearLayout2">
+                        <TextView
+                            android:id="@+id/textViewPack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:text="30 sztuk"
+                            android:textColor="#000000">
+                        </TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:text=" - "
+                            android:textColor="#000000">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/textViewKind"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:text="tabletki"
+                            android:textColor="#000000"
+                            >
+                        </TextView>
 
 
-        <TextView
-            android:id="@+id/textViewKind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textColor="#000000"
-            android:layout_below="@+id/textViewPack">
-        </TextView>
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/textViewPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textColor="#000000"
-            android:layout_below="@+id/textViewKind">
-        </TextView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/linearLayout2"
+                    android:id="@+id/linearLayout3">
 
-        <TextView
-            android:id="@+id/textViewDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textColor="#000000"
-            android:layout_below="@+id/textViewPrice">
-        </TextView>
+                        <TextView
+                            android:id="@+id/textViewDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:text="Styczeń 2015"
+                            android:textColor="#000000">
+                        </TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:text=" - "
+                            android:textColor="#000000">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/textViewPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:text="20.00"
+                            android:textColor="#000000">
+                        </TextView>
 
-</RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textViewDosageCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="15dp"
+                    android:text="(0)"
+                    android:textColor="#000000">
+                </TextView>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/dosage"
+                    android:id="@+id/imageViewDosage"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/textViewDosageCount"
+                    android:layout_toStartOf="@+id/textViewDosageCount" />
+
+
+        </RelativeLayout>
 
 </LinearLayout>

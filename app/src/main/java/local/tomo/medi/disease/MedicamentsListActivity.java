@@ -6,9 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -38,7 +36,7 @@ public class MedicamentsListActivity extends AppCompatActivity {
     private EditText editTextSearch;
     private ListView listView;
     private FloatingActionButton fabAdd;
-    private FloatingActionButton fabRemove;
+    public FloatingActionButton fabRemove;
 
 
     private Disease disease;
@@ -65,13 +63,34 @@ public class MedicamentsListActivity extends AppCompatActivity {
         }
         setMedicaments();
 
+
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AllMedicamentsActivity.class);
                 intent.putExtra("diseaseId", diseaseId);
                 startActivityForResult(intent, 1);
+            }
+        });
+        fabRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Medicament medicament : medicaments) {
+                    if(medicament.isChecked()) {
+                        ForeignCollection<Medicament_Disease> medicament_diseases = disease.getMedicament_diseases();
+                        for (Medicament_Disease medicament_disease : medicament_diseases) {
+                            if(medicament_disease.getMedicament().equals(medicament)) {
+                                try {
+                                    getHelper().getMedicament_DiseaseDao().delete(medicament_disease);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
 
+                }
+                setMedicaments();
             }
         });
 
@@ -89,7 +108,7 @@ public class MedicamentsListActivity extends AppCompatActivity {
                     if(medicament.getName().toLowerCase().contains(text) || medicament.getProducent().toLowerCase().contains(text))
                         searchedMedicaments.add(medicament);
                 }
-                medicamentsListAdapter = new MedicamentsListAdapter(listView, MedicamentsListActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) searchedMedicaments);
+                //medicamentsListAdapter = new MedicamentsListAdapter(listView, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) searchedMedicaments);
                 listView.setAdapter(medicamentsListAdapter);
                 medicamentsListAdapter.notifyDataSetChanged();
             }
@@ -112,9 +131,12 @@ public class MedicamentsListActivity extends AppCompatActivity {
         ForeignCollection<Medicament_Disease> medicament_diseases = disease.getMedicament_diseases();
         medicaments = new ArrayList<Medicament>();
         for (Medicament_Disease medicament_disease : medicament_diseases) {
-            medicaments.add(medicament_disease.getMedicament());
+            Medicament medicament = medicament_disease.getMedicament();
+            medicament.setDiseaseMedicamentId(medicament_disease.getId());
+            medicaments.add(medicament);
+
         }
-        medicamentsListAdapter = new MedicamentsListAdapter(listView, MedicamentsListActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        medicamentsListAdapter = new MedicamentsListAdapter(listView, this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
         listView.setAdapter(medicamentsListAdapter);
     }
 
