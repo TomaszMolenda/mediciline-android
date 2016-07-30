@@ -38,7 +38,8 @@
         <activity android:name=".patient.LiveCameraActivity" />
         <activity android:name=".disease.AllMedicamentsActivity" />
         <activity android:name=".user.RegisterActivity" />
-        <activity android:name=".dosage.DosagesActivity"></activity>
+        <activity android:name=".dosage.DosagesActivity" />
+        <activity android:name=".dosage.AddDosageActivity"></activity>
     </application>
 
 </manifest>

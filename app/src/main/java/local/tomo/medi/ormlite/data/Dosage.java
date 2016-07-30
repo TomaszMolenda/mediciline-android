@@ -28,4 +28,9 @@ public class Dosage {
     private int dose;
     @DatabaseField
     private boolean sended;
+
+    public Dosage() {
+    }
+
+
 }

@@ -38,6 +38,8 @@ public class Disease {
     @DatabaseField
     private boolean archive;
 
+    private boolean hidden;
+
     public Disease() {}
 
 

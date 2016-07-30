@@ -32,7 +32,9 @@ public class Patient {
     @DatabaseField
     private boolean lastUse;
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
-    byte[] photo;
+    private byte[] photo;
+
+    private boolean hidden;
 
     public Patient() {
     }

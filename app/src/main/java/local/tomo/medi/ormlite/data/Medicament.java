@@ -52,6 +52,8 @@ public class Medicament {
 
     private int diseaseMedicamentId;
 
+    private boolean hidden;
+
 
     public Medicament() {
     }
