@@ -27,7 +27,7 @@ public class MedicamentsListActivity extends AppCompatActivity {
 
     private static final String TAG = "meditomo";
 
-    private DatabaseHelper databaseHelper = null;
+    private DatabaseHelper databaseHelper;
 
     private List<Medicament> medicaments;
 

@@ -2,7 +2,6 @@ package local.tomo.medi.disease;
 
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +12,11 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
-import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
 
 /**

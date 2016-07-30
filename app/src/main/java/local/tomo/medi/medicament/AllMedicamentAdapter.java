@@ -24,7 +24,6 @@ import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import local.tomo.medi.R;
@@ -39,15 +38,13 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
     private ArrayList<Medicament> medicaments;
 
-    private final List<String> months = Months.getMonths();
-
     private MedicamentsActivity medicamentsActivity;
 
-    private Context mContext;
+    private Context context;
 
-    private DatabaseHelper databaseHelper = null;
+    private DatabaseHelper databaseHelper;
 
-    private ListView mListView;
+    private ListView listView;
 
 
 
@@ -55,8 +52,8 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
         super(context, textViewResourceId, medicaments);
         this.medicaments = medicaments;
         this.medicamentsActivity = medicamentsActivity;
-        mContext = context;
-        mListView = listView;
+        this.context = context;
+        this.listView = listView;
 
     }
 
@@ -93,7 +90,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             menuIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(mContext, v);
+                    PopupMenu popupMenu = new PopupMenu(context, v);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
@@ -146,14 +143,9 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             textViewKind.setText("Rodzaj: " + medicament.getKind());
             textViewDiseases.setText("Choroby: " + medicament.getMedicament_diseases().size());
 
-            long date = medicament.getDate();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(date);
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
             if(medicament.isOverdue() & medicament.isArchive() == false)
                 textViewDate.setTextColor(Color.parseColor("#DF013A"));
-            textViewDate.setText("Data: " + months.get(month) + " " + year);
+            textViewDate.setText("Data: " + Months.createDate(medicament.getDate()));
         }
         return  v;
     }
@@ -198,7 +190,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
     private DatabaseHelper getHelper() {
         if (databaseHelper == null) {
-            databaseHelper = OpenHelperManager.getHelper(mContext,DatabaseHelper.class);
+            databaseHelper = OpenHelperManager.getHelper(context,DatabaseHelper.class);
         }
         return databaseHelper;
 

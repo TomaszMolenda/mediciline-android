@@ -2,38 +2,25 @@ package local.tomo.medi.disease;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import local.tomo.medi.R;
 import local.tomo.medi.dosage.DosagesActivity;
-import local.tomo.medi.medicament.MedicamentsActivity;
 import local.tomo.medi.model.Months;
-import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
 
 /**
@@ -43,7 +30,7 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
 
     private static final String TAG = "meditomo";
 
-    private ArrayList<Medicament> medicaments;
+    private List<Medicament> medicaments;
 
     private ListView mListView;
 
@@ -53,7 +40,7 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
 
 
 
-    public MedicamentsListAdapter(ListView listView, MedicamentsListActivity medicamentsListActivity, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
+    public MedicamentsListAdapter(ListView listView, MedicamentsListActivity medicamentsListActivity, Context context, int textViewResourceId, List<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
         this.medicaments = medicaments;
         mListView = listView;

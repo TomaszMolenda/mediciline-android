@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;

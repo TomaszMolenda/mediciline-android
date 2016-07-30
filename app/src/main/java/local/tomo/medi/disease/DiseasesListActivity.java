@@ -3,7 +3,6 @@ package local.tomo.medi.disease;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.stmt.QueryBuilder;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
