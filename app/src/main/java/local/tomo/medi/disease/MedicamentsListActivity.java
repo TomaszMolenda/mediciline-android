@@ -20,6 +20,7 @@ import java.util.List;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
+import local.tomo.medi.ormlite.data.Dosage;
 import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.Medicament_Disease;
 
@@ -81,6 +82,10 @@ public class MedicamentsListActivity extends AppCompatActivity {
                         for (Medicament_Disease medicament_disease : medicament_diseases) {
                             if(medicament_disease.getMedicament().equals(medicament)) {
                                 try {
+                                    ForeignCollection<Dosage> dosages = medicament_disease.getDosages();
+                                    for (Dosage dosage : dosages) {
+                                        getHelper().getDosageDao().delete(dosage);
+                                    }
                                     getHelper().getMedicament_DiseaseDao().delete(medicament_disease);
                                 } catch (SQLException e) {
                                     e.printStackTrace();
@@ -133,6 +138,7 @@ public class MedicamentsListActivity extends AppCompatActivity {
         for (Medicament_Disease medicament_disease : medicament_diseases) {
             Medicament medicament = medicament_disease.getMedicament();
             medicament.setDiseaseMedicamentId(medicament_disease.getId());
+            medicament.setDosageCount(medicament_disease.getDosages().size());
             medicaments.add(medicament);
 
         }

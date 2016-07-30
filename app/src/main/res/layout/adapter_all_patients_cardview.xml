@@ -27,8 +27,9 @@
                 android:id="@+id/textViewPatientName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textColor="#B40431"
+                android:textSize="25dp"
+                android:maxLength="25"
+                android:textColor="#DF013A"
                 android:layout_toRightOf="@id/imageViewProfilePic" />
 
             <TextView

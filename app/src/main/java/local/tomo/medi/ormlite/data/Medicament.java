@@ -52,6 +52,8 @@ public class Medicament {
 
     private int diseaseMedicamentId;
 
+    private int dosageCount;
+
     private boolean hidden;
 
 

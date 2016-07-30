@@ -62,28 +62,13 @@
                     android:layout_below="@id/linearLayout1"
                     android:id="@+id/linearLayout2">
                         <TextView
-                            android:id="@+id/textViewPack"
+                            android:id="@+id/textViewInfo1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="10dp"
                             android:text="30 sztuk"
+                            android:maxLength="55"
                             android:textColor="#000000">
-                        </TextView>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="10dp"
-                            android:text=" - "
-                            android:textColor="#000000">
-                        </TextView>
-                        <TextView
-                            android:id="@+id/textViewKind"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="10dp"
-                            android:text="tabletki"
-                            android:textColor="#000000"
-                            >
                         </TextView>
 
 

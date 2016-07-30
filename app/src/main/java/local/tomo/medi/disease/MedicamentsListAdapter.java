@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import local.tomo.medi.R;
@@ -68,8 +67,7 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
         if(medicament!=null) {
             TextView textViewName = (TextView) v.findViewById(R.id.textViewName);
             TextView textViewProducer = (TextView) v.findViewById(R.id.textViewProducer);
-            TextView textViewPack = (TextView) v.findViewById(R.id.textViewPack);
-            TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
+            TextView textViewInfo1 = (TextView) v.findViewById(R.id.textViewInfo1);
             TextView textViewPrice = (TextView) v.findViewById(R.id.textViewPrice);
             TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
             TextView textViewDosageCount = (TextView) v.findViewById(R.id.textViewDosageCount);
@@ -109,10 +107,10 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
 
             textViewName.setText(medicament.getName());
             textViewProducer.setText(medicament.getProducent());
-            textViewPack.setText(medicament.getPack());
-            textViewKind.setText(medicament.getKind());
+            textViewInfo1.setText(medicament.getPack() + " - " + medicament.getKind());
             textViewPrice.setText(medicament.getPrice() + " zł");
             textViewDate.setText(Months.createDate(medicament.getDate()));
+            textViewDosageCount.setText("(" + medicament.getDosageCount() + ")");
         }
         return  v;
     }
