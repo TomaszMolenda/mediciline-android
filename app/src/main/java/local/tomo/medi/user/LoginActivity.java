@@ -134,7 +134,7 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
-            Log.d("meditomo", "2222:");
+            Log.d("meditomo", "1111:");
             setOverdueMedicaments();
             login();
         }
