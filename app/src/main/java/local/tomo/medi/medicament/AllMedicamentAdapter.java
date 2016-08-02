@@ -131,8 +131,10 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
                 }
             });
 
-
-            textViewName.setText(medicament.getName());
+            String name = medicament.getName();
+            if(name.length() > 25)
+                name = name.substring(0,25);
+            textViewName.setText(name);
             textViewProducer.setText("Producent: " + medicament.getProducent());
 
             int idServer = medicament.getIdServer();

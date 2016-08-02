@@ -1,6 +1,7 @@
 package local.tomo.medi.disease;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,15 @@ public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapte
         Disease disease = diseases.get(position);
         holder.textViewName.setText(disease.getName());
         holder.textViewStartDate.append(Months.createDate(disease.getStartLong()));
+        if(disease.getStopLong() == 0)
+            holder.textViewStopDate.append("nie zakończona");
+        else {
+            holder.textViewStopDate.append(Months.createDate(disease.getStopLong()));
+            holder.textViewStopDate.setTextColor(Color.GRAY);
+            holder.textViewName.setTextColor(Color.GRAY);
+            holder.textViewStartDate.setTextColor(Color.GRAY);
+        }
+
     }
 
     @Override
@@ -49,11 +59,13 @@ public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapte
 
         TextView textViewName;
         TextView textViewStartDate;
+        TextView textViewStopDate;
 
         public DiseaseViewHolder(View itemView) {
             super(itemView);
             textViewName = (TextView) itemView.findViewById(R.id.textViewName);
             textViewStartDate = (TextView) itemView.findViewById(R.id.textViewStartDate);
+            textViewStopDate = (TextView) itemView.findViewById(R.id.textViewStopDate);
         }
     }
 }

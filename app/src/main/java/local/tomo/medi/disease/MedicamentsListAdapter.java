@@ -104,9 +104,14 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
                     medicamentsListActivity.startActivityForResult(intent, 1);
                 }
             });
-
-            textViewName.setText(medicament.getName());
-            textViewProducer.setText(medicament.getProducent());
+            String name = medicament.getName();
+            if(name.length() > 30)
+                name = name.substring(0,30);
+            textViewName.setText(name);
+            String producent = medicament.getProducent();
+            if(producent.length() > 15)
+                producent = producent.substring(0,15);
+            textViewProducer.setText(producent);
             textViewInfo1.setText(medicament.getPack() + " - " + medicament.getKind());
             textViewPrice.setText(medicament.getPrice() + " zł");
             textViewDate.setText(Months.createDate(medicament.getDate()));

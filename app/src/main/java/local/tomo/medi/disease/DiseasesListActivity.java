@@ -35,6 +35,9 @@ public class DiseasesListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewDiseases;
 
+    private TextView textViewActiveDiseasesCount;
+    private TextView textViewEndedDiseasesCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +55,8 @@ public class DiseasesListActivity extends AppCompatActivity {
         ImageView imageViewProfilePic = (ImageView) findViewById(R.id.imageViewProfilePic);
         TextView textViewName = (TextView) findViewById(R.id.textViewName);
         TextView textViewBirthday = (TextView) findViewById(R.id.textViewBirthday);
-        TextView textViewActiveDiseasesCount = (TextView) findViewById(R.id.textViewActiveDiseasesCount);
-        TextView textViewEndedDiseasesCount = (TextView) findViewById(R.id.textViewEndedDiseasesCount);
+        textViewActiveDiseasesCount = (TextView) findViewById(R.id.textViewActiveDiseasesCount);
+        textViewEndedDiseasesCount = (TextView) findViewById(R.id.textViewEndedDiseasesCount);
         recyclerViewDiseases = (RecyclerView) findViewById(R.id.recyclerViewDiseases);
         FloatingActionButton floatingActionButtonAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonAdd);
         byte[] photo = patient.getPhoto();
@@ -100,12 +103,33 @@ public class DiseasesListActivity extends AppCompatActivity {
             QueryBuilder<Disease, Integer> queryBuilder = getHelper().getDiseaseDao().queryBuilder();
             queryBuilder.where().eq("patient_id", patientId);
             queryBuilder.orderBy("stopLong", true);
+            queryBuilder.orderBy("startLong", false);
             diseases = queryBuilder.query();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        textViewActiveDiseasesCount.setText("Choroby trwające: " + getActiveCount(diseases));
+        textViewEndedDiseasesCount.setText("Choroby zakończone: " + getArchiveCount(diseases));
         DiseasesListAdapter diseasesListAdapter = new DiseasesListAdapter(diseases, this);
         recyclerViewDiseases.setAdapter(diseasesListAdapter);
+    }
+
+    private int getActiveCount(List<Disease> diseases) {
+        int i = 0;
+        for (Disease disease : diseases) {
+            if(!disease.isArchive())
+                i++;
+        }
+        return i;
+    }
+
+    private int getArchiveCount(List<Disease> diseases) {
+        int i = 0;
+        for (Disease disease : diseases) {
+            if(disease.isArchive())
+                i++;
+        }
+        return i;
     }
 
     private DatabaseHelper getHelper() {

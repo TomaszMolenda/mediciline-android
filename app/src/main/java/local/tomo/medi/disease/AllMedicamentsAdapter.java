@@ -72,11 +72,16 @@ public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> {
                         medicament.setChecked(false);
                 }
             });
-            
 
 
-            textViewName.setText(medicament.getName());
-            textViewProducer.setText(medicament.getProducent());
+            String name = medicament.getName();
+            if(name.length() > 30)
+                name = name.substring(0,30);
+            textViewName.setText(name);
+            String producent = medicament.getProducent();
+            if(producent.length() > 15)
+                producent = producent.substring(0,15);
+            textViewProducer.setText(producent);
             textViewPack.setText(medicament.getPack());
             textViewKind.setText(medicament.getKind());
             textViewPrice.setText(medicament.getPrice()+ " zł");

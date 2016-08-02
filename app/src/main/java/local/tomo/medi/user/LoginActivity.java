@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -21,10 +22,14 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import local.tomo.medi.MainActivity;
@@ -41,6 +46,8 @@ import retrofit2.Call;
 
 public class LoginActivity extends Activity {
 
+    public static final String TAG = "meditomo";
+
     public static final int MEDICAMENTDB_COUNT = 11575;
 
     private static String PREF_NAME = "medi_pref";
@@ -52,7 +59,7 @@ public class LoginActivity extends Activity {
 
     private static User user = new User();
 
-    private DatabaseHelper databaseHelper = null;
+    private DatabaseHelper databaseHelper;
 
     private EditText editTextLoginUserName;
     private EditText editTextLoginPassword;
@@ -134,7 +141,7 @@ public class LoginActivity extends Activity {
             user.setEmail(email);
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
-            Log.d("meditomo", "1111:");
+            Log.d(TAG, "22222:");
             setOverdueMedicaments();
             login();
         }
@@ -245,4 +252,6 @@ public class LoginActivity extends Activity {
         }
         return databaseHelper;
     }
+
+
 }
