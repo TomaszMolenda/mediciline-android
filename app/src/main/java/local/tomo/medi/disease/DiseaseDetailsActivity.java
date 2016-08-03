@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.ForeignCollection;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
+import local.tomo.medi.ormlite.data.Medicament_Disease;
 
 public class DiseaseDetailsActivity extends AppCompatActivity {
 
@@ -43,7 +45,7 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
     private Calendar chooseDate;
 
     private long startLong;
-
+    private int medicamentsCount;
 
 
 
@@ -55,11 +57,7 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
         final Bundle bundle = getIntent().getExtras();
         final int diseaseId = bundle.getInt("diseaseId");
 
-        try {
-            disease = getHelper().getDiseaseDao().queryForId(diseaseId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         textViewName = (TextView) findViewById(R.id.textViewName);
         textViewStart = (TextView) findViewById(R.id.textViewStart);
@@ -67,14 +65,17 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
         textViewDescription = (TextView) findViewById(R.id.textViewDescription);
 
         buttonMedicaments = (Button) findViewById(R.id.buttonMedicaments);
+
         buttonFiles = (Button) findViewById(R.id.buttonFiles);
         buttonDosages = (Button) findViewById(R.id.buttonDosages);
         buttonFinish = (Button) findViewById(R.id.buttonFinish);
-
+        getDisease(diseaseId);
         textViewName.append(disease.getName());
 
         startLong = disease.getStartLong();
         textViewStart.append(Months.createDate(startLong));
+
+
 
         long stopLong = disease.getStopLong();
         if(stopLong != 0) {
@@ -100,7 +101,7 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MedicamentsListActivity.class);
                 intent.putExtra("diseaseId", diseaseId);
-                startActivity(intent);
+                startActivityForResult(intent, diseaseId);
             }
         });
         final Calendar calendar = Calendar.getInstance();
@@ -133,6 +134,16 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
 
     }
 
+    private void getDisease(int diseaseId) {
+        try {
+            disease = getHelper().getDiseaseDao().queryForId(diseaseId);
+            medicamentsCount = disease.getMedicament_diseases().size();
+            buttonMedicaments.setText("Leki (" + medicamentsCount + ")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private DatabaseHelper getHelper() {
         if (databaseHelper == null) {
             databaseHelper = OpenHelperManager.getHelper(this,DatabaseHelper.class);
@@ -147,5 +158,10 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
             OpenHelperManager.releaseHelper();
             databaseHelper = null;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        getDisease(requestCode);
     }
 }
