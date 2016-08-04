@@ -19,6 +19,9 @@ public class Disease {
     @ForeignCollectionField
     private ForeignCollection<Medicament_Disease> medicament_diseases;
 
+    @ForeignCollectionField
+    private ForeignCollection<File> files;
+
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField

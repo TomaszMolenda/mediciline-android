@@ -28,7 +28,7 @@
         <service
             android:name=".service.MediService"
             android:enabled="true"
-            android:process=":mediciline_service"></service>
+            android:process=":mediciline_service" />
 
         <activity android:name=".user.LoginActivity">
             <intent-filter>
@@ -56,7 +56,8 @@
         <activity android:name=".user.RegisterActivity" />
         <activity android:name=".dosage.DosagesActivity" />
         <activity android:name=".dosage.AddDosageActivity" />
-        <activity android:name=".service.NotificationReceiverActivity"></activity>
+        <activity android:name=".service.NotificationReceiverActivity" />
+        <activity android:name=".file.FilesActivity"></activity>
     </application>
 
 </manifest>

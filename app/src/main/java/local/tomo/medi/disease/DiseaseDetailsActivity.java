@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 
 import local.tomo.medi.R;
+import local.tomo.medi.file.FilesActivity;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
@@ -100,6 +101,14 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MedicamentsListActivity.class);
+                intent.putExtra("diseaseId", diseaseId);
+                startActivityForResult(intent, diseaseId);
+            }
+        });
+        buttonFiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FilesActivity.class);
                 intent.putExtra("diseaseId", diseaseId);
                 startActivityForResult(intent, diseaseId);
             }
