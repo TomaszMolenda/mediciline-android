@@ -52,7 +52,7 @@ public class Alarm extends BroadcastReceiver
 
         // Put here YOUR code.
         Toast.makeText(context, "Alarm !!!!!!!!!!", Toast.LENGTH_LONG).show(); // For example
-        //Log.d(TAG, "onReceive: ");
+        Log.d(TAG, "onReceive: ");
         generateNoteOnSD(context, "medi.txt", new Date().toString());
         //createNotification(context);
         wl.release();

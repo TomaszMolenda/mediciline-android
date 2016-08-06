@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.ForeignCollection;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -22,7 +20,7 @@ import local.tomo.medi.file.FilesActivity;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
-import local.tomo.medi.ormlite.data.Medicament_Disease;
+import lombok.SneakyThrows;
 
 public class DiseaseDetailsActivity extends AppCompatActivity {
 
@@ -46,7 +44,6 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
     private Calendar chooseDate;
 
     private long startLong;
-    private int medicamentsCount;
 
 
 
@@ -70,7 +67,7 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
         buttonFiles = (Button) findViewById(R.id.buttonFiles);
         buttonDosages = (Button) findViewById(R.id.buttonDosages);
         buttonFinish = (Button) findViewById(R.id.buttonFinish);
-        getDisease(diseaseId);
+        prepareData(diseaseId);
         textViewName.append(disease.getName());
 
         startLong = disease.getStartLong();
@@ -143,14 +140,13 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void getDisease(int diseaseId) {
-        try {
-            disease = getHelper().getDiseaseDao().queryForId(diseaseId);
-            medicamentsCount = disease.getMedicament_diseases().size();
-            buttonMedicaments.setText("Leki (" + medicamentsCount + ")");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    @SneakyThrows
+    private void prepareData(int diseaseId) {
+        disease = getHelper().getDiseaseDao().queryForId(diseaseId);
+        int medicamentsCount = disease.getMedicament_diseases().size();
+        int filesCount = disease.getFiles().size();
+        buttonMedicaments.setText("Leki (" + medicamentsCount + ")");
+        buttonFiles.setText("Pliki (" + filesCount + ")");
     }
 
     private DatabaseHelper getHelper() {
@@ -171,6 +167,6 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        getDisease(requestCode);
+        prepareData(requestCode);
     }
 }

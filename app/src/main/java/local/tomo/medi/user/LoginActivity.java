@@ -26,6 +26,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -41,6 +42,8 @@ import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.User;
+import local.tomo.medi.utills.Utill;
+import lombok.SneakyThrows;
 import retrofit2.Call;
 
 
@@ -107,6 +110,7 @@ public class LoginActivity extends Activity {
     }
 
     @Override
+    @SneakyThrows
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -142,6 +146,9 @@ public class LoginActivity extends Activity {
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
             Log.d(TAG, "22222:");
+
+
+            InputStream open = getBaseContext().getAssets().open("app.properties");
             setOverdueMedicaments();
             login();
         }

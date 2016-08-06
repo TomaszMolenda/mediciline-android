@@ -44,6 +44,7 @@ public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapte
         holder.textViewName.setText(disease.getName());
         holder.textViewStartDate.append(Months.createDate(disease.getStartLong()));
         holder.textViewDisease.setText("Leki (" + disease.getMedicament_diseases().size() + ")");
+        holder.textViewFiles.setText("Pliki (" + disease.getFiles().size() + ")");
 
         if(disease.getStopLong() == 0)
             holder.textViewStopDate.append("nie zakończona");
@@ -53,6 +54,7 @@ public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapte
             holder.textViewName.setTextColor(Color.GRAY);
             holder.textViewStartDate.setTextColor(Color.GRAY);
             holder.textViewDisease.setTextColor(Color.GRAY);
+            holder.textViewFiles.setTextColor(Color.GRAY);
         }
     }
 
@@ -67,6 +69,7 @@ public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapte
         TextView textViewStartDate;
         TextView textViewStopDate;
         TextView textViewDisease;
+        TextView textViewFiles;
 
 
         public DiseaseViewHolder(View itemView) {
@@ -75,6 +78,7 @@ public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapte
             textViewStartDate = (TextView) itemView.findViewById(R.id.textViewStartDate);
             textViewStopDate = (TextView) itemView.findViewById(R.id.textViewStopDate);
             textViewDisease = (TextView) itemView.findViewById(R.id.textViewDisease);
+            textViewFiles = (TextView) itemView.findViewById(R.id.textViewFiles);
         }
     }
 }
