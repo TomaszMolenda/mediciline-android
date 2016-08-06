@@ -1,30 +1,24 @@
 package local.tomo.medi.file;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
@@ -47,8 +41,6 @@ public class FilesActivity extends AppCompatActivity {
     private Disease disease;
 
     private Uri uri;
-
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,10 +86,6 @@ public class FilesActivity extends AppCompatActivity {
     @SneakyThrows
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-//            progressDialog = new ProgressDialog(getApplicationContext());
-//            progressDialog.setMessage("Kompresja zdjęcia");
-//            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//            progressDialog.show();
             Bitmap bitmap = BitmapFactory.decodeFile(uri.getPath());
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             double height = bitmap.getHeight();
@@ -135,7 +123,6 @@ public class FilesActivity extends AppCompatActivity {
             });
 
             builder.create();
-//            progressDialog.dismiss();
             builder.show();
         }
 
@@ -166,7 +153,6 @@ public class FilesActivity extends AppCompatActivity {
         }
     }
 
-
-
-
 }
+
+
