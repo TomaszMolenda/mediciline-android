@@ -2,58 +2,54 @@ package local.tomo.medi.disease;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Patient;
+import lombok.SneakyThrows;
 
 public class AddDiseaseActivity extends AppCompatActivity {
 
-    private DatabaseHelper databaseHelper = null;
+    private DatabaseHelper databaseHelper;
 
-    private EditText editTextName;
-    private EditText editTextStartDate;
-    private EditText editTextDescription;
-    private Button buttonSave;
+    @BindView(R.id.editTextName) TextView editTextName;
+    @BindView(R.id.editTextStartDate) TextView editTextStartDate;
+    @BindView(R.id.editTextDescription) TextView editTextDescription;
+    @BindView(R.id.buttonSave) TextView buttonSave;
 
     private DatePickerDialog datePickerDialog;
 
     private Calendar chooseDate;
 
     private Patient patient;
-    private Disease disease;
 
     @Override
+    @SneakyThrows
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_disease);
+        ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
         int patientId = bundle.getInt("patientId");
-        try {
-            Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
-            patient = patientDao.queryForId(patientId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
+        patient = patientDao.queryForId(patientId);
 
         final Calendar calendar = Calendar.getInstance();
 
@@ -67,47 +63,27 @@ public class AddDiseaseActivity extends AppCompatActivity {
 
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+    }
 
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextStartDate = (EditText) findViewById(R.id.editTextStartDate);
-        editTextDescription = (EditText) findViewById(R.id.editTextDescription);
-        buttonSave = (Button) findViewById(R.id.buttonSave);
+    @OnClick(R.id.buttonSave)
+    @SneakyThrows
+    void saveDisease() {
+        if(!isValidate()) return;
+        String name = editTextName.getText().toString().trim();
+        String description = editTextDescription.getText().toString();
+        Disease disease = new Disease(name, chooseDate.getTime(), description);
+        disease.setPatient(patient);
+        getHelper().getDiseaseDao().create(disease);
+        //sendPatientToServer(patient);
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
 
-        editTextStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
+    }
 
-            }
-        });
-
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isValidate()) {
-                    String name = editTextName.getText().toString().trim();
-                    String description = editTextDescription.getText().toString();
-                    disease = new Disease(name, chooseDate.getTime(), description);
-                    disease.setPatient(patient);
-                    try {
-                        getHelper().getDiseaseDao().create(disease);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    //sendPatientToServer(patient);
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-
-
-
-            }
-        });
-
-
-
-
+    @OnClick(R.id.editTextStartDate)
+    void showDatePickerDialog() {
+        datePickerDialog.show();
     }
 
     private DatabaseHelper getHelper() {

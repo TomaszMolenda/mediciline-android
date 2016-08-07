@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Medi</string>
     <string name="spinner_Patient">Osoba</string>
+    <string name="add_disease">Dodaj chorobę</string>
+    <string name="name">Nazwa</string>
+    <string name="start_date">Data rozpoczęcia</string>
+    <string name="description">Opis</string>
+    <string name="save">Zapisz</string>
 
 </resources>
