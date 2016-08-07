@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     tools:context="local.tomo.medi.swipe.DosageFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="test" />
+        android:layout_height="wrap_content"
+        android:id="@android:id/list"
+        android:layout_centerHorizontal="true" />
 
 </FrameLayout>

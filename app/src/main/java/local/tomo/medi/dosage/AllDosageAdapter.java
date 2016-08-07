@@ -2,17 +2,13 @@ package local.tomo.medi.dosage;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,23 +16,22 @@ import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import local.tomo.medi.R;
-import local.tomo.medi.disease.MedicamentsListActivity;
-import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Dosage;
 import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.Patient;
+import local.tomo.medi.swipe.DosageFragment;
+import lombok.SneakyThrows;
 
 /**
  * Created by tomo on 2016-05-27.
  */
-public class DosageAdapter extends ArrayAdapter<Dosage> {
+public class AllDosageAdapter extends ArrayAdapter<Dosage> {
 
     private static final String TAG = "meditomo";
 
@@ -46,29 +41,30 @@ public class DosageAdapter extends ArrayAdapter<Dosage> {
 
     private ListView listView;
 
-    private DosagesActivity dosagesActivity;
+    private DosageFragment dosageFragment;
 
     private Context context;
 
 
-    public DosageAdapter(ListView listView, DosagesActivity dosagesActivity, Context context, int textViewResourceId, List<Dosage> dosages) {
+    public AllDosageAdapter(ListView listView, DosageFragment dosageFragment, Context context, int textViewResourceId, List<Dosage> dosages) {
         super(context, textViewResourceId, dosages);
         this.dosages = dosages;
         this.listView = listView;
-        this.dosagesActivity = dosagesActivity;
+        this.dosageFragment = dosageFragment;
         this.context = context;
     }
 
 
 
     @Override
+    @SneakyThrows
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
 
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.adapter_dosages, null);
+            v = vi.inflate(R.layout.adapter_all_dosages, null);
         }
 
         final Dosage dosage = getItem(position);
@@ -77,7 +73,9 @@ public class DosageAdapter extends ArrayAdapter<Dosage> {
 
             Disease disease = dosage.getMedicament_disease().getDisease();
             Medicament medicament = dosage.getMedicament_disease().getMedicament();
-            Patient patient = disease.getPatient();
+
+            Disease diseaseForPatient = getHelper().getDiseaseDao().queryForId(disease.getId());
+            Patient patient = diseaseForPatient.getPatient();
 
             TextView textViewTime = (TextView) v.findViewById(R.id.textViewTime);
             TextView textViewDose = (TextView) v.findViewById(R.id.textViewDose);
@@ -115,7 +113,7 @@ public class DosageAdapter extends ArrayAdapter<Dosage> {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    dosagesActivity.setDosages();
+                    dosageFragment.setDosages();
                 }
             });
         }

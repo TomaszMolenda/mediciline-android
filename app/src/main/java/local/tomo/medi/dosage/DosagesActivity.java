@@ -104,11 +104,8 @@ public class DosagesActivity extends AppCompatActivity {
         try {
             Medicament_Disease medicament_disease = getHelper().getMedicament_DiseaseDao().queryForId(diseaseMedicamentId);
             medicament = medicament_disease.getMedicament();
-            medicament.setHidden(true);
             disease = medicament_disease.getDisease();
-            disease.setHidden(true);
             patient = disease.getPatient();
-            patient.setHidden(true);
             dosages = new ArrayList<>(medicament_disease.getDosages());
             Collections.sort(dosages, new Comparator<Dosage>() {
                 @Override

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp">
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14:55"
+                android:textSize="25dp"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(2)"
+                android:id="@+id/textViewDose"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/textViewTime"
+                android:layout_toEndOf="@+id/textViewTime" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/add_user"
+                android:layout_marginLeft="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/textViewDose"
+                android:layout_toEndOf="@+id/textViewDose" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ketonal Ketonal Ketonal Ketonal Ketonal Ketonal"
+                android:id="@+id/textViewMedicament"
+                android:textColor="#000000"
+                android:textSize="10dp"
+                android:maxLength="25"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toEndOf="@+id/imageView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zapalenie"
+                android:id="@+id/textViewDisease"
+                android:textColor="#000000"
+                android:textSize="10dp"
+                android:maxLength="25"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@+id/textViewMedicament"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toEndOf="@+id/imageView" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageViewDelete"
+                android:src="@drawable/delete"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+        </RelativeLayout>
+
+</LinearLayout>
