@@ -6,5 +6,7 @@
     <string name="start_date">Data rozpoczęcia</string>
     <string name="description">Opis</string>
     <string name="save">Zapisz</string>
+    <string name="find_medicament_in_kit">szukaj leku w swojej apteczce</string>
+    <string name="assign_medicament_to_disease">Przypisz leki do choroby</string>
 
 </resources>

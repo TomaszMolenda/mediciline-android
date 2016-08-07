@@ -27,10 +27,14 @@ public class AddDiseaseActivity extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
 
-    @BindView(R.id.editTextName) TextView editTextName;
-    @BindView(R.id.editTextStartDate) TextView editTextStartDate;
-    @BindView(R.id.editTextDescription) TextView editTextDescription;
-    @BindView(R.id.buttonSave) TextView buttonSave;
+    @BindView(R.id.editTextName)
+    TextView editTextName;
+    @BindView(R.id.editTextStartDate)
+    TextView editTextStartDate;
+    @BindView(R.id.editTextDescription)
+    TextView editTextDescription;
+    @BindView(R.id.buttonSave)
+    TextView buttonSave;
 
     private DatePickerDialog datePickerDialog;
 

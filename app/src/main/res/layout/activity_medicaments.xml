@@ -17,21 +17,21 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/EditTextSearch"
+            android:id="@+id/editTextSearch"
             android:hint="szukaj leku w swojej apteczce"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:inputType="textPersonName"
             android:ems="10"
             android:textColor="#000000"
-            android:nextFocusUp="@id/EditTextSearch"
-            android:nextFocusLeft="@id/EditTextSearch"
+            android:nextFocusUp="@id/editTextSearch"
+            android:nextFocusLeft="@id/editTextSearch"
             />
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/EditTextSearch"
+            android:layout_below="@id/editTextSearch"
             android:id="@android:id/list"
             android:layout_centerHorizontal="true" />
 

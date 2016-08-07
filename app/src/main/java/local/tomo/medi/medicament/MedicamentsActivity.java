@@ -53,7 +53,7 @@ public class MedicamentsActivity extends Activity {
 
         listView = (ListView) findViewById(android.R.id.list);
         fabAddMedicament = (FloatingActionButton) findViewById(R.id.fabAdd);
-        editTextMedicamentSearch = (EditText) findViewById(R.id.EditTextSearch);
+        editTextMedicamentSearch = (EditText) findViewById(R.id.editTextSearch);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         Bundle bundle = getIntent().getExtras();

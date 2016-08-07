@@ -39,7 +39,7 @@ public class MedicamentsDbActivity extends AppCompatActivity {
         setContentView(R.layout.activity_medicaments_db);
 
         listView = (ListView) findViewById(android.R.id.list);
-        editTextMedicamentDbSearch = (EditText) findViewById(R.id.EditTextSearch);
+        editTextMedicamentDbSearch = (EditText) findViewById(R.id.editTextSearch);
 
         editTextMedicamentDbSearch.addTextChangedListener(new TextWatcher() {
             @Override
