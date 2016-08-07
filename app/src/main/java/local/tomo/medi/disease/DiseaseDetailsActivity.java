@@ -11,15 +11,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.ForeignCollection;
 
 import java.sql.SQLException;
 import java.util.Calendar;
 
 import local.tomo.medi.R;
+import local.tomo.medi.dosage.DosagesInDiseaseActivity;
 import local.tomo.medi.file.FilesActivity;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
+import local.tomo.medi.ormlite.data.Medicament_Disease;
 import lombok.SneakyThrows;
 
 public class DiseaseDetailsActivity extends AppCompatActivity {
@@ -110,6 +113,14 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
                 startActivityForResult(intent, diseaseId);
             }
         });
+        buttonDosages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DosagesInDiseaseActivity.class);
+                intent.putExtra("diseaseId", diseaseId);
+                startActivityForResult(intent, diseaseId);
+            }
+        });
         final Calendar calendar = Calendar.getInstance();
         chooseDate = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -143,10 +154,17 @@ public class DiseaseDetailsActivity extends AppCompatActivity {
     @SneakyThrows
     private void prepareData(int diseaseId) {
         disease = getHelper().getDiseaseDao().queryForId(diseaseId);
-        int medicamentsCount = disease.getMedicament_diseases().size();
+        ForeignCollection<Medicament_Disease> medicament_diseases = disease.getMedicament_diseases();
+        int medicamentsCount = medicament_diseases.size();
         int filesCount = disease.getFiles().size();
+        int dosagesCount = 0;
+        for (Medicament_Disease medicament_disease : medicament_diseases) {
+            dosagesCount += medicament_disease.getDosages().size();
+        }
+
         buttonMedicaments.setText("Leki (" + medicamentsCount + ")");
         buttonFiles.setText("Pliki (" + filesCount + ")");
+        buttonDosages.setText("Dawki (" + dosagesCount + ")");
     }
 
     private DatabaseHelper getHelper() {

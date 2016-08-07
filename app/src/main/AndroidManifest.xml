@@ -57,7 +57,8 @@
         <activity android:name=".dosage.DosagesActivity" />
         <activity android:name=".dosage.AddDosageActivity" />
         <activity android:name=".service.NotificationReceiverActivity" />
-        <activity android:name=".file.FilesActivity"></activity>
+        <activity android:name=".file.FilesActivity" />
+        <activity android:name=".dosage.DosagesInDiseaseActivity"></activity>
     </application>
 
 </manifest>
