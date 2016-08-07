@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -13,91 +14,95 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.data.Medicament;
 
-/**
- * Created by tomo on 2016-05-27.
- */
-public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> {
+import static android.widget.CompoundButton.OnCheckedChangeListener;
+
+public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> implements OnCheckedChangeListener, OnItemClickListener{
 
     private static final String TAG = "meditomo";
 
-    private ArrayList<Medicament> medicaments;
+    private ListView listView;
+    private Medicament medicament;
 
-    private ListView mListView;
+    static class ViewHolder {
+        @BindView(R.id.textViewName)
+        TextView textViewName;
+        @BindView(R.id.textViewProducer)
+        TextView textViewProducer;
+        @BindView(R.id.textViewPack)
+        TextView textViewPack;
+        @BindView(R.id.textViewKind)
+        TextView textViewKind;
+        @BindView(R.id.textViewPrice)
+        TextView textViewPrice;
+        @BindView(R.id.textViewDate)
+        TextView textViewDate;
+        @BindView(R.id.checkBox)
+        CheckBox checkBox;
 
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 
     public AllMedicamentsAdapter(ListView listView, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
-        this.medicaments = medicaments;
-        mListView = listView;
-
-    }
-
-    public List<Medicament> getMedicaments() {
-        return medicaments;
+        this.listView = listView;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+    public View getView(int position, View view, ViewGroup parent) {
+        ViewHolder holder;
 
-        if (v == null) {
+        if (view == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.adapter_all_medicaments, null);
+            view = vi.inflate(R.layout.adapter_all_medicaments, null);
+            holder = new ViewHolder(view);
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
 
-        final Medicament medicament = getItem(position);
-
+        medicament = getItem(position);
         if(medicament!=null) {
-            TextView textViewName = (TextView) v.findViewById(R.id.textViewName);
-            TextView textViewProducer = (TextView) v.findViewById(R.id.textViewProducer);
-            TextView textViewPack = (TextView) v.findViewById(R.id.textViewPack);
-            TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
-            TextView textViewPrice = (TextView) v.findViewById(R.id.textViewPrice);
-            TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
-
-            CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox);
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                        medicament.setChecked(true);
-                    else
-                        medicament.setChecked(false);
-                }
-            });
-
-
+            holder.checkBox.setOnCheckedChangeListener(this);
             String name = medicament.getName();
             if(name.length() > 30)
                 name = name.substring(0,30);
-            textViewName.setText(name);
+            holder.textViewName.setText(name);
             String producent = medicament.getProducent();
             if(producent.length() > 15)
                 producent = producent.substring(0,15);
-            textViewProducer.setText(producent);
-            textViewPack.setText(medicament.getPack());
-            textViewKind.setText(medicament.getKind());
-            textViewPrice.setText(medicament.getPrice()+ " zł");
-            textViewDate.setText(Months.createDate(medicament.getDate()));
-
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-                    if(checkBox.isChecked())
-                        checkBox.setChecked(false);
-                    else
-                        checkBox.setChecked(true);
-                }
-            });
+            holder.textViewProducer.setText(producent);
+            holder.textViewPack.setText(medicament.getPack());
+            holder.textViewKind.setText(medicament.getKind());
+            holder.textViewPrice.setText(medicament.getPrice()+ " " + getContext().getResources().getString(R.string.currency));
+            holder.textViewDate.setText(Months.createDate(medicament.getDate()));
+            listView.setOnItemClickListener(this);
         }
-        return  v;
+        return  view;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked)
+            medicament.setChecked(true);
+        else
+            medicament.setChecked(false);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+        if(checkBox.isChecked())
+            checkBox.setChecked(false);
+        else
+            checkBox.setChecked(true);
     }
 }

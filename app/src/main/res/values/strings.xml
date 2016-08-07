@@ -8,5 +8,6 @@
     <string name="save">Zapisz</string>
     <string name="find_medicament_in_kit">szukaj leku w swojej apteczce</string>
     <string name="assign_medicament_to_disease">Przypisz leki do choroby</string>
+    <string name="currency">zł</string>
 
 </resources>
