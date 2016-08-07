@@ -14,6 +14,9 @@ public class Dosage {
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "medicament_disease_id")
     private Medicament_Disease medicament_disease;
 
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "patient_id")
+    private Patient patient;
+
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField

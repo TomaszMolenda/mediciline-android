@@ -127,7 +127,7 @@ public class DosagesActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        dosageAdapter = new DosageAdapter(listView, this, getApplicationContext(), R.layout.adapter_dosages, dosages);
+        dosageAdapter = new DosageAdapter(this, getApplicationContext(), R.layout.adapter_dosages, dosages);
         listView.setAdapter(dosageAdapter);
     }
 

@@ -164,6 +164,7 @@ public class AddDosageActivity extends AppCompatActivity {
                 int time = hour*100 + minute;
                 try {
                     Medicament_Disease medicament_disease = getHelper().getMedicament_DiseaseDao().queryForId(diseaseMedicamentId);
+                    dosage.setPatient(medicament_disease.getDisease().getPatient());
                     dosage.setMedicament_disease(medicament_disease);
                     if(!times.contains(time))
                         getHelper().getDosageDao().create(dosage);

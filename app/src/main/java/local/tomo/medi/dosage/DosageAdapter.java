@@ -42,19 +42,13 @@ public class DosageAdapter extends ArrayAdapter<Dosage> {
 
     private DatabaseHelper databaseHelper;
 
-    private List<Dosage> dosages;
-
-    private ListView listView;
-
     private DosagesActivity dosagesActivity;
 
     private Context context;
 
 
-    public DosageAdapter(ListView listView, DosagesActivity dosagesActivity, Context context, int textViewResourceId, List<Dosage> dosages) {
+    public DosageAdapter(DosagesActivity dosagesActivity, Context context, int textViewResourceId, List<Dosage> dosages) {
         super(context, textViewResourceId, dosages);
-        this.dosages = dosages;
-        this.listView = listView;
         this.dosagesActivity = dosagesActivity;
         this.context = context;
     }
@@ -74,16 +68,8 @@ public class DosageAdapter extends ArrayAdapter<Dosage> {
         final Dosage dosage = getItem(position);
 
         if(dosage!=null) {
-
-            Disease disease = dosage.getMedicament_disease().getDisease();
-            Medicament medicament = dosage.getMedicament_disease().getMedicament();
-            Patient patient = disease.getPatient();
-
             TextView textViewTime = (TextView) v.findViewById(R.id.textViewTime);
             TextView textViewDose = (TextView) v.findViewById(R.id.textViewDose);
-            TextView textViewMedicament = (TextView) v.findViewById(R.id.textViewMedicament);
-            TextView textViewDisease = (TextView) v.findViewById(R.id.textViewDisease);
-            ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
             ImageView imageViewDelete = (ImageView) v.findViewById(R.id.imageViewDelete);
 
             Calendar calendar = Calendar.getInstance();
@@ -100,13 +86,7 @@ public class DosageAdapter extends ArrayAdapter<Dosage> {
                 minute = "" + calendar.get(Calendar.MINUTE);
             textViewTime.setText(hour + ":" + minute);
             textViewDose.setText("(" + dosage.getDose()+")");
-            textViewDisease.setText(disease.getName());
-            textViewMedicament.setText(medicament.getName());
-            byte[] photo = patient.getPhoto();
-            if(photo != null) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-                imageView.setImageBitmap(bitmap);
-            }
+
             imageViewDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

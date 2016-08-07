@@ -74,9 +74,9 @@ public class AllDosageAdapter extends ArrayAdapter<Dosage> {
             Disease disease = dosage.getMedicament_disease().getDisease();
             Medicament medicament = dosage.getMedicament_disease().getMedicament();
 
-            Disease diseaseForPatient = getHelper().getDiseaseDao().queryForId(disease.getId());
-            Patient patient = diseaseForPatient.getPatient();
-
+            //Disease diseaseForPatient = getHelper().getDiseaseDao().queryForId(disease.getId());
+            //Patient patient = diseaseForPatient.getPatient();
+            Patient patient = dosage.getPatient();
             TextView textViewTime = (TextView) v.findViewById(R.id.textViewTime);
             TextView textViewDose = (TextView) v.findViewById(R.id.textViewDose);
             TextView textViewMedicament = (TextView) v.findViewById(R.id.textViewMedicament);

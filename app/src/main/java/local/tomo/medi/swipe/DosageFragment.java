@@ -22,6 +22,7 @@ import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Dosage;
 import local.tomo.medi.ormlite.data.Medicament_Disease;
+import local.tomo.medi.ormlite.data.Patient;
 import lombok.SneakyThrows;
 
 /**
@@ -53,9 +54,11 @@ public class DosageFragment extends Fragment {
         QueryBuilder<Dosage, Integer> dosageBuilder = getHelper().getDosageDao().queryBuilder();
         QueryBuilder<Medicament_Disease, Integer> medicament_diseaseBuilder = getHelper().getMedicament_DiseaseDao().queryBuilder();
         QueryBuilder<Disease, Integer> diseaseBuilder = getHelper().getDiseaseDao().queryBuilder();
+
         diseaseBuilder.where().eq("archive", false);
         dosageBuilder.join(medicament_diseaseBuilder);
         medicament_diseaseBuilder.join(diseaseBuilder);
+
         dosages = dosageBuilder.query();
 
         Collections.sort(dosages, new Comparator<Dosage>() {

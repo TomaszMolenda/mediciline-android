@@ -31,41 +31,6 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/imageView"
-                android:src="@drawable/add_user"
-                android:layout_marginLeft="5dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/textViewDose"
-                android:layout_toEndOf="@+id/textViewDose" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ketonal Ketonal Ketonal Ketonal Ketonal Ketonal"
-                android:id="@+id/textViewMedicament"
-                android:textColor="#000000"
-                android:textSize="10dp"
-                android:maxLength="25"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/imageView"
-                android:layout_toEndOf="@+id/imageView" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Zapalenie"
-                android:id="@+id/textViewDisease"
-                android:textColor="#000000"
-                android:textSize="10dp"
-                android:maxLength="25"
-                android:layout_marginLeft="5dp"
-                android:layout_below="@+id/textViewMedicament"
-                android:layout_toRightOf="@+id/imageView"
-                android:layout_toEndOf="@+id/imageView" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
                 android:id="@+id/imageViewDelete"
                 android:src="@drawable/delete"
                 android:layout_centerVertical="true"
