@@ -25,8 +25,6 @@ import static android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> {
 
-    private static final String TAG = "meditomo";
-
     @BindView(R.id.textViewName)
     TextView textViewName;
     @BindView(R.id.textViewProducer)
@@ -64,20 +62,16 @@ public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> {
             checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                        medicament.setChecked(true);
-                    else
-                        medicament.setChecked(false);
+                    if (isChecked) medicament.setChecked(true);
+                    else medicament.setChecked(false);
                 }
             });
             listView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-                    if(checkBox.isChecked())
-                        checkBox.setChecked(false);
-                    else
-                        checkBox.setChecked(true);
+                    if(checkBox.isChecked()) checkBox.setChecked(false);
+                    else checkBox.setChecked(true);
                 }
             });
             String name = medicament.getName();

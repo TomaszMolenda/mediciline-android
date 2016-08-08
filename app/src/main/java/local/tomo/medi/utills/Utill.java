@@ -10,6 +10,8 @@ import java.util.Properties;
 
 public class Utill {
 
+    public static final String TAG = "meditomo";
+
     public static String getProperty(String key,Context context) throws IOException {
         Properties properties = new Properties();;
         AssetManager assetManager = context.getAssets();

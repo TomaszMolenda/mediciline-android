@@ -28,8 +28,6 @@ import lombok.SneakyThrows;
 
 public class AllMedicamentsActivity extends AppCompatActivity {
 
-    private static final String TAG = "meditomo";
-
     private DatabaseHelper databaseHelper;
 
     @BindView(R.id.editTextSearch)

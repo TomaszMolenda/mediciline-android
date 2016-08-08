@@ -18,6 +18,8 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
@@ -28,9 +30,18 @@ import lombok.SneakyThrows;
 
 public class DosagesInDiseaseAdapter extends ArrayAdapter<Dosage> {
 
-    private static final String TAG = "meditomo";
-
     private DatabaseHelper databaseHelper;
+
+    @BindView(R.id.textViewTime)
+    TextView textViewTime;
+    @BindView(R.id.textViewDose)
+    TextView textViewDose;
+    @BindView(R.id.textViewMedicament)
+    TextView textViewMedicament;
+    @BindView(R.id.textViewDisease)
+    TextView textViewDisease;
+    @BindView(R.id.imageViewDelete)
+    ImageView imageViewDelete;
 
     private DosagesInDiseaseActivity dosagesInDiseaseActivity;
 
@@ -47,39 +58,27 @@ public class DosagesInDiseaseAdapter extends ArrayAdapter<Dosage> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        View view = convertView;
 
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.adapter_dosages_in_disease, null);
+        if (view == null) {
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            view = vi.inflate(R.layout.adapter_dosages_in_disease, null);
+            ButterKnife.bind(this, view);
         }
 
         final Dosage dosage = getItem(position);
 
         if(dosage!=null) {
-
             Disease disease = dosage.getMedicament_disease().getDisease();
             Medicament medicament = dosage.getMedicament_disease().getMedicament();
-
-            TextView textViewTime = (TextView) v.findViewById(R.id.textViewTime);
-            TextView textViewDose = (TextView) v.findViewById(R.id.textViewDose);
-            TextView textViewMedicament = (TextView) v.findViewById(R.id.textViewMedicament);
-            TextView textViewDisease = (TextView) v.findViewById(R.id.textViewDisease);
-            ImageView imageViewDelete = (ImageView) v.findViewById(R.id.imageViewDelete);
-
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dosage.getTakeTime());
             String hour;
-            if(calendar.get(Calendar.HOUR_OF_DAY) < 10)
-                hour = "0" + calendar.get(Calendar.HOUR_OF_DAY);
-            else
-                hour = "" + calendar.get(Calendar.HOUR_OF_DAY);
+            if(calendar.get(Calendar.HOUR_OF_DAY) < 10) hour = "0" + calendar.get(Calendar.HOUR_OF_DAY);
+            else hour = "" + calendar.get(Calendar.HOUR_OF_DAY);
             String minute;
-            if(calendar.get(Calendar.MINUTE) < 10)
-                minute = "0" + calendar.get(Calendar.MINUTE);
-            else
-                minute = "" + calendar.get(Calendar.MINUTE);
+            if(calendar.get(Calendar.MINUTE) < 10) minute = "0" + calendar.get(Calendar.MINUTE);
+            else minute = "" + calendar.get(Calendar.MINUTE);
             textViewTime.setText(hour + ":" + minute);
             textViewDose.setText("(" + dosage.getDose()+")");
             textViewDisease.setText(disease.getName());
@@ -94,7 +93,7 @@ public class DosagesInDiseaseAdapter extends ArrayAdapter<Dosage> {
                 }
             });
         }
-        return  v;
+        return  view;
     }
 
     private DatabaseHelper getHelper() {

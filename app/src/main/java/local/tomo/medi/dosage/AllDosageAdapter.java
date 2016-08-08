@@ -1,6 +1,5 @@
 package local.tomo.medi.dosage;
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +18,8 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
@@ -28,28 +29,29 @@ import local.tomo.medi.ormlite.data.Patient;
 import local.tomo.medi.swipe.DosageFragment;
 import lombok.SneakyThrows;
 
-/**
- * Created by tomo on 2016-05-27.
- */
 public class AllDosageAdapter extends ArrayAdapter<Dosage> {
-
-    private static final String TAG = "meditomo";
 
     private DatabaseHelper databaseHelper;
 
-    private List<Dosage> dosages;
-
-    private ListView listView;
+    @BindView(R.id.textViewTime)
+    TextView textViewTime;
+    @BindView(R.id.textViewDose)
+    TextView textViewDose;
+    @BindView(R.id.textViewMedicament)
+    TextView textViewMedicament;
+    @BindView(R.id.textViewDisease)
+    TextView textViewDisease;
+    @BindView(R.id.imageView)
+    ImageView imageView;
+    @BindView(R.id.imageViewDelete)
+    ImageView imageViewDelete;
 
     private DosageFragment dosageFragment;
-
     private Context context;
 
 
-    public AllDosageAdapter(ListView listView, DosageFragment dosageFragment, Context context, int textViewResourceId, List<Dosage> dosages) {
+    public AllDosageAdapter(DosageFragment dosageFragment, Context context, int textViewResourceId, List<Dosage> dosages) {
         super(context, textViewResourceId, dosages);
-        this.dosages = dosages;
-        this.listView = listView;
         this.dosageFragment = dosageFragment;
         this.context = context;
     }
@@ -59,12 +61,11 @@ public class AllDosageAdapter extends ArrayAdapter<Dosage> {
     @Override
     @SneakyThrows
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.adapter_all_dosages, null);
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            view = vi.inflate(R.layout.adapter_all_dosages, null);
+            ButterKnife.bind(this, view);
         }
 
         final Dosage dosage = getItem(position);
@@ -73,17 +74,7 @@ public class AllDosageAdapter extends ArrayAdapter<Dosage> {
 
             Disease disease = dosage.getMedicament_disease().getDisease();
             Medicament medicament = dosage.getMedicament_disease().getMedicament();
-
-            //Disease diseaseForPatient = getHelper().getDiseaseDao().queryForId(disease.getId());
-            //Patient patient = diseaseForPatient.getPatient();
             Patient patient = dosage.getPatient();
-            TextView textViewTime = (TextView) v.findViewById(R.id.textViewTime);
-            TextView textViewDose = (TextView) v.findViewById(R.id.textViewDose);
-            TextView textViewMedicament = (TextView) v.findViewById(R.id.textViewMedicament);
-            TextView textViewDisease = (TextView) v.findViewById(R.id.textViewDisease);
-            ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
-            ImageView imageViewDelete = (ImageView) v.findViewById(R.id.imageViewDelete);
-
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dosage.getTakeTime());
             String hour;
@@ -107,17 +98,14 @@ public class AllDosageAdapter extends ArrayAdapter<Dosage> {
             }
             imageViewDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
+                @SneakyThrows
                 public void onClick(View v) {
-                    try {
-                        getHelper().getDosageDao().delete(dosage);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    getHelper().getDosageDao().delete(dosage);
                     dosageFragment.setDosages();
                 }
             });
         }
-        return  v;
+        return  view;
     }
 
     private DatabaseHelper getHelper() {

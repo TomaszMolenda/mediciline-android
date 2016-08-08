@@ -12,17 +12,15 @@
                 android:id="@+id/textViewTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="14:55"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(2)"
                 android:id="@+id/textViewDose"
                 android:textColor="#000000"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/textViewTime"
@@ -31,10 +29,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ketonal Ketonal Ketonal Ketonal Ketonal Ketonal"
                 android:id="@+id/textViewMedicament"
                 android:textColor="#000000"
-                android:textSize="10dp"
+                android:textSize="12sp"
                 android:maxLength="25"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/textViewDose"
@@ -43,10 +40,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Zapalenie"
                 android:id="@+id/textViewDisease"
                 android:textColor="#000000"
-                android:textSize="10dp"
+                android:textSize="12sp"
                 android:maxLength="25"
                 android:layout_marginLeft="5dp"
                 android:layout_below="@+id/textViewMedicament"
@@ -61,7 +57,6 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
-
 
         </RelativeLayout>
 

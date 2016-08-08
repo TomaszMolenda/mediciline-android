@@ -25,8 +25,6 @@ import local.tomo.medi.ormlite.data.Medicament;
 
 public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
 
-    private static final String TAG = "meditomo";
-
     private ListView listView;
 
     @BindView(R.id.checkBox)

@@ -30,8 +30,6 @@ import lombok.SneakyThrows;
 
 public class DiseaseDetailsActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    private static final String TAG = "meditomo";
-
     @BindView(R.id.textViewName)
     TextView textViewName;
     @BindView(R.id.textViewStart)

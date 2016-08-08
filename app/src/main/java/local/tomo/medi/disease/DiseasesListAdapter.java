@@ -18,8 +18,6 @@ import local.tomo.medi.ormlite.data.Disease;
 
 public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapter.ViewHolder> {
 
-    private static final String TAG = "meditomo";
-
     private List<Disease> diseases;
     private Context context;
 

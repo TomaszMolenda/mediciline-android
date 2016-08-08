@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:textColor="#0101DF"
-        android:textSize="10dp"
+        android:textSize="12sp"
         android:id="@+id/textViewDisease"
         android:layout_marginLeft="3dp"
         android:layout_alignParentTop="true"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:textColor="#000000"
-        android:textSize="10dp"
+        android:textSize="12sp"
         android:id="@+id/textViewMedicament"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="3dp"
@@ -56,7 +56,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@android:id/list"
+        android:id="@+id/list"
         android:layout_below="@id/textViewPatientName"
         android:layout_centerHorizontal="true" />
 

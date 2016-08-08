@@ -12,17 +12,15 @@
                 android:id="@+id/textViewTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="14:55"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(2)"
                 android:id="@+id/textViewDose"
                 android:textColor="#000000"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/textViewTime"

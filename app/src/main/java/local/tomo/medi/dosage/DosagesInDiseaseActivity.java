@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
@@ -27,32 +29,34 @@ import lombok.SneakyThrows;
 
 public class DosagesInDiseaseActivity extends AppCompatActivity {
 
-    private static final String TAG = "meditomo";
-
     private DatabaseHelper databaseHelper;
+
+    @BindView(R.id.imageView)
+    ImageView imageView;
+    @BindView(R.id.textViewPatientName)
+    TextView textViewPatientName;
+    @BindView(R.id.textViewDisease)
+    TextView textViewDisease;
+    @BindView(R.id.list)
+    private ListView listView;
 
     private int diseaseId;
     private Disease disease;
     private Patient patient;
     private ArrayList<Dosage> dosages;
-    private ListView listView;
+
     private DosagesInDiseaseAdapter dosagesInDiseaseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dosages_in_disease);
+        ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
         diseaseId = bundle.getInt("diseaseId");
 
-        listView = (ListView) findViewById(android.R.id.list);
-
         setDosages();
-
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        TextView textViewPatientName = (TextView) findViewById(R.id.textViewPatientName);
-        TextView textViewDisease = (TextView) findViewById(R.id.textViewDisease);
 
         byte[] photo = disease.getPatient().getPhoto();
         if(photo != null) {
@@ -61,7 +65,7 @@ public class DosagesInDiseaseActivity extends AppCompatActivity {
         }
 
         textViewPatientName.setText(patient.getName());
-        textViewDisease.setText(disease.getName() + " (rozp. " + Months.createDate(disease.getStartLong()) + ")");
+        textViewDisease.setText(getString(R.string.diseaseInDosages, disease.getName(), Months.createDate(disease.getStartLong())));
     }
 
     @SneakyThrows

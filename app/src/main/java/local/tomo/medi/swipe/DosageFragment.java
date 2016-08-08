@@ -69,7 +69,7 @@ public class DosageFragment extends Fragment {
                 return lTakeTime.compareTo(rTakeTime);
             }
         });
-        allDosageAdapter = new AllDosageAdapter(listView, this, getContext(), R.layout.adapter_all_dosages, dosages);
+        allDosageAdapter = new AllDosageAdapter(this, getContext(), R.layout.adapter_all_dosages, dosages);
         listView.setAdapter(allDosageAdapter);
     }
 

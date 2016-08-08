@@ -40,6 +40,7 @@ import local.tomo.medi.json.MedicamentsDbJSON;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
+import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.User;
 import local.tomo.medi.utills.Utill;
@@ -146,8 +147,6 @@ public class LoginActivity extends Activity {
             user.setUniqueID(uniqueID);
             user.setAuth(auth);
             Log.d(TAG, "22222:");
-
-
             InputStream open = getBaseContext().getAssets().open("app.properties");
             setOverdueMedicaments();
             login();

@@ -27,8 +27,6 @@ import lombok.SneakyThrows;
 
 public class MedicamentsListActivity extends AppCompatActivity {
 
-    private static final String TAG = "meditomo";
-
     @BindView(R.id.editTextSearch)
     EditText editTextSearch;
     @BindView(R.id.list)
