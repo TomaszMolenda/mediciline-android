@@ -1,10 +1,8 @@
 package local.tomo.medi.disease;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +10,37 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.data.Disease;
 
-/**
- * Created by tomo on 2016-07-15.
- */
-public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapter.DiseaseViewHolder> {
+public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapter.ViewHolder> {
 
     private static final String TAG = "meditomo";
 
     private List<Disease> diseases;
     private Context context;
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.textViewName)
+        TextView textViewName;
+        @BindView(R.id.textViewStartDate)
+        TextView textViewStartDate;
+        @BindView(R.id.textViewStopDate)
+        TextView textViewStopDate;
+        @BindView(R.id.textViewDisease)
+        TextView textViewDisease;
+        @BindView(R.id.textViewFiles)
+        TextView textViewFiles;
+
+        public ViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
 
     public DiseasesListAdapter(List<Disease> diseases, Context context) {
         this.diseases = diseases;
@@ -32,22 +48,22 @@ public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapte
     }
 
     @Override
-    public DiseasesListAdapter.DiseaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.adapter_diseases_cardview, null);
-        DiseaseViewHolder diseaseViewHolder = new DiseaseViewHolder(view);
-        return diseaseViewHolder;
+        ViewHolder viewHolder = new ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(DiseasesListAdapter.DiseaseViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         final Disease disease = diseases.get(position);
         holder.textViewName.setText(disease.getName());
         holder.textViewStartDate.append(Months.createDate(disease.getStartLong()));
-        holder.textViewDisease.setText("Leki (" + disease.getMedicament_diseases().size() + ")");
-        holder.textViewFiles.setText("Pliki (" + disease.getFiles().size() + ")");
+        holder.textViewDisease.setText(context.getString(R.string.DiseasesCount, disease.getMedicament_diseases().size()));
+        holder.textViewFiles.setText(context.getString(R.string.FilesCount, disease.getFiles().size()));
 
         if(disease.getStopLong() == 0)
-            holder.textViewStopDate.append("nie zakończona");
+            holder.textViewStopDate.append(context.getString(R.string.unfinish));
         else {
             holder.textViewStopDate.append(Months.createDate(disease.getStopLong()));
             holder.textViewStopDate.setTextColor(Color.GRAY);
@@ -63,22 +79,5 @@ public class DiseasesListAdapter extends RecyclerView.Adapter<DiseasesListAdapte
         return diseases.size();
     }
 
-    public static class DiseaseViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewName;
-        TextView textViewStartDate;
-        TextView textViewStopDate;
-        TextView textViewDisease;
-        TextView textViewFiles;
-
-
-        public DiseaseViewHolder(View itemView) {
-            super(itemView);
-            textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            textViewStartDate = (TextView) itemView.findViewById(R.id.textViewStartDate);
-            textViewStopDate = (TextView) itemView.findViewById(R.id.textViewStopDate);
-            textViewDisease = (TextView) itemView.findViewById(R.id.textViewDisease);
-            textViewFiles = (TextView) itemView.findViewById(R.id.textViewFiles);
-        }
-    }
 }

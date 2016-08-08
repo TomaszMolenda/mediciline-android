@@ -23,33 +23,26 @@ import local.tomo.medi.ormlite.data.Medicament;
 
 import static android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> implements OnCheckedChangeListener, OnItemClickListener{
+public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> {
 
     private static final String TAG = "meditomo";
 
+    @BindView(R.id.textViewName)
+    TextView textViewName;
+    @BindView(R.id.textViewProducer)
+    TextView textViewProducer;
+    @BindView(R.id.textViewPack)
+    TextView textViewPack;
+    @BindView(R.id.textViewKind)
+    TextView textViewKind;
+    @BindView(R.id.textViewPrice)
+    TextView textViewPrice;
+    @BindView(R.id.textViewDate)
+    TextView textViewDate;
+    @BindView(R.id.checkBox)
+    CheckBox checkBox;
+
     private ListView listView;
-    private Medicament medicament;
-
-    static class ViewHolder {
-        @BindView(R.id.textViewName)
-        TextView textViewName;
-        @BindView(R.id.textViewProducer)
-        TextView textViewProducer;
-        @BindView(R.id.textViewPack)
-        TextView textViewPack;
-        @BindView(R.id.textViewKind)
-        TextView textViewKind;
-        @BindView(R.id.textViewPrice)
-        TextView textViewPrice;
-        @BindView(R.id.textViewDate)
-        TextView textViewDate;
-        @BindView(R.id.checkBox)
-        CheckBox checkBox;
-
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-    }
 
     public AllMedicamentsAdapter(ListView listView, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
@@ -57,52 +50,49 @@ public class AllMedicamentsAdapter extends ArrayAdapter<Medicament> implements O
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        ViewHolder holder;
-
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
         if (view == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
+            LayoutInflater vi = LayoutInflater.from(getContext());
             view = vi.inflate(R.layout.adapter_all_medicaments, null);
-            holder = new ViewHolder(view);
-        } else {
-            holder = (ViewHolder) view.getTag();
+            ButterKnife.bind(this, view);
         }
 
-        medicament = getItem(position);
+
+        final Medicament medicament = getItem(position);
         if(medicament!=null) {
-            holder.checkBox.setOnCheckedChangeListener(this);
+            checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked)
+                        medicament.setChecked(true);
+                    else
+                        medicament.setChecked(false);
+                }
+            });
+            listView.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                    if(checkBox.isChecked())
+                        checkBox.setChecked(false);
+                    else
+                        checkBox.setChecked(true);
+                }
+            });
             String name = medicament.getName();
             if(name.length() > 30)
                 name = name.substring(0,30);
-            holder.textViewName.setText(name);
+            textViewName.setText(name);
             String producent = medicament.getProducent();
             if(producent.length() > 15)
                 producent = producent.substring(0,15);
-            holder.textViewProducer.setText(producent);
-            holder.textViewPack.setText(medicament.getPack());
-            holder.textViewKind.setText(medicament.getKind());
-            holder.textViewPrice.setText(medicament.getPrice()+ " " + getContext().getResources().getString(R.string.currency));
-            holder.textViewDate.setText(Months.createDate(medicament.getDate()));
-            listView.setOnItemClickListener(this);
+            textViewProducer.setText(producent);
+            textViewPack.setText(medicament.getPack());
+            textViewKind.setText(medicament.getKind());
+            textViewPrice.setText(medicament.getPrice()+ " " + getContext().getResources().getString(R.string.currency));
+            textViewDate.setText(Months.createDate(medicament.getDate()));
         }
         return  view;
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked)
-            medicament.setChecked(true);
-        else
-            medicament.setChecked(false);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-        if(checkBox.isChecked())
-            checkBox.setChecked(false);
-        else
-            checkBox.setChecked(true);
     }
 }

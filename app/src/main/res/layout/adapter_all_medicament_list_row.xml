@@ -26,7 +26,7 @@
             android:textStyle="bold"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="#0000FF"
            >
         </TextView>
@@ -49,7 +49,7 @@
                 android:id="@+id/textViewProducer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="#000000">
             </TextView>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/textViewPack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="#000000">
             </TextView>
 
@@ -65,7 +65,7 @@
                 android:id="@+id/textViewKind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="#000000">
             </TextView>
 
@@ -73,7 +73,7 @@
                 android:id="@+id/textViewPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="#000000">
             </TextView>
 
@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000">
                 </TextView>
                 <TextView
@@ -95,8 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="25dp"
-                    android:layout_gravity="right"
-                    android:textSize="15dp"
+                    android:layout_gravity="end"
+                    android:textSize="15sp"
                     android:textColor="#00FF00">
                 </TextView>
 

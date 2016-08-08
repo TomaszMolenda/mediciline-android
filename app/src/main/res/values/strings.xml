@@ -9,5 +9,22 @@
     <string name="find_medicament_in_kit">szukaj leku w swojej apteczce</string>
     <string name="assign_medicament_to_disease">Przypisz leki do choroby</string>
     <string name="currency">zł</string>
-
+    <string name="date_of_finish_disease">Data zakończenia choroby</string>
+    <string name="unfinish">niezakończona</string>
+    <string name="DateStopLessThanDateStart">Data zakończenia nie może być wcześniejsza niż rozpoczęcia</string>
+    <string name="Ended">Zakończenie: %1$s</string>
+    <string name="MedicamentsCount">Leki (%1$d)</string>
+    <string name="DiseasesCount">Choroby (%1$d)</string>
+    <string name="FilesCount">Pliki (%1$d)</string>
+    <string name="DosagesCount">Dawki (%1$d)</string>
+    <string name="disease_details">Szczegóły choroby</string>
+    <string name="Name">Nazwa:</string>
+    <string name="Start">Rozpoczęcie:</string>
+    <string name="Finish">Zakończenie:</string>
+    <string name="Description">Opis:</string>
+    <string name="Medicaments">Leki</string>
+    <string name="Files">Pliki</string>
+    <string name="Dosages">Dawki</string>
+    <string name="DoFinish">Zakończ</string>
+    <string name="search_medicament_in_list">szukaj leku na liście</string>
 </resources>

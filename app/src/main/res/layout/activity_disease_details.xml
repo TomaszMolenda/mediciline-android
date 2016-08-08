@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Szczegóły choroby"
+            android:text="@string/disease_details"
             android:id="@+id/textView7"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Nazwa: "
+            android:text="@string/Name"
             android:textColor="#000000"
             android:id="@+id/textViewName"
             android:layout_below="@+id/textView7"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Rozpoczęcie: "
+            android:text="@string/Start"
             android:textColor="#000000"
             android:id="@+id/textViewStart"
             android:layout_below="@+id/textViewName"
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Zakończenie: "
+            android:text="@string/Finish"
             android:textColor="#000000"
             android:id="@+id/textViewFinish"
             android:layout_below="@+id/textViewStart"
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Opis: "
+            android:text="@string/Description"
             android:textColor="#000000"
             android:id="@+id/textView11"
             android:layout_below="@+id/textViewFinish"
@@ -102,7 +102,7 @@
             android:id="@+id/buttonMedicaments"
             android:paddingTop="30dp"
             android:drawablePadding="0dp"
-            android:text="Leki"
+            android:text="@string/Medicaments"
             android:textSize="20dp"
             android:layout_margin="2dp"></Button>
 
@@ -116,7 +116,7 @@
             android:id="@+id/buttonFiles"
             android:paddingTop="30dp"
             android:drawablePadding="0dp"
-            android:text="Pliki"
+            android:text="@string/Files"
             android:textSize="20dp"
             android:layout_margin="2dp"></Button>
 
@@ -138,7 +138,7 @@
             android:id="@+id/buttonDosages"
             android:paddingTop="30dp"
             android:drawablePadding="0dp"
-            android:text="Dawki"
+            android:text="@string/Dosages"
             android:textSize="20dp"
             android:layout_margin="2dp"></Button>
 
@@ -152,13 +152,9 @@
             android:id="@+id/buttonFinish"
             android:paddingTop="30dp"
             android:drawablePadding="0dp"
-            android:text="Zakończ"
+            android:text="@string/DoFinish"
             android:textSize="18dp"
             android:layout_margin="2dp"></Button>
 
     </LinearLayout>
-
-
-
-
 </LinearLayout>

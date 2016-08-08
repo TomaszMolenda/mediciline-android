@@ -3,7 +3,6 @@ package local.tomo.medi.disease;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +16,35 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.dosage.DosagesActivity;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.data.Medicament;
 
-/**
- * Created by tomo on 2016-05-27.
- */
 public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
 
     private static final String TAG = "meditomo";
 
-    private List<Medicament> medicaments;
+    private ListView listView;
 
-    private ListView mListView;
-
-    private CheckBox checkBox;
+    @BindView(R.id.checkBox)
+    CheckBox checkBox;
+    @BindView(R.id.textViewName)
+    TextView textViewName;
+    @BindView(R.id.textViewProducer)
+    TextView textViewProducer;
+    @BindView(R.id.textViewInfo1)
+    TextView textViewInfo1;
+    @BindView(R.id.textViewPrice)
+    TextView textViewPrice;
+    @BindView(R.id.textViewDate)
+    TextView textViewDate;
+    @BindView(R.id.textViewDosageCount)
+    TextView textViewDosageCount;
+    @BindView(R.id.imageViewDosage)
+    ImageView imageViewDosage;
 
     MedicamentsListActivity medicamentsListActivity;
 
@@ -41,82 +52,56 @@ public class MedicamentsListAdapter extends ArrayAdapter<Medicament> {
 
     public MedicamentsListAdapter(ListView listView, MedicamentsListActivity medicamentsListActivity, Context context, int textViewResourceId, List<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
-        this.medicaments = medicaments;
-        mListView = listView;
+        this.listView = listView;
         this.medicamentsListActivity = medicamentsListActivity;
-    }
-
-
-
-    public List<Medicament> getMedicaments() {
-        return medicaments;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.adapter_add_medicament_to_disease_list_row, null);
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            view = vi.inflate(R.layout.adapter_add_medicament_to_disease_list_row, null);
+            ButterKnife.bind(this, view);
         }
 
         final Medicament medicament = getItem(position);
-
         if(medicament!=null) {
-            TextView textViewName = (TextView) v.findViewById(R.id.textViewName);
-            TextView textViewProducer = (TextView) v.findViewById(R.id.textViewProducer);
-            TextView textViewInfo1 = (TextView) v.findViewById(R.id.textViewInfo1);
-            TextView textViewPrice = (TextView) v.findViewById(R.id.textViewPrice);
-            TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
-            TextView textViewDosageCount = (TextView) v.findViewById(R.id.textViewDosageCount);
-            ImageView imageViewDosage = (ImageView) v.findViewById(R.id.imageViewDosage);
-
-            checkBox = (CheckBox) v.findViewById(R.id.checkBox);
+            checkBox = (CheckBox) view.findViewById(R.id.checkBox);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                        medicament.setChecked(true);
-                    else
-                        medicament.setChecked(false);
+                    if (isChecked) medicament.setChecked(true);
+                    else medicament.setChecked(false);
                 }
             });
-
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-                    if(checkBox.isChecked())
-                        checkBox.setChecked(false);
-                    else
-                        checkBox.setChecked(true);
+                    if(checkBox.isChecked()) checkBox.setChecked(false);
+                    else checkBox.setChecked(true);
                 }
             });
-            
             imageViewDosage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), DosagesActivity.class);
                     intent.putExtra("diseaseMedicamentId", medicament.getDiseaseMedicamentId());
-                    Log.d(TAG, "onClick: " +  medicament.getDiseaseMedicamentId());
                     medicamentsListActivity.startActivityForResult(intent, 1);
                 }
             });
             String name = medicament.getName();
-            if(name.length() > 30)
-                name = name.substring(0,30);
+            if(name.length() > 30) name = name.substring(0,30);
             textViewName.setText(name);
             String producent = medicament.getProducent();
-            if(producent.length() > 15)
-                producent = producent.substring(0,15);
+            if(producent.length() > 15) producent = producent.substring(0,15);
             textViewProducer.setText(producent);
             textViewInfo1.setText(medicament.getPack() + " - " + medicament.getKind());
-            textViewPrice.setText(medicament.getPrice() + " zł");
+            textViewPrice.setText(medicament.getPrice() + " " + getContext().getString(R.string.currency));
             textViewDate.setText(Months.createDate(medicament.getDate()));
             textViewDosageCount.setText("(" + medicament.getDosageCount() + ")");
         }
-        return  v;
+        return  view;
     }
 }

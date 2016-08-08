@@ -114,7 +114,7 @@ public class AddMedicamentActivity extends Activity {
 
         editTextSearch = (EditText) findViewById(R.id.editTextSearch);
 
-        listView = (ListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.list);
 
         textViewAddMedicamentInfo = (TextView) findViewById(R.id.textViewInfo);
 
