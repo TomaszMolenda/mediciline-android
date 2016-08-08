@@ -26,6 +26,7 @@ import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.MedicamentAdditional;
+import lombok.SneakyThrows;
 
 
 public class MedicamentsDbJSON {
@@ -42,26 +43,18 @@ public class MedicamentsDbJSON {
         this.progressDialog = progressDialog;
     }
 
+    @SneakyThrows
     public void getMedicamentsDbFromFile() {
         InputStream inputStream = resources.openRawResource(R.raw.medi);
-        try {
-            readJsonStream(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        readJsonStream(inputStream);
         releaseHelper();
     }
 
+    @SneakyThrows
     public void readJsonStream(InputStream in) throws IOException, SQLException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-        try {
-            readMessagesArray(reader);
-        } finally {
-            reader.close();
-        }
+        readMessagesArray(reader);
+        reader.close();
     }
 
     public void readMessagesArray(JsonReader reader) throws IOException, SQLException {

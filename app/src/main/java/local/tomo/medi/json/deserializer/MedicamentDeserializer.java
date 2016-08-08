@@ -10,9 +10,6 @@ import java.util.Date;
 
 import local.tomo.medi.ormlite.data.Medicament;
 
-/**
- * Created by tomo on 2016-06-13.
- */
 public class MedicamentDeserializer implements JsonDeserializer<Medicament> {
     @Override
     public Medicament deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

@@ -3,10 +3,6 @@ package local.tomo.medi.json;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 
-/**
- * Created by tomo on 2016-06-18.
- */
-
 //http://stackoverflow.com/a/4803346
 public class MedicamentExclusion implements ExclusionStrategy {
     @Override
