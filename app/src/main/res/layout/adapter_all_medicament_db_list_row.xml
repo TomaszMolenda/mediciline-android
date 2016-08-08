@@ -17,7 +17,7 @@
             android:textStyle="bold"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="#0000FF"
            >
         </TextView>
@@ -40,7 +40,7 @@
                 android:id="@+id/textViewProducer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="#000000">
             </TextView>
 
@@ -48,7 +48,7 @@
                 android:id="@+id/textViewPack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="#000000">
             </TextView>
 
@@ -56,7 +56,7 @@
                 android:id="@+id/textViewKind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="#000000">
             </TextView>
 

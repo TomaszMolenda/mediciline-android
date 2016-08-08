@@ -21,8 +21,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nazwa leku"
-                    android:textSize="20dp"
+                    android:text="@string/Medicament_name"
+                    android:textSize="20sp"
                     android:textColor="#B40431"
                     android:textStyle="bold"
                     android:textAlignment="center"/>
@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewName"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textColor="#B40431"
                     android:textStyle="bold"
                     android:textAlignment="center"/>
@@ -38,8 +38,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Aktywna substancja"
-                    android:textSize="20dp"
+                    android:text="@string/active_substance"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -47,14 +47,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewActiveSubstance"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Postać"
-                    android:textSize="20dp"
+                    android:text="@string/form"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -62,14 +62,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewForm"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dawka"
-                    android:textSize="20dp"
+                    android:text="@string/Dosage"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -77,14 +77,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewDosage"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Opakowanie"
-                    android:textSize="20dp"
+                    android:text="@string/Pack"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -92,14 +92,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewPack"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Producent"
-                    android:textSize="20dp"
+                    android:text="@string/Producent"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -107,14 +107,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewProducer"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Recepta"
-                    android:textSize="20dp"
+                    android:text="@string/Prescription"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -122,14 +122,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewPrescription"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Typ"
-                    android:textSize="20dp"
+                    android:text="@string/Type"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -137,14 +137,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewProductType"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ryzyko stosowania"
-                    android:textSize="20dp"
+                    android:text="@string/Risk"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -152,8 +152,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sprawność spychomotoryczna"
-                    android:textSize="20dp"
+                    android:text="@string/Driving_info"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -161,14 +161,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewDrivingInfo"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Okres laktacji"
-                    android:textSize="20dp"
+                    android:text="@string/Lactation_info"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -176,14 +176,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewLactationInfo"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="I trymest ciąży"
-                    android:textSize="20dp"
+                    android:text="@string/Trimestr_1_info"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -191,14 +191,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewTrimestr1Info"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="II trymest ciąży"
-                    android:textSize="20dp"
+                    android:text="@string/Trimestr_2_info"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -206,14 +206,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewTrimestr2Info"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="III trymest ciąży"
-                    android:textSize="20dp"
+                    android:text="@string/Trimestr_3_info"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -221,14 +221,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewTrimestr3Info"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Alkohol"
-                    android:textSize="20dp"
+                    android:text="@string/Alkohol_info"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -236,14 +236,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewAlcoholInfo"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Skład"
-                    android:textSize="20dp"
+                    android:text="@string/Composition"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -251,14 +251,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewComposition"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Działanie"
-                    android:textSize="20dp"
+                    android:text="@string/Effects"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -266,14 +266,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewEffects"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Wskazania"
-                    android:textSize="20dp"
+                    android:text="@string/Indications"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -281,14 +281,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewIndications"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Przeciwwskazania"
-                    android:textSize="20dp"
+                    android:text="@string/Contraindications"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -296,14 +296,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewContraindications"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Środki ostrożności"
-                    android:textSize="20dp"
+                    android:text="@string/Precaution"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -311,14 +311,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewPrecaution"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ciąża i karmienie piersią"
-                    android:textSize="20dp"
+                    android:text="@string/Pregnancy"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -326,14 +326,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewPregnancy"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Działanie niepożądane"
-                    android:textSize="20dp"
+                    android:text="@string/Sideeffects"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -341,14 +341,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewSideeffects"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Interakcje"
-                    android:textSize="20dp"
+                    android:text="@string/Interactions"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -356,14 +356,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewInteractions"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dawkowanie"
-                    android:textSize="20dp"
+                    android:text="@string/DosageInfo"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -371,14 +371,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewDosageInfo"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Uwagi"
-                    android:textSize="20dp"
+                    android:text="@string/Remark"
+                    android:textSize="20sp"
                     android:textColor="#0000FF"
                     android:textStyle="bold"
                     />
@@ -386,9 +386,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewRemark"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
-=
+
         </LinearLayout>
 
 </ScrollView>

@@ -4,7 +4,6 @@ package local.tomo.medi.medicament;
 
 import android.content.Context;
 import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
@@ -15,86 +14,73 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
+import lombok.SneakyThrows;
 
-/**
- * Created by tomo on 2016-05-27.
- */
 public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
 
-    private ArrayList<Medicament> medicaments;
+    @BindView(R.id.textViewName)
+    TextView textViewName;
+    @BindView(R.id.textViewProducer)
+    TextView textViewProducer;
+    @BindView(R.id.textViewPrice)
+    TextView textViewPrice;
+    @BindView(R.id.textViewDate)
+    TextView textViewDate;
+    @BindView(R.id.textViewPack)
+    TextView textViewPack;
+    @BindView(R.id.textViewKind)
+    TextView textViewKind;
+    @BindView(R.id.textViewDiseases)
+    TextView textViewDiseases;
+    @BindView(R.id.imageViewNoSynchro)
+    ImageView imageViewNoSynchro;
+    @BindView(R.id.imageButtonMenu)
+    View imageButtonMenu;
 
     private MedicamentsActivity medicamentsActivity;
 
-    private Context context;
-
     private DatabaseHelper databaseHelper;
 
-    private ListView listView;
-
-
-
-    public AllMedicamentAdapter(ListView listView, MedicamentsActivity medicamentsActivity, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
+    public AllMedicamentAdapter(MedicamentsActivity medicamentsActivity, Context context, int textViewResourceId, ArrayList<Medicament> medicaments) {
         super(context, textViewResourceId, medicaments);
-        this.medicaments = medicaments;
         this.medicamentsActivity = medicamentsActivity;
-        this.context = context;
-        this.listView = listView;
-
-    }
-
-
-
-    public List<Medicament> getMedicaments() {
-        return medicaments;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        View view = convertView;
 
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.adapter_all_medicament_list_row, null);
+        if (view == null) {
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            view = vi.inflate(R.layout.adapter_all_medicament_list_row, null);
+            ButterKnife.bind(this, view);
         }
 
         final Medicament medicament = getItem(position);
 
         if(medicament!=null) {
-            TextView textViewName = (TextView) v.findViewById(R.id.textViewName);
-            TextView textViewProducer = (TextView) v.findViewById(R.id.textViewProducer);
-            TextView textViewPrice = (TextView) v.findViewById(R.id.textViewPrice);
-            TextView textViewDate = (TextView) v.findViewById(R.id.textViewDate);
-            TextView textViewPack = (TextView) v.findViewById(R.id.textViewPack);
-            TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
-            TextView textViewDiseases = (TextView) v.findViewById(R.id.textViewDiseases);
-
-            ImageView imageViewNoSynchro = (ImageView) v.findViewById(R.id.imageViewNoSynchro);
-            View menuIcon = v.findViewById(R.id.imageButtonMenu);
-
-            menuIcon.setOnClickListener(new View.OnClickListener() {
+            imageButtonMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(context, v);
+                    PopupMenu popupMenu = new PopupMenu(getContext(), v);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            Intent intent = null;
+                            Intent intent;
                             switch (item.getItemId()) {
                                 case R.id.archive:
                                     AlertDialog alertDialog = confirmDelete(medicament);
@@ -135,64 +121,51 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
             if(name.length() > 25)
                 name = name.substring(0,25);
             textViewName.setText(name);
-            textViewProducer.setText("Producent: " + medicament.getProducent());
-
-            int idServer = medicament.getIdServer();
-            if (idServer == 0) imageViewNoSynchro.setVisibility(ImageView.VISIBLE);
+            textViewProducer.setText(getContext().getString(R.string.producent, medicament.getProducent()));
+            if (medicament.getIdServer() == 0) imageViewNoSynchro.setVisibility(ImageView.VISIBLE);
             else imageViewNoSynchro.setVisibility(ImageView.INVISIBLE);
-            textViewPrice.setText("Cena: " + medicament.getPrice());
-            textViewPack.setText("Opakowanie: " + medicament.getPack());
-            textViewKind.setText("Rodzaj: " + medicament.getKind());
-            textViewDiseases.setText("Choroby: " + medicament.getMedicament_diseases().size());
-
-            if(medicament.isOverdue() & medicament.isArchive() == false)
+            textViewPrice.setText(getContext().getString(R.string.price, medicament.getPrice()));
+            textViewPack.setText(getContext().getString(R.string.pack, medicament.getPack()));
+            textViewKind.setText(getContext().getString(R.string.kind, medicament.getKind()));
+            textViewDiseases.setText(getContext().getString(R.string.DiseasesCount, medicament.getMedicament_diseases().size()));
+            if(medicament.isOverdue() & !medicament.isArchive())
                 textViewDate.setTextColor(Color.parseColor("#DF013A"));
-            textViewDate.setText("Data: " + Months.createDate(medicament.getDate()));
+            textViewDate.setText(getContext().getString(R.string.Date_parametr, Months.createDate(medicament.getDate())));
         }
-        return  v;
+        return  view;
     }
 
     private AlertDialog confirmDelete(final Medicament medicament)
     {
 
-        AlertDialog alertDialog = new AlertDialog.Builder(medicamentsActivity)
-                .setTitle("Potwierdź zużycie")
-                .setMessage("operacja jest nieodwracalna")
+        return new AlertDialog.Builder(medicamentsActivity)
+                .setTitle(getContext().getString(R.string.Confirm_use))
+                .setMessage(getContext().getString(R.string.operation_is_irreversible))
                 .setIcon(R.drawable.trash_icon)
-                .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
-
+                .setPositiveButton(getContext().getString(R.string.Yes), new DialogInterface.OnClickListener() {
+                    @SneakyThrows
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        try {
-                            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
-                            medicament.setArchive(true);
-                            medicamentDao.update(medicament);
-
-                            //// TODO: 2016-07-02 implements send info to server
-                            medicamentsActivity.setActiveMedicaments();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+                        medicament.setArchive(true);
+                        medicamentDao.update(medicament);
+                        //// TODO: 2016-07-02 implements send info to server
+                        medicamentsActivity.setActiveMedicaments();
                         dialog.dismiss();
                     }
 
                 })
-                .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getContext().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                         dialog.dismiss();
-
                     }
                 })
                 .create();
-        return alertDialog;
 
     }
 
-
-
     private DatabaseHelper getHelper() {
         if (databaseHelper == null) {
-            databaseHelper = OpenHelperManager.getHelper(context,DatabaseHelper.class);
+            databaseHelper = OpenHelperManager.getHelper(getContext(),DatabaseHelper.class);
         }
         return databaseHelper;
 

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by tomo on 2016-06-05.
- */
 public abstract class Months {
     static String JANUARY = "Styczeń";
     static String FEBRUARY = "Luty";
@@ -21,7 +18,7 @@ public abstract class Months {
     static String NOVEMBER = "Listopad";
     static String DECEMBER = "Grudzień";
 
-    private static List<String> months = new ArrayList<String>();
+    private static List<String> months = new ArrayList<>();
 
     public static List<String> getMonths() {
         months.add(JANUARY);

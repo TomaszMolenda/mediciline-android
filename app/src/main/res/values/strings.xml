@@ -31,4 +31,46 @@
     <string name="medicamentInDosages">%1$s - %2$s %3$s (ważn. %4$s)</string>
     <string name="picture_description">Opis zdjęcia</string>
     <string name="Save">Zapisz</string>
+    <string name="medicamentSearchInfo">%1$s (znaleziono %2$d szt.)</string>
+    <string name="producent">Producent: %1$s</string>
+    <string name="pack">Opakowanie: %1$s</string>
+    <string name="kind">Rodzaj: %1$s</string>
+    <string name="price">Cena: %1$s</string>
+    <string name="sendMedicamentSuccess">Lek %1$s wysłano na serwer</string>
+    <string name="sendMedicamentFail">Błąd wysyłania leku %1$s na serwer</string>
+    <string name="min_3_signs">minimum 3 znaki</string>
+    <string name="input_medicament">Wpisz nazwę leku</string>
+    <string name="Date_parametr">Data: %1$s</string>
+    <string name="Confirm_use">Potwierdź zużycie</string>
+    <string name="operation_is_irreversible">operacja jest nieodwracalna</string>
+    <string name="Yes">Tak</string>
+    <string name="Cancel">Anuluj</string>
+    <string name="No_diseases">Brak chorób</string>
+    <string name="Medicament_name">Nazwa leku</string>
+    <string name="active_substance">Aktywna substancja</string>
+    <string name="form">Postać</string>
+    <string name="Dosage">Dawka</string>
+    <string name="Pack">Opakowanie</string>
+    <string name="Producent">Producent</string>
+    <string name="Prescription">Recepta</string>
+    <string name="Type">Typ</string>
+    <string name="Risk">Ryzyko stosowania</string>
+    <string name="Driving_info">Sprawność spychomotoryczna</string>
+    <string name="Lactation_info">Okres laktacji</string>
+    <string name="Trimestr_1_info">I trymest ciąży</string>
+    <string name="Trimestr_2_info">II trymest ciąży</string>
+    <string name="Trimestr_3_info">III trymest ciąży</string>
+    <string name="Alkohol_info">Alkohol</string>
+    <string name="Composition">Skład</string>
+    <string name="Effects">Działanie</string>
+    <string name="Indications">Wskazania</string>
+    <string name="Contraindications">Przeciwwskazania</string>
+    <string name="Precaution">Środki ostrożności</string>
+    <string name="Pregnancy">Ciąża i karmienie piersią</string>
+    <string name="Sideeffects">Działanie niepożądane</string>
+    <string name="Interactions">Interakcje</string>
+    <string name="DosageInfo">Dawkowanie</string>
+    <string name="Remark">Uwagi</string>
+
+
 </resources>

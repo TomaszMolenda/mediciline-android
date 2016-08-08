@@ -9,41 +9,45 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.data.DbMedicament;
 
 
 public class AddMedicamentAdapter extends ArrayAdapter<DbMedicament> {
 
-    private ArrayList<DbMedicament> dbMedicaments;
+    @BindView(R.id.textViewName)
+    TextView textViewName;
+    @BindView(R.id.textViewProducer)
+    TextView textViewProducer;
+    @BindView(R.id.textViewPack)
+    TextView textViewPack;
+    @BindView(R.id.textViewKind)
+    TextView textViewKind;
 
     public AddMedicamentAdapter(Context context, int resource, ArrayList<DbMedicament> dbMedicaments) {
         super(context, resource, dbMedicaments);
-        this.dbMedicaments = dbMedicaments;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        View view = convertView;
 
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.adapter_add_medicament_list_row, null);
+        if (view == null) {
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            view = vi.inflate(R.layout.adapter_add_medicament_list_row, null);
+            ButterKnife.bind(this, view);
         }
 
         DbMedicament dbMedicament = getItem(position);
 
         if(dbMedicament !=null) {
-            TextView rowAddMedicamentName = (TextView) v.findViewById(R.id.textViewName);
-            TextView rowAddMedicamentProducer = (TextView) v.findViewById(R.id.textViewProducer);
-            TextView rowAddMedicamentPack = (TextView) v.findViewById(R.id.textViewPack);
-            TextView rowAddMedicamentKind = (TextView) v.findViewById(R.id.textViewKind);
-            rowAddMedicamentName.setText(dbMedicament.getProductName());
-            rowAddMedicamentProducer.setText("Producent: " + dbMedicament.getProducer());
-            rowAddMedicamentPack.setText("Opakowanie: " + dbMedicament.getPack());
-            rowAddMedicamentKind.setText("Rodzaj: " + dbMedicament.getForm());
+            textViewName.setText(dbMedicament.getProductName());
+            textViewProducer.setText(getContext().getString(R.string.producent, dbMedicament.getProducer()));
+            textViewPack.setText(getContext().getString(R.string.pack, dbMedicament.getPack()));
+            textViewKind.setText(getContext().getString(R.string.kind, dbMedicament.getForm()));
         }
-        return  v;
+        return  view;
     }
 }

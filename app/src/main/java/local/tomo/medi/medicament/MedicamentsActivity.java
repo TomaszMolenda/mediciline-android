@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.EditText;
@@ -17,86 +15,61 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
+import lombok.SneakyThrows;
 
 public class MedicamentsActivity extends Activity {
-
-    private static final String TAG = "meditomo";
 
     public static final int OUT_OF_DATE_MEDICAMENTS = 1;
     public static final int ACTIVE_MEDICAMENTS = 2;
     public static final int ARCHIVE_MEDICAMENTS = 3;
 
+    @BindView(R.id.list)
+    ListView listView;
+    @BindView(R.id.editTextSearch)
+    EditText editTextSearch;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fabAdd)
+    FloatingActionButton fabAdd;
+
     private boolean hideArchive;
-
     private DatabaseHelper databaseHelper;
-
     private List<Medicament> medicaments;
-
     private AllMedicamentAdapter allMedicamentAdapter;
-    private ListView listView;
-    private EditText editTextMedicamentSearch;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private FloatingActionButton fabAddMedicament;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicaments);
-
-        listView = (ListView) findViewById(android.R.id.list);
-        fabAddMedicament = (FloatingActionButton) findViewById(R.id.fabAdd);
-        editTextMedicamentSearch = (EditText) findViewById(R.id.editTextSearch);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
         switch (bundle.getInt("medicaments")) {
             case ACTIVE_MEDICAMENTS:
-                fabAddMedicament.setVisibility(View.VISIBLE);
+                fabAdd.setVisibility(View.VISIBLE);
                 setActiveMedicaments();
                 break;
             case ARCHIVE_MEDICAMENTS:
                 hideArchive = true;
-                fabAddMedicament.setVisibility(View.INVISIBLE);
+                fabAdd.setVisibility(View.INVISIBLE);
                 setArchiveMedicaments();
                 break;
             case OUT_OF_DATE_MEDICAMENTS:
-                fabAddMedicament.setVisibility(View.INVISIBLE);
+                fabAdd.setVisibility(View.INVISIBLE);
                 setOutOfDateMedicaments();
                 break;
         }
 
-        editTextMedicamentSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String text = editTextMedicamentSearch.getText().toString().toLowerCase();
-                List<Medicament> searchedMedicaments = new ArrayList<Medicament>();
-                for (Medicament medicament : medicaments) {
-                    if(medicament.getName().toLowerCase().contains(text) || medicament.getProducent().toLowerCase().contains(text))
-                        searchedMedicaments.add(medicament);
-                }
-                allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) searchedMedicaments);
-                listView.setAdapter(allMedicamentAdapter);
-                allMedicamentAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -122,43 +95,46 @@ public class MedicamentsActivity extends Activity {
             }
         });
 
-        fabAddMedicament.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddMedicamentActivity.class);
-                startActivityForResult(intent, 1);
-
-            }
-        });
-
     }
 
-    private void setOutOfDateMedicaments() {
-        try {
-            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
-            QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
-            queryBuilder.orderBy("date", false).where().eq("overdue", true).and().eq("archive", false);
-            queryBuilder.prepare();
-            medicaments = queryBuilder.query();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+    @OnTextChanged(R.id.editTextSearch)
+    void search(CharSequence s, int start, int before, int count) {
+        String text = editTextSearch.getText().toString().toLowerCase();
+        List<Medicament> searchedMedicaments = new ArrayList<>();
+        for (Medicament medicament : medicaments) {
+            if(medicament.getName().toLowerCase().contains(text) || medicament.getProducent().toLowerCase().contains(text))
+                searchedMedicaments.add(medicament);
         }
-        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        allMedicamentAdapter = new AllMedicamentAdapter(MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) searchedMedicaments);
+        listView.setAdapter(allMedicamentAdapter);
+        allMedicamentAdapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.fabAdd)
+    void add() {
+        Intent intent = new Intent(getApplicationContext(), AddMedicamentActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @SneakyThrows
+    private void setOutOfDateMedicaments() {
+        Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+        QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
+        queryBuilder.orderBy("date", false).where().eq("overdue", true).and().eq("archive", false);
+        queryBuilder.prepare();
+        medicaments = queryBuilder.query();
+        allMedicamentAdapter = new AllMedicamentAdapter(MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
         listView.setAdapter(allMedicamentAdapter);
     }
 
+    @SneakyThrows
     private void setArchiveMedicaments() {
-        try {
-            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
-            QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
-            queryBuilder.orderBy("id", false).where().eq("archive", true);
-            PreparedQuery<Medicament> prepare = queryBuilder.prepare();
-            medicaments = medicamentDao.query(prepare);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+        QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
+        queryBuilder.orderBy("id", false).where().eq("archive", true);
+        PreparedQuery<Medicament> prepare = queryBuilder.prepare();
+        medicaments = medicamentDao.query(prepare);
+        allMedicamentAdapter = new AllMedicamentAdapter(MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
         listView.setAdapter(allMedicamentAdapter);
     }
 
@@ -167,31 +143,15 @@ public class MedicamentsActivity extends Activity {
         setActiveMedicaments();
     }
 
+    @SneakyThrows
     public void setActiveMedicaments() {
-        try {
-            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
-            QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
-            queryBuilder.orderBy("overdue", false).orderBy("id", false).where().eq("archive", false);
-            PreparedQuery<Medicament> prepare = queryBuilder.prepare();
-            medicaments = medicamentDao.query(prepare);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
+        Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+        QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
+        queryBuilder.orderBy("overdue", false).orderBy("id", false).where().eq("archive", false);
+        PreparedQuery<Medicament> prepare = queryBuilder.prepare();
+        medicaments = medicamentDao.query(prepare);
+        allMedicamentAdapter = new AllMedicamentAdapter(MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
         listView.setAdapter(allMedicamentAdapter);
-    }
-
-    private void refreshList() {
-        try {
-            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
-            List<Medicament> medicaments = medicamentDao.queryForAll();
-            allMedicamentAdapter = new AllMedicamentAdapter(listView, MedicamentsActivity.this, getApplicationContext(), R.layout.adapter_all_medicament_list_row, (ArrayList<Medicament>) medicaments);
-            listView.setAdapter(allMedicamentAdapter);
-            allMedicamentAdapter.notifyDataSetChanged();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private DatabaseHelper getHelper() {
@@ -212,10 +172,5 @@ public class MedicamentsActivity extends Activity {
             OpenHelperManager.releaseHelper();
             databaseHelper = null;
         }
-    }
-
-
-    public AllMedicamentAdapter getListAdapter() {
-        return allMedicamentAdapter;
     }
 }

@@ -8,71 +8,52 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
-import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.DbMedicament;
 
-/**
- * Created by tomo on 2016-05-27.
- */
 public class AllMedicamentDbAdapter extends ArrayAdapter<DbMedicament> {
 
-    private ArrayList<DbMedicament> medicaments;
+    @BindView(R.id.textViewName)
+    TextView textViewName;
+    @BindView(R.id.textViewProducer)
+    TextView textViewProducer;
+    @BindView(R.id.textViewKind)
+    TextView textViewKind;
+    @BindView(R.id.textViewPack)
+    TextView textViewPack;
 
-    private MedicamentsDbActivity medicamentsDbActivity;
-
-    private Context mContext;
-
-    private DatabaseHelper databaseHelper = null;
-
-
-
-
-    public AllMedicamentDbAdapter(MedicamentsDbActivity medicamentsDbActivity, Context context, int textViewResourceId, ArrayList<DbMedicament> medicaments) {
+    public AllMedicamentDbAdapter(Context context, int textViewResourceId, ArrayList<DbMedicament> medicaments) {
         super(context, textViewResourceId, medicaments);
-        mContext = context;
-
-
-    }
+     }
 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        View view = convertView;
 
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.adapter_all_medicament_db_list_row, null);
+        if (view == null) {
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            view = vi.inflate(R.layout.adapter_all_medicament_db_list_row, null);
+            ButterKnife.bind(this, view);
         }
 
         final DbMedicament dbMedicament = getItem(position);
 
         if(dbMedicament!=null) {
-            TextView textViewName = (TextView) v.findViewById(R.id.textViewName);
-            TextView textViewProducer = (TextView) v.findViewById(R.id.textViewProducer);
-            TextView textViewKind = (TextView) v.findViewById(R.id.textViewKind);
-            TextView textViewPack = (TextView) v.findViewById(R.id.textViewPack);
+            TextView textViewName = (TextView) view.findViewById(R.id.textViewName);
+            TextView textViewProducer = (TextView) view.findViewById(R.id.textViewProducer);
+            TextView textViewKind = (TextView) view.findViewById(R.id.textViewKind);
+            TextView textViewPack = (TextView) view.findViewById(R.id.textViewPack);
 
             textViewName.setText(dbMedicament.getProductName());
-            textViewProducer.setText("Producent: " + dbMedicament.getProducer());
-            textViewKind.setText("Rodzaj: " + dbMedicament.getForm());
-            textViewPack.setText("Opakowanie: " + dbMedicament.getPack());
+            textViewProducer.setText(getContext().getString(R.string.producent, dbMedicament.getProducer()));
+            textViewKind.setText(getContext().getString(R.string.kind, dbMedicament.getForm()));
+            textViewPack.setText(getContext().getString(R.string.pack, dbMedicament.getPack()));
         }
-        return  v;
-    }
-
-
-
-    private DatabaseHelper getHelper() {
-        if (databaseHelper == null) {
-            databaseHelper = OpenHelperManager.getHelper(mContext,DatabaseHelper.class);
-        }
-        return databaseHelper;
-
+        return  view;
     }
 }

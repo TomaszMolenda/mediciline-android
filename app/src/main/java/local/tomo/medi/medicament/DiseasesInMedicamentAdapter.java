@@ -12,36 +12,32 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.data.Disease;
-import local.tomo.medi.ormlite.data.Medicament;
 
-/**
- * Created by tomo on 2016-07-15.
- */
 public class DiseasesInMedicamentAdapter extends RecyclerView.Adapter<DiseasesInMedicamentAdapter.DiseaseViewHolder> {
 
     private List<Disease> diseases;
-    private Medicament medicament;
     private Context context;
 
 
-    public DiseasesInMedicamentAdapter(List<Disease> diseases, Medicament medicament, Context context) {
+    public DiseasesInMedicamentAdapter(List<Disease> diseases, Context context) {
         this.diseases = diseases;
         this.context = context;
-        this.medicament = medicament;
     }
 
     @Override
     public DiseasesInMedicamentAdapter.DiseaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.adapter_diseases_in_medicament, null);
-        DiseaseViewHolder diseaseViewHolder = new DiseaseViewHolder(view);
-        return diseaseViewHolder;
+        return new DiseaseViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(DiseasesInMedicamentAdapter.DiseaseViewHolder holder, int position) {
+
         Disease disease = diseases.get(position);
         byte[] photo = disease.getPatient().getPhoto();
         if(photo != null) {
@@ -60,18 +56,18 @@ public class DiseasesInMedicamentAdapter extends RecyclerView.Adapter<DiseasesIn
 
     public static class DiseaseViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.imageView)
         ImageView imageView;
+        @BindView(R.id.textViewPatientName)
         TextView textViewPatientName;
+        @BindView(R.id.textViewName)
         TextView textViewName;
+        @BindView(R.id.textViewStartDate)
         TextView textViewStartDate;
 
         public DiseaseViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            textViewPatientName = (TextView) itemView.findViewById(R.id.textViewPatientName);
-            textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            textViewStartDate = (TextView) itemView.findViewById(R.id.textViewStartDate);
-
+            ButterKnife.bind(this, itemView);
         }
     }
 }
