@@ -71,6 +71,18 @@
     <string name="Interactions">Interakcje</string>
     <string name="DosageInfo">Dawkowanie</string>
     <string name="Remark">Uwagi</string>
+    <string name="January">Styczeń</string>
+    <string name="February">Luty</string>
+    <string name="March">Marzec</string>
+    <string name="April">Kwiecień</string>
+    <string name="May">Maj</string>
+    <string name="June">Czerwiec</string>
+    <string name="July">Lipiec</string>
+    <string name="August">Sierpień</string>
+    <string name="September">Wrzesień</string>
+    <string name="October">Październik</string>
+    <string name="November">Listopad</string>
+    <string name="December">Grudzień</string>
 
 
 </resources>

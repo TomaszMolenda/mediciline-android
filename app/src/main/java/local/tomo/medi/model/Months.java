@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import local.tomo.medi.R;
+
 public abstract class Months {
-    static String JANUARY = "Styczeń";
-    static String FEBRUARY = "Luty";
-    static String MARCH = "Mrzec";
-    static String APRIL = "Kwiecień";
-    static String MAY = "Maj";
-    static String JUNE = "Czerwiec";
-    static String JULY = "Lipiec";
-    static String AUGUST = "Sierpień";
-    static String SEPTEMBER = "Wrzesień";
-    static String OCTOBER = "Paździenik";
-    static String NOVEMBER = "Listopad";
-    static String DECEMBER = "Grudzień";
+    static String JANUARY = Mediciline.getAppContext().getString(R.string.January);
+    static String FEBRUARY = Mediciline.getAppContext().getString(R.string.February);
+    static String MARCH = Mediciline.getAppContext().getString(R.string.March);
+    static String APRIL = Mediciline.getAppContext().getString(R.string.April);
+    static String MAY = Mediciline.getAppContext().getString(R.string.May);
+    static String JUNE = Mediciline.getAppContext().getString(R.string.June);
+    static String JULY = Mediciline.getAppContext().getString(R.string.July);
+    static String AUGUST = Mediciline.getAppContext().getString(R.string.August);
+    static String SEPTEMBER = Mediciline.getAppContext().getString(R.string.September);
+    static String OCTOBER = Mediciline.getAppContext().getString(R.string.October);
+    static String NOVEMBER = Mediciline.getAppContext().getString(R.string.November);
+    static String DECEMBER = Mediciline.getAppContext().getString(R.string.December);
 
     private static List<String> months = new ArrayList<>();
 
