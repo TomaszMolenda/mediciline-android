@@ -14,13 +14,12 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.data.Patient;
 
-/**
- * Created by tomo on 2016-07-15.
- */
 public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.PatientViewHolder> {
 
     private List<Patient> patients;
@@ -34,8 +33,7 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
     @Override
     public AllPatientsAdapter.PatientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.adapter_all_patients_cardview, null);
-        PatientViewHolder userViewHolder = new PatientViewHolder(view);
-        return userViewHolder;
+        return new PatientViewHolder(view);
     }
 
     @Override
@@ -47,7 +45,7 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
             holder.imageViewProfilePic.setImageBitmap(bitmap);
         }
         holder.textViewPatientName.setText(patient.getName().toString());
-        holder.textViewBirthdate.setText("ur. " + Months.createDate(patient.getBirthdayLong()));
+        holder.textViewBirthdate.setText(context.getString(R.string.birthday, Months.createDate(patient.getBirthdayLong())));
         holder.textViewDiseasesCount.append(patient.getDiseases().size()+"");
     }
 
@@ -58,16 +56,19 @@ public class AllPatientsAdapter extends RecyclerView.Adapter<AllPatientsAdapter.
 
     public static class PatientViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.imageViewProfilePic)
         ImageView imageViewProfilePic;
+        @BindView(R.id.textViewPatientName)
         TextView textViewPatientName;
+        @BindView(R.id.textViewBirthdate)
         TextView textViewBirthdate;
+        @BindView(R.id.textViewDiseasesCount)
         TextView textViewDiseasesCount;
+
         public PatientViewHolder(View itemView) {
             super(itemView);
-            imageViewProfilePic = (ImageView) itemView.findViewById(R.id.imageViewProfilePic);
-            textViewPatientName = (TextView) itemView.findViewById(R.id.textViewPatientName);
-            textViewBirthdate = (TextView) itemView.findViewById(R.id.textViewBirthdate);
-            textViewDiseasesCount = (TextView) itemView.findViewById(R.id.textViewDiseasesCount);
+            ButterKnife.bind(this, itemView);
+
         }
     }
 }

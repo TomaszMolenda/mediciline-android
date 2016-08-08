@@ -2,9 +2,6 @@ package local.tomo.medi.network;
 
 import android.util.Log;
 
-/**
- * Created by tomo on 2016-07-28.
- */
 public class Utills {
 
     public static final String TAG = "meditomo";

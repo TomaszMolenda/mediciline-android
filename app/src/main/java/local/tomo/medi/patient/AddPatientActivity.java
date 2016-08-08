@@ -8,8 +8,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,36 +16,35 @@ import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import local.tomo.medi.R;
 import local.tomo.medi.model.Months;
-import local.tomo.medi.network.RestIntefrace;
-import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Patient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import lombok.SneakyThrows;
 
 public class AddPatientActivity extends Activity {
-
-    public static final String TAG = "meditomo";
 
     private final int CAMERA_CAPTURE = 1;
     private final int CROP_PIC = 2;
 
+    @BindView(R.id.editTextName)
+    EditText editTextName;
+    @BindView(R.id.editTextBirthday)
+    EditText editTextBirthday;
+    @BindView(R.id.buttonSave)
+    Button buttonSave;
+    @BindView(R.id.imageViewPhoto)
+    ImageView imageViewPhoto;
+
     private DatabaseHelper databaseHelper;
 
-    private EditText editTextName;
-    private EditText editTextBirthday;
-    private Button buttonSave;
-    private ImageView imageViewPhoto;
     private Uri outputFileUri;
     private byte[] photo;
 
@@ -60,9 +57,9 @@ public class AddPatientActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient);
+        ButterKnife.bind(this);
 
         final Calendar calendar = Calendar.getInstance();
-
 
         chooseDate = Calendar.getInstance();
 
@@ -74,80 +71,35 @@ public class AddPatientActivity extends Activity {
 
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextBirthday = (EditText) findViewById(R.id.editTextBirthday);
-        buttonSave = (Button) findViewById(R.id.buttonSave);
-        imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
-
-
-        editTextBirthday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
-
-            }
-        });
-
-
-        imageViewPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePicture, CAMERA_CAPTURE);
-            }
-        });
-
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isValidate()){
-                    String name = editTextName.getText().toString().trim();
-                    final Patient patient = new Patient(name, chooseDate.getTime(), photo);
-                    try {
-                        Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
-                        patientDao.create(patient);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    //sendPatientToServer(patient);
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-
-
-
-            }
-        });
     }
 
-    private void sendPatientToServer(final Patient patient) {
-        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace();
-        Call<Patient> call = restIntefrace.savePatient(patient);
-        call.enqueue(new Callback<Patient>() {
-            @Override
-            public void onResponse(Call<Patient> call, Response<Patient> response) {
-                Patient body = response.body();
-                Toast.makeText(getApplicationContext(), "Osobę  " + body.getName() + " wysłano na serwer", Toast.LENGTH_SHORT).show();
-                try {
-                    UpdateBuilder<Patient, Integer> updateBuilder = getHelper().getPatientDao().updateBuilder();
-                    updateBuilder.updateColumnValue("idServer", body.getIdServer());
-                    updateBuilder.where().eq("id", body.getId());
-                    updateBuilder.update();
-                    //getHelper().getPatientDao().update(body);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Patient> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Błąd wysłania osoby  " + patient.getName() + "  na serwer", Toast.LENGTH_SHORT).show();
-            }
-        });
+    @OnClick(R.id.editTextBirthday)
+    void chooseBirthday() {
+        datePickerDialog.show();
     }
+
+    @OnClick(R.id.imageViewPhoto)
+    void choodePhoto() {
+        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePicture, CAMERA_CAPTURE);
+    }
+
+    @OnClick(R.id.buttonSave)
+    @SneakyThrows
+    void save() {
+        if(isValidate()){
+            String name = editTextName.getText().toString().trim();
+            final Patient patient = new Patient(name, chooseDate.getTime(), photo);
+            Dao<Patient, Integer> patientDao = getHelper().getPatientDao();
+            patientDao.create(patient);
+            // TODO: 2016-08-08 Implement send patient to server
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+    }
+
+
 
 
     private DatabaseHelper getHelper() {
@@ -213,15 +165,15 @@ public class AddPatientActivity extends Activity {
 
     public boolean isValidate() {
         if(editTextName.getText().toString().trim().length() < 4) {
-            Toast.makeText(this, "Imię musi mieć min 4 znaki", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.Name_min_4_signs), Toast.LENGTH_SHORT).show();
             return false;
         }
         if(editTextBirthday.getText().length() == 0) {
-            Toast.makeText(this, "Podaj datę urodzin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.Put_birthday), Toast.LENGTH_SHORT).show();
             return false;
         }
         if(photo == null) {
-            Toast.makeText(this, "Dodaj zdjęcie", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.Put_photo), Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

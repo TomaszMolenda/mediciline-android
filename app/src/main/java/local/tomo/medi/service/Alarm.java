@@ -14,13 +14,10 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.PowerManager;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,17 +26,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import local.tomo.medi.MainActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Patient;
 
 public class Alarm extends BroadcastReceiver
 {
-    public static final String TAG = "meditomo";
-
     private DatabaseHelper databaseHelper;
-
     private Context context;
     
     @Override
@@ -52,7 +45,6 @@ public class Alarm extends BroadcastReceiver
 
         // Put here YOUR code.
         Toast.makeText(context, "Alarm !!!!!!!!!!", Toast.LENGTH_LONG).show(); // For example
-        Log.d(TAG, "onReceive: ");
         generateNoteOnSD(context, "medi.txt", new Date().toString());
         //createNotification(context);
         wl.release();

@@ -52,7 +52,6 @@
         <activity android:name=".disease.MedicamentsListActivity" />
         <activity android:name=".disease.DiseasesListActivity" />
         <activity android:name=".medicament.DiseasesInMedicamentActivity" />
-        <activity android:name=".patient.LiveCameraActivity" />
         <activity android:name=".disease.AllMedicamentsActivity" />
         <activity android:name=".user.RegisterActivity" />
         <activity android:name=".dosage.DosagesActivity" />

@@ -41,6 +41,7 @@
     <string name="min_3_signs">minimum 3 znaki</string>
     <string name="input_medicament">Wpisz nazwę leku</string>
     <string name="Date_parametr">Data: %1$s</string>
+    <string name="birthday">ur. : %1$s</string>
     <string name="Confirm_use">Potwierdź zużycie</string>
     <string name="operation_is_irreversible">operacja jest nieodwracalna</string>
     <string name="Yes">Tak</string>
@@ -83,6 +84,11 @@
     <string name="October">Październik</string>
     <string name="November">Listopad</string>
     <string name="December">Grudzień</string>
+    <string name="Diseases_duration">Choroby trwające: %1$d</string>
+    <string name="Diseases_ended">Choroby zakończone: %1$d</string>
+    <string name="Name_min_4_signs">Imię musi mieć min 4 znaki</string>
+    <string name="Put_birthday">Podaj datę urodzin</string>
+    <string name="Put_photo">Dodaj zdjęcie</string>
 
 
 </resources>

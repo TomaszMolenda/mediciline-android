@@ -3,9 +3,9 @@ package local.tomo.medi.disease;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,17 +15,35 @@ import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.stmt.QueryBuilder;
 
-import java.sql.SQLException;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import local.tomo.medi.R;
 import local.tomo.medi.RecyclerItemClickListener;
 import local.tomo.medi.model.Months;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Patient;
+import lombok.SneakyThrows;
 
 public class DiseasesListActivity extends AppCompatActivity {
+
+    @BindView(R.id.imageViewProfilePic)
+    ImageView imageViewProfilePic;
+    @BindView(R.id.textViewName)
+    TextView textViewName;
+    @BindView(R.id.textViewBirthday)
+    TextView textViewBirthday;
+    @BindView(R.id.textViewActiveDiseasesCount)
+    TextView textViewActiveDiseasesCount;
+    @BindView(R.id.textViewEndedDiseasesCount)
+    TextView textViewEndedDiseasesCount;
+    @BindView(R.id.recyclerViewDiseases)
+    RecyclerView recyclerViewDiseases = (RecyclerView) findViewById(R.id.recyclerViewDiseases);
+    @BindView(R.id.fabAdd)
+    FloatingActionButton fabAdd;
 
     private DatabaseHelper databaseHelper;
 
@@ -33,40 +51,25 @@ public class DiseasesListActivity extends AppCompatActivity {
 
     private List<Disease> diseases;
 
-    private RecyclerView recyclerViewDiseases;
-
-    private TextView textViewActiveDiseasesCount;
-    private TextView textViewEndedDiseasesCount;
 
     @Override
+    @SneakyThrows
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diseases_list);
+        ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
         patientId = bundle.getInt("patientId");
-        Patient patient = null;
-        try {
-            patient = getHelper().getPatientDao().queryForId(patientId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Patient patient = getHelper().getPatientDao().queryForId(patientId);
 
-        ImageView imageViewProfilePic = (ImageView) findViewById(R.id.imageViewProfilePic);
-        TextView textViewName = (TextView) findViewById(R.id.textViewName);
-        TextView textViewBirthday = (TextView) findViewById(R.id.textViewBirthday);
-        textViewActiveDiseasesCount = (TextView) findViewById(R.id.textViewActiveDiseasesCount);
-        textViewEndedDiseasesCount = (TextView) findViewById(R.id.textViewEndedDiseasesCount);
-        recyclerViewDiseases = (RecyclerView) findViewById(R.id.recyclerViewDiseases);
-        FloatingActionButton floatingActionButtonAdd = (FloatingActionButton) findViewById(R.id.floatingActionButtonAdd);
         byte[] photo = patient.getPhoto();
         if(photo != null) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0, photo.length);
             imageViewProfilePic.setImageBitmap(bitmap);
         }
         textViewName.setText(patient.getName());
-        textViewBirthday.setText("ur. " + Months.createDate(patient.getBirthdayLong()));
-
+        textViewBirthday.setText(getString(R.string.birthday, Months.createDate(patient.getBirthdayLong())));
 
         recyclerViewDiseases.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewDiseases.addOnItemTouchListener(
@@ -82,34 +85,26 @@ public class DiseasesListActivity extends AppCompatActivity {
                     }
                 })
         );
-
-
-        floatingActionButtonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddDiseaseActivity.class);
-                intent.putExtra("patientId", patientId);
-                startActivityForResult(intent, 1);
-            }
-        });
-
         setDiseases();
     }
 
+    @OnClick(R.id.fabAdd)
+    void add() {
+        Intent intent = new Intent(getApplicationContext(), AddDiseaseActivity.class);
+        intent.putExtra("patientId", patientId);
+        startActivityForResult(intent, 1);
+    }
 
 
+    @SneakyThrows
     private void setDiseases() {
-        try {
-            QueryBuilder<Disease, Integer> queryBuilder = getHelper().getDiseaseDao().queryBuilder();
-            queryBuilder.where().eq("patient_id", patientId);
-            queryBuilder.orderBy("stopLong", true);
-            queryBuilder.orderBy("startLong", false);
-            diseases = queryBuilder.query();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        textViewActiveDiseasesCount.setText("Choroby trwające: " + getActiveCount(diseases));
-        textViewEndedDiseasesCount.setText("Choroby zakończone: " + getArchiveCount(diseases));
+        QueryBuilder<Disease, Integer> queryBuilder = getHelper().getDiseaseDao().queryBuilder();
+        queryBuilder.where().eq("patient_id", patientId);
+        queryBuilder.orderBy("stopLong", true);
+        queryBuilder.orderBy("startLong", false);
+        diseases = queryBuilder.query();
+        textViewActiveDiseasesCount.setText(getString(R.string.Diseases_duration, getActiveCount(diseases)));
+        textViewEndedDiseasesCount.setText(getString(R.string.Diseases_ended, getArchiveCount(diseases)));
         DiseasesListAdapter diseasesListAdapter = new DiseasesListAdapter(diseases, this);
         recyclerViewDiseases.setAdapter(diseasesListAdapter);
     }

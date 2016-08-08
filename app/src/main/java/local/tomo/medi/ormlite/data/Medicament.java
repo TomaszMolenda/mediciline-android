@@ -4,10 +4,7 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -67,30 +64,6 @@ public class Medicament {
         this.pack = dbMedicament.getPack();
         this.packageID = dbMedicament.getPackageID();
         this.kind = dbMedicament.getForm();
-    }
-
-    public static Medicament containsId(Collection<Medicament> c, int id) {
-        for(Medicament m : c) {
-            if(m != null && m.getId() == id) {
-                return m;
-            }
-        }
-        return null;
-    }
-
-    public static List<Medicament> compareIdServer(List<Medicament> remoteMedicaments, List<Medicament> localMedicamentsSended) {
-        List<Medicament> returnList = new ArrayList<Medicament>(remoteMedicaments);
-        for (Medicament remoteMedicament : remoteMedicaments) {
-            for (Medicament localMedicament : localMedicamentsSended) {
-                if(localMedicament.getIdServer() == remoteMedicament.getIdServer()) {
-                    returnList.remove(remoteMedicament);
-                    break;
-                }
-
-            }
-
-        }
-        return returnList;
     }
 
     @Override
