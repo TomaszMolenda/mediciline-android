@@ -20,18 +20,23 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.io.ByteArrayOutputStream;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.File;
 import lombok.SneakyThrows;
 
+//http://stackoverflow.com/questions/15261088/gridview-with-two-columns-and-auto-resized-images
 public class FilesActivity extends AppCompatActivity {
 
-    public static final String TAG = "meditomo";
     private static final int WIDTH_REDUCE_PICTURE = 1024;
     private static final int MAX_PICTURE_SIZE = 100000;
 
+    @BindView(R.id.fabAdd)
+    FloatingActionButton fabAdd;
 
     private final int CAMERA_CAPTURE = 1;
 
@@ -46,35 +51,29 @@ public class FilesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_files);
+        ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
         diseaseId = bundle.getInt("diseaseId");
 
         prepareData();
+    }
 
-
-        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
-        fabAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            @SneakyThrows
-            public void onClick(View v) {
-                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                java.io.File photo = createTemporaryFile("picture", ".jpg");
-                uri = Uri.fromFile(photo);
-                photo.deleteOnExit();
-                takePicture.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(takePicture, CAMERA_CAPTURE);
-            }
-        });
-
-
-        //http://stackoverflow.com/questions/15261088/gridview-with-two-columns-and-auto-resized-images
+    @OnClick(R.id.fabAdd)
+    @SneakyThrows
+    void add() {
+        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        java.io.File photo = createTemporaryFile("picture", ".jpg");
+        uri = Uri.fromFile(photo);
+        photo.deleteOnExit();
+        takePicture.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(takePicture, CAMERA_CAPTURE);
     }
 
     private java.io.File createTemporaryFile(String part, String ext) throws Exception
     {
         java.io.File tempDir= Environment.getExternalStorageDirectory();
-        tempDir=new java.io.File(tempDir.getAbsolutePath()+"/temp/");
+        tempDir=new java.io.File(tempDir.getAbsolutePath()+"/.temp/");
         if(!tempDir.exists())
         {
             tempDir.mkdirs();
@@ -106,11 +105,11 @@ public class FilesActivity extends AppCompatActivity {
                 compress -=10;
             } while (bytes.length > MAX_PICTURE_SIZE);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Opis zdjęcia");
+            builder.setTitle(R.string.picture_description);
             final EditText input = new EditText(this);
             builder.setView(input);
             final byte[] finalBytes = bytes;
-            builder.setPositiveButton("Zapisz", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
                 @SneakyThrows
                 public void onClick(DialogInterface dialog, int id) {
                     File file = new File();

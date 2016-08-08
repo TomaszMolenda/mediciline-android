@@ -29,4 +29,6 @@
     <string name="search_medicament_in_list">szukaj leku na liście</string>
     <string name="diseaseInDosages">%1$s (rozp. %2$s)</string>
     <string name="medicamentInDosages">%1$s - %2$s %3$s (ważn. %4$s)</string>
+    <string name="picture_description">Opis zdjęcia</string>
+    <string name="Save">Zapisz</string>
 </resources>

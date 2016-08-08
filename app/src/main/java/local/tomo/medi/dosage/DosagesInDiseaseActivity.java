@@ -38,7 +38,7 @@ public class DosagesInDiseaseActivity extends AppCompatActivity {
     @BindView(R.id.textViewDisease)
     TextView textViewDisease;
     @BindView(R.id.list)
-    private ListView listView;
+    ListView listView;
 
     private int diseaseId;
     private Disease disease;

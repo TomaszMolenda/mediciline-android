@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,22 +19,22 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.data.File;
 
-/**
- * Created by tomo on 2016-08-04.
- */
 public class FilesAdapter extends BaseAdapter {
 
-    public static final String TAG = "meditomo";
+    @BindView(R.id.squareImageViewPicture)
+    ImageView squareImageViewPicture;
+    @BindView(R.id.textViewName)
+    TextView textViewName;
 
     private List<File> files;
-    private final LayoutInflater inflater;
     private Context context;
 
     public FilesAdapter(Context context, ForeignCollection<File> files) {
-        this.inflater = LayoutInflater.from(context);
         this.files = new ArrayList<>(files);
         this.context = context;
     }
@@ -57,16 +56,12 @@ public class FilesAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        ImageView squareImageViewPicture;
-        TextView textViewName;
+        View view = convertView;
 
-        if (v == null) {
-            v = inflater.inflate(R.layout.grid_item, parent, false);
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.grid_item, parent, false);
+            ButterKnife.bind(this, view);
         }
-        squareImageViewPicture = (ImageView) v.findViewById(R.id.squareImageViewPicture);
-
-        textViewName = (TextView) v.findViewById(R.id.textViewName);
 
         File file = getItem(position);
         final byte[] bytes = file.getFile();
@@ -87,13 +82,13 @@ public class FilesAdapter extends BaseAdapter {
             }
         });
 
-        return v;
+        return view;
     }
 
     public Uri getImageUri(Context context, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "", null);
         return Uri.parse(path);
     }
 
