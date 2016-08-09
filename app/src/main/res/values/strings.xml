@@ -93,6 +93,10 @@
     <string name="Button_count_archive_medicament">Zużyte\n%1$d</string>
     <string name="Button_count_overdue_medicament">Przeterminowane\n%1$d</string>
     <string name="Patients">Osoby</string>
+    <string name="Email">Email</string>
+    <string name="Password">Hasło</string>
+    <string name="Login">Zaloguj</string>
+    <string name="Register">Zarejestruj</string>
 
 
 </resources>

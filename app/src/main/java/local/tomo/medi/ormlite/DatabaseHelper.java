@@ -1,5 +1,6 @@
 package local.tomo.medi.ormlite;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -21,6 +22,8 @@ import local.tomo.medi.ormlite.data.MedicamentAdditional;
 import local.tomo.medi.ormlite.data.Medicament_Disease;
 import local.tomo.medi.ormlite.data.Patient;
 import local.tomo.medi.ormlite.data.User;
+import local.tomo.medi.utills.Utill;
+import lombok.SneakyThrows;
 
 
 /**
@@ -28,8 +31,8 @@ import local.tomo.medi.ormlite.data.User;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "medis.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final String DATABASE_NAME = "medis1.db";
+    private static final int DATABASE_VERSION = 2;
 
     private Dao<User, Integer> userDao;
     private Dao<Medicament, Integer> medicamentDao;
@@ -41,51 +44,53 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Dosage, Integer> dosageDao;
     private Dao<File, Integer> fileDao;
 
+    private ProgressDialog progressDialog;
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.progressDialog = new ProgressDialog(context);
     }
 
+    @Override
+    public String getDatabaseName() {
+        return super.getDatabaseName();
+    }
 
     @Override
+    @SneakyThrows
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
-        try {
-            TableUtils.createTable(connectionSource, User.class);
-            TableUtils.createTable(connectionSource, Medicament.class);
-            TableUtils.createTable(connectionSource, Patient.class);
-            TableUtils.createTable(connectionSource, Disease.class);
-            TableUtils.createTable(connectionSource, Medicament_Disease.class);
-            TableUtils.createTable(connectionSource, Dosage.class);
-            TableUtils.createTable(connectionSource, File.class);
-            if(DATABASE_VERSION == 1) {
-                TableUtils.createTable(connectionSource, DbMedicament.class);
-                TableUtils.createTable(connectionSource, MedicamentAdditional.class);
-            }
-
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
-        }
+        TableUtils.createTable(connectionSource, User.class);
+        TableUtils.createTable(connectionSource, Medicament.class);
+        TableUtils.createTable(connectionSource, Patient.class);
+        TableUtils.createTable(connectionSource, Disease.class);
+        TableUtils.createTable(connectionSource, Medicament_Disease.class);
+        TableUtils.createTable(connectionSource, Dosage.class);
+        TableUtils.createTable(connectionSource, File.class);
+        TableUtils.createTableIfNotExists(connectionSource, DbMedicament.class);
+        TableUtils.createTableIfNotExists(connectionSource, MedicamentAdditional.class);
     }
 
     @Override
+    @SneakyThrows
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        try {
-            TableUtils.dropTable(connectionSource, User.class, true);
-            TableUtils.dropTable(connectionSource, Medicament.class, true);
-            TableUtils.dropTable(connectionSource, Patient.class, true);
-            TableUtils.dropTable(connectionSource, Disease.class, true);
-            TableUtils.dropTable(connectionSource, Medicament_Disease.class, true);
-            TableUtils.dropTable(connectionSource, Dosage.class, true);
-            TableUtils.dropTable(connectionSource, File.class, true);
-            if (DATABASE_VERSION == 1) {
-                TableUtils.dropTable(connectionSource, DbMedicament.class, true);
-                TableUtils.dropTable(connectionSource, MedicamentAdditional.class, true);
-            }
+        TableUtils.dropTable(connectionSource, User.class, true);
+        TableUtils.dropTable(connectionSource, Medicament.class, true);
+        TableUtils.dropTable(connectionSource, Patient.class, true);
+        TableUtils.dropTable(connectionSource, Disease.class, true);
+        TableUtils.dropTable(connectionSource, Medicament_Disease.class, true);
+        TableUtils.dropTable(connectionSource, Dosage.class, true);
+        TableUtils.dropTable(connectionSource, File.class, true);
+        onCreate(database, connectionSource);
+    }
 
-            onCreate(database, connectionSource);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVersion + " to new "
-                    + newVersion, e);
-        }
+    @SneakyThrows
+    public void dropMedicamentsDb() {
+        Log.d(Utill.TAG, "dropMedicamentsDb: drop medi");
+        TableUtils.dropTable(connectionSource, DbMedicament.class, true);
+        TableUtils.dropTable(connectionSource, MedicamentAdditional.class, true);
+        TableUtils.createTable(connectionSource, DbMedicament.class);
+        TableUtils.createTable(connectionSource, MedicamentAdditional.class);
+
     }
 
     public Dao<User, Integer> getUserDao() throws SQLException {
@@ -151,4 +156,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return fileDao;
     }
+
+
 }

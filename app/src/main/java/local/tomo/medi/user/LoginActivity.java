@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -22,17 +21,16 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import local.tomo.medi.MainActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.json.MedicamentsDbAdditionalJSON;
@@ -40,7 +38,6 @@ import local.tomo.medi.json.MedicamentsDbJSON;
 import local.tomo.medi.network.RestIntefrace;
 import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
-import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.User;
 import local.tomo.medi.utills.Utill;
@@ -50,9 +47,14 @@ import retrofit2.Call;
 
 public class LoginActivity extends Activity {
 
-    public static final String TAG = "meditomo";
-
-    public static final int MEDICAMENTDB_COUNT = 11575;
+    @BindView(R.id.editTextUserName)
+    EditText editTextUserName;
+    @BindView(R.id.editTextPassword)
+    EditText editTextPassword;
+    @BindView(R.id.buttonRegister)
+    Button buttonRegister;
+    @BindView(R.id.buttonLogin)
+    Button buttonLogin;
 
     private static String PREF_NAME = "medi_pref";
     private static String PREF_USER = "username";
@@ -65,18 +67,16 @@ public class LoginActivity extends Activity {
 
     private DatabaseHelper databaseHelper;
 
-    private EditText editTextLoginUserName;
-    private EditText editTextLoginPassword;
-    private Button buttonRegister;
+    private boolean canLogin;
 
 
-    private class Background extends AsyncTask<Void, Void, Void> {
+    private class DatabaseBuilder extends AsyncTask<Void, Void, Void> {
 
         Resources resources;
 
         private ProgressDialog progressDialog;
 
-        public Background(Context applicationContext, Resources resources) {
+        public DatabaseBuilder(Context applicationContext, Resources resources) {
             this.resources = resources;
             this.progressDialog = new ProgressDialog(applicationContext);
         }
@@ -115,64 +115,63 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
+
+
 
         //http://stackoverflow.com/a/35797136
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        editTextLoginUserName = (EditText) findViewById(R.id.editTextLoginUserName);
-        editTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
+        checkMedicamentDb();
 
-        buttonRegister = (Button) findViewById(R.id.buttonRegister);
-
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
+        if (canLogin) {
+            SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+            String userName = preference.getString(PREF_USER, null);
+            String password = preference.getString(PREF_PASSWORD, null);
+            String uniqueID = preference.getString(PREF_UNIQUE_ID, null);
+            String email = preference.getString(PREF_EMAIL, null);
+            String auth = preference.getString(PREF_AUTH, null);
+            if (userName != null & password != null & uniqueID != null & email != null & auth != null) {
+                user.setName(userName);
+                user.setPassword(password);
+                user.setEmail(email);
+                user.setUniqueID(uniqueID);
+                user.setAuth(auth);
+                InputStream open = getBaseContext().getAssets().open("app.properties");
+                setOverdueMedicaments();
+                doLogin();
             }
-        });
-
-
-        SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        String userName = preference.getString(PREF_USER, null);
-        String password = preference.getString(PREF_PASSWORD, null);
-        String uniqueID = preference.getString(PREF_UNIQUE_ID, null);
-        String email = preference.getString(PREF_EMAIL, null);
-        String auth = preference.getString(PREF_AUTH, null);
-        if (userName != null & password != null & uniqueID != null & auth != null) {
-            user.setName(userName);
-            user.setPassword(password);
-            user.setEmail(email);
-            user.setUniqueID(uniqueID);
-            user.setAuth(auth);
-            Log.d(TAG, "22222:");
-            InputStream open = getBaseContext().getAssets().open("app.properties");
-            setOverdueMedicaments();
-            login();
         }
-        else {
-            Background background = new Background(getApplicationContext(), getResources());
-            background.execute();
+
+
+    }
+
+    @SneakyThrows
+    private void checkMedicamentDb() {
+        long countOfDbMedicaments = getHelper().getMedicamentDbDao().queryBuilder().countOf();
+        long countOfDbAdditionals = getHelper().getMedicamentAdditionalsDao().queryBuilder().countOf();
+        if (countOfDbMedicaments != MedicamentsDbJSON.count | countOfDbAdditionals != MedicamentsDbAdditionalJSON.count) {
+
+            getHelper().dropMedicamentsDb();
+            DatabaseBuilder databaseBuilder = new DatabaseBuilder(getApplicationContext(), getResources());
+            databaseBuilder.execute();
+        } else {
+            canLogin = true;
         }
     }
 
+    @SneakyThrows
     private void setOverdueMedicaments() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        List<Medicament> medicaments = null;
-        try {
-            Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
-            QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
-            queryBuilder.where().eq("archive", false).and().eq("overdue", false);
-            PreparedQuery<Medicament> prepare = queryBuilder.prepare();
-            medicaments = medicamentDao.query(prepare);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        Dao<Medicament, Integer> medicamentDao = getHelper().getMedicamentDao();
+        QueryBuilder<Medicament, Integer> queryBuilder = medicamentDao.queryBuilder();
+        queryBuilder.where().eq("archive", false).and().eq("overdue", false);
+        PreparedQuery<Medicament> prepare = queryBuilder.prepare();
+        List<Medicament> medicaments = medicamentDao.query(prepare);
 
         for (Medicament medicament : medicaments) {
             calendar.setTimeInMillis(medicament.getDate());
@@ -183,16 +182,21 @@ public class LoginActivity extends Activity {
         }
     }
 
+    @SneakyThrows
     private void setOverdue(Medicament medicament) {
         medicament.setOverdue(true);
-        try {
-            getHelper().getMedicamentDao().update(medicament);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        getHelper().getMedicamentDao().update(medicament);
     }
 
-    private void login() {
+    @OnClick(R.id.buttonRegister)
+    void register() {
+        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(intent);
+    }
+
+
+
+    private void doLogin() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -208,10 +212,11 @@ public class LoginActivity extends Activity {
         finish();
     }
 
-
-    public void loginClick(View view) {
-        String userName = editTextLoginUserName.getText().toString();
-        String password = editTextLoginPassword.getText().toString();
+    @OnClick(R.id.buttonLogin)
+    @SneakyThrows
+    void login() {
+        String userName = editTextUserName.getText().toString();
+        String password = editTextPassword.getText().toString();
         RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace(userName, password);
         Call<User> call = restIntefrace.login();
         try {
@@ -224,7 +229,7 @@ public class LoginActivity extends Activity {
                         .putString(PREF_EMAIL, user.getEmail())
                         .putString(PREF_AUTH, user.getAuth())
                         .commit();
-                login();
+                doLogin();
             } else
                 Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
         } catch (SocketTimeoutException e) {
@@ -239,9 +244,7 @@ public class LoginActivity extends Activity {
         return user;
     }
 
-    public static void setUser(User user) {
-        LoginActivity.user = user;
-    }
+
 
     @Override
     protected void onDestroy() {

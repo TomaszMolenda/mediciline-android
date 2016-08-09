@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Nazwa"
+        android:text="@string/Email"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -24,21 +24,21 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextLoginUserName"
+        android:id="@+id/editTextUserName"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:inputType="textPersonName"
         android:ems="10"
-        android:nextFocusUp="@id/editTextLoginUserName"
-        android:nextFocusLeft="@id/editTextLoginUserName"/>
+        android:nextFocusUp="@id/editTextUserName"
+        android:nextFocusLeft="@id/editTextUserName"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Hasło"
+        android:text="@string/Password"
         android:id="@+id/textView2"
-        android:layout_below="@+id/editTextLoginUserName"
+        android:layout_below="@+id/editTextUserName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp" />
 
@@ -47,24 +47,23 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editTextLoginPassword"
+        android:id="@+id/editTextPassword"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Zaloguj"
+        android:text="@string/Login"
         android:id="@+id/buttonLogin"
-        android:layout_below="@+id/editTextLoginPassword"
+        android:layout_below="@+id/editTextPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp"
-        android:onClick="loginClick" />
+        android:layout_marginTop="43dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Zarejestruj"
+        android:text="@string/Register"
         android:id="@+id/buttonRegister"
         android:layout_below="@+id/buttonLogin"
         android:layout_centerHorizontal="true"

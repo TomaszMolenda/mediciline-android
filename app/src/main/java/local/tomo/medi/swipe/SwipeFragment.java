@@ -51,7 +51,7 @@ public class SwipeFragment extends Fragment {
 
             }
         });
-        
+
         return view;
     }
 
