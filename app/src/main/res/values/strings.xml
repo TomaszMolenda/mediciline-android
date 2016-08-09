@@ -97,6 +97,7 @@
     <string name="Password">Hasło</string>
     <string name="Login">Zaloguj</string>
     <string name="Register">Zarejestruj</string>
+    <string name="Click_once_again_to_exit">Proszę kilknąć cofnij jeszcze raz aby zamknąć program</string>
 
 
 </resources>

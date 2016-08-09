@@ -1,19 +1,7 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--<item name="popupMenuStyle">@style/PopupMenu</item>-->
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="myDialog" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        ...
-    </style>
-    <!--<style name="PopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">-->
-        <!--<item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>-->
-    <!--</style>-->
-
 </resources>

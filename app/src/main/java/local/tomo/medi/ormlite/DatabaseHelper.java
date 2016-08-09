@@ -31,8 +31,8 @@ import lombok.SneakyThrows;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "medis1.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "medis.db";
+    private static final int DATABASE_VERSION = 3;
 
     private Dao<User, Integer> userDao;
     private Dao<Medicament, Integer> medicamentDao;
