@@ -41,7 +41,7 @@ public class DiseasesListActivity extends AppCompatActivity {
     @BindView(R.id.textViewEndedDiseasesCount)
     TextView textViewEndedDiseasesCount;
     @BindView(R.id.recyclerViewDiseases)
-    RecyclerView recyclerViewDiseases = (RecyclerView) findViewById(R.id.recyclerViewDiseases);
+    RecyclerView recyclerViewDiseases;
     @BindView(R.id.fabAdd)
     FloatingActionButton fabAdd;
 

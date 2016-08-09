@@ -1,13 +1,11 @@
 package local.tomo.medi.swipe;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +13,11 @@ import android.view.ViewGroup;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.stmt.QueryBuilder;
 
-import java.sql.SQLException;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import local.tomo.medi.R;
 import local.tomo.medi.RecyclerItemClickListener;
 import local.tomo.medi.disease.DiseasesListActivity;
@@ -25,40 +25,33 @@ import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Patient;
 import local.tomo.medi.patient.AddPatientActivity;
 import local.tomo.medi.patient.AllPatientsAdapter;
-
+import lombok.SneakyThrows;
 
 public class PatientFragment extends Fragment {
 
-    private static final String TAG = "meditomo";
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.fabAdd)
+    FloatingActionButton fabAdd;
 
     private DatabaseHelper databaseHelper;
 
-    List<Patient> patients;
+    private List<Patient> patients;
 
-    private RecyclerView recyclerViewAllPatients;
-    private FloatingActionButton floatingActionButtonAdd;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swipe_fragment_patient, container, false);
+        ButterKnife.bind(this, view);
 
-        recyclerViewAllPatients = (RecyclerView) view.findViewById(R.id.recyclerViewAllPatients);
-        recyclerViewAllPatients.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setPatients();
 
-        floatingActionButtonAdd = (FloatingActionButton) view.findViewById(R.id.floatingActionButtonAdd);
-        floatingActionButtonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddPatientActivity.class);
-                startActivityForResult(intent, 1);
-            }
-        });
-
         //http://stackoverflow.com/a/26196831
-        recyclerViewAllPatients.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), recyclerViewAllPatients,new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), recyclerView,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Intent intent = new Intent(getActivity(), DiseasesListActivity.class);
                         intent.putExtra("patientId", patients.get(position).getId());
@@ -74,17 +67,18 @@ public class PatientFragment extends Fragment {
         return view;
     }
 
+    @OnClick(R.id.fabAdd)
+    void add() {
+        Intent intent = new Intent(getActivity(), AddPatientActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @SneakyThrows
     private void setPatients() {
-        try {
-            QueryBuilder<Patient, Integer> queryBuilder = getHelper().getPatientDao().queryBuilder();
-            patients = queryBuilder.query();
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        QueryBuilder<Patient, Integer> queryBuilder = getHelper().getPatientDao().queryBuilder();
+        patients = queryBuilder.query();
         AllPatientsAdapter allPatientsAdapter = new AllPatientsAdapter(patients, getContext());
-        recyclerViewAllPatients.setAdapter(allPatientsAdapter);
+        recyclerView.setAdapter(allPatientsAdapter);
     }
 
     @Override

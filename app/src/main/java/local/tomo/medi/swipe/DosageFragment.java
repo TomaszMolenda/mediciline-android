@@ -16,25 +16,23 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.dosage.AllDosageAdapter;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Disease;
 import local.tomo.medi.ormlite.data.Dosage;
 import local.tomo.medi.ormlite.data.Medicament_Disease;
-import local.tomo.medi.ormlite.data.Patient;
 import lombok.SneakyThrows;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DosageFragment extends Fragment {
-
-    private static final String TAG = "meditomo";
 
     private DatabaseHelper databaseHelper;
 
-    private ListView listView;
+    @BindView(R.id.list)
+    ListView listView;
+
     private List<Dosage> dosages;
     private AllDosageAdapter allDosageAdapter;
 
@@ -42,10 +40,8 @@ public class DosageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swipe_fragment_dosage, container, false);
-        listView = (ListView) view.findViewById(android.R.id.list);
-
+        ButterKnife.bind(this, view);
         setDosages();
-
         return view;
     }
 

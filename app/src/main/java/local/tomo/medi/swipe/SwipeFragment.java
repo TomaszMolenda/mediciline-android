@@ -22,12 +22,11 @@ public class SwipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_swipe, container, false);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Leki"));
-        tabLayout.addTab(tabLayout.newTab().setText("Osoby"));
-        tabLayout.addTab(tabLayout.newTab().setText("Dawki"));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.Medicaments)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.Patients)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.Dosages)));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
 
@@ -52,8 +51,7 @@ public class SwipeFragment extends Fragment {
 
             }
         });
-
-
+        
         return view;
     }
 

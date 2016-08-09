@@ -5,12 +5,12 @@
     tools:context=".swipe.PatientFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewAllPatients"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButtonAdd"
+        android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
