@@ -67,7 +67,7 @@ public class LoginActivity extends Activity {
 
     private DatabaseHelper databaseHelper;
 
-    private boolean canLogin;
+    private boolean canLogin = true;
 
 
     private class DatabaseBuilder extends AsyncTask<Void, Void, Void> {
@@ -123,7 +123,7 @@ public class LoginActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        checkMedicamentDb();
+//        checkMedicamentDb();
 
         if (canLogin) {
             SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);

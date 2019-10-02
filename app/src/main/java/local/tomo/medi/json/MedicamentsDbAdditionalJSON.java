@@ -45,9 +45,9 @@ public class MedicamentsDbAdditionalJSON {
 
     @SneakyThrows
     public void getMedicamentAdditionalFromFile() {
-        InputStream inputStream = resources.openRawResource(R.raw.additional);
-        readJsonStream(inputStream);
-        releaseHelper();
+//        InputStream inputStream = resources.openRawResource(R.raw.additional);
+//        readJsonStream(inputStream);
+//        releaseHelper();
     }
 
     @SneakyThrows

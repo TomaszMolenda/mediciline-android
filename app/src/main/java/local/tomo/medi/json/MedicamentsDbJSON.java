@@ -45,9 +45,9 @@ public class MedicamentsDbJSON {
 
     @SneakyThrows
     public void getMedicamentsDbFromFile() {
-        InputStream inputStream = resources.openRawResource(R.raw.medi);
-        readJsonStream(inputStream);
-        releaseHelper();
+//        InputStream inputStream = resources.openRawResource(R.raw.medi);
+//        readJsonStream(inputStream);
+//        releaseHelper();
     }
 
     @SneakyThrows
