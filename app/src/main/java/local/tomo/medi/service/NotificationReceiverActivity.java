@@ -1,6 +1,6 @@
 package local.tomo.medi.service;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import local.tomo.medi.R;
