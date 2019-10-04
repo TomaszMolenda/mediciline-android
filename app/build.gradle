@@ -42,4 +42,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.10.0'
 }

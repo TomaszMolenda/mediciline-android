@@ -31,14 +31,14 @@
             android:enabled="true"
             android:process=":mediciline_service" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".user.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".user.LoginActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".medicament.MedicamentsActivity" />
         <activity
             android:name=".medicament.AddMedicamentActivity"

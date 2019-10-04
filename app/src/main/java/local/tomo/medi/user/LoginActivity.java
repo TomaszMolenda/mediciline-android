@@ -9,8 +9,6 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,11 +18,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.SocketTimeoutException;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,14 +29,10 @@ import local.tomo.medi.MainActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.json.MedicamentsDbAdditionalJSON;
 import local.tomo.medi.json.MedicamentsDbJSON;
-import local.tomo.medi.network.RestIntefrace;
-import local.tomo.medi.network.RetrofitBuilder;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
 import local.tomo.medi.ormlite.data.User;
-import local.tomo.medi.utills.Utill;
 import lombok.SneakyThrows;
-import retrofit2.Call;
 
 
 public class LoginActivity extends Activity {
@@ -67,7 +57,7 @@ public class LoginActivity extends Activity {
 
     private DatabaseHelper databaseHelper;
 
-    private boolean canLogin = true;
+    private boolean canLogin;
 
 
     private class DatabaseBuilder extends AsyncTask<Void, Void, Void> {
@@ -123,7 +113,7 @@ public class LoginActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-//        checkMedicamentDb();
+        checkMedicamentDb();
 
         if (canLogin) {
             SharedPreferences preference = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -217,26 +207,27 @@ public class LoginActivity extends Activity {
     void login() {
         String userName = editTextUserName.getText().toString();
         String password = editTextPassword.getText().toString();
-        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace(userName, password);
-        Call<User> call = restIntefrace.login();
-        try {
-            user = call.execute().body();
-            if (user != null) {
-                getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit()
-                        .putString(PREF_USER, user.getName())
-                        .putString(PREF_PASSWORD, user.getPassword())
-                        .putString(PREF_UNIQUE_ID, user.getUniqueID())
-                        .putString(PREF_EMAIL, user.getEmail())
-                        .putString(PREF_AUTH, user.getAuth())
-                        .commit();
-                doLogin();
-            } else
-                Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
-        } catch (SocketTimeoutException e) {
-            Toast.makeText(getApplicationContext(), "Brak połączenia z serwerem", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        doLogin();
+//        RestIntefrace restIntefrace = RetrofitBuilder.getRestIntefrace(userName, password);
+//        Call<User> call = restIntefrace.login();
+//        try {
+//            user = call.execute().body();
+//            if (user != null) {
+//                getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit()
+//                        .putString(PREF_USER, user.getName())
+//                        .putString(PREF_PASSWORD, user.getPassword())
+//                        .putString(PREF_UNIQUE_ID, user.getUniqueID())
+//                        .putString(PREF_EMAIL, user.getEmail())
+//                        .putString(PREF_AUTH, user.getAuth())
+//                        .commit();
+//                doLogin();
+//            } else
+//                Toast.makeText(getApplicationContext(), "Błędny login lub hasło", Toast.LENGTH_SHORT).show();
+//        } catch (SocketTimeoutException e) {
+//            Toast.makeText(getApplicationContext(), "Brak połączenia z serwerem", Toast.LENGTH_LONG).show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 
