@@ -41,7 +41,7 @@
     <string name="price">Cena: %1$s</string>
     <string name="sendMedicamentSuccess">Lek %1$s wysłano na serwer</string>
     <string name="sendMedicamentFail">Błąd wysyłania leku %1$s na serwer</string>
-    <string name="min_3_signs">minimum 3 znaki</string>
+    <string name="min_3_signs">Wpisz minimum 3 znaki</string>
     <string name="input_medicament">Wpisz nazwę leku</string>
     <string name="Date_parametr">Data: %1$s</string>
     <string name="birthday">ur. : %1$s</string>
@@ -101,6 +101,9 @@
     <string name="Login">Zaloguj</string>
     <string name="Register">Zarejestruj</string>
     <string name="Click_once_again_to_exit">Proszę kilknąć cofnij jeszcze raz aby zamknąć program</string>
+    <string name="emoji_factory">&#127981;</string>🏭🏭
+    <string name="emoji_package">&#128230;</string>🏭🏭
+    <string name="emoji_pill">&#128138;</string>🏭🏭
 
 
 </resources>

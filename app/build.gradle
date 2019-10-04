@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "local.tomo.medi"
-        minSdkVersion 15
+        minSdkVersion 24
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -28,6 +28,7 @@ def retrofitVersion = '2.0.2'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.13.2'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     compile group: 'com.j256.ormlite', name: 'ormlite-android', version: '4.48'
@@ -44,4 +45,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.10.0'
+    implementation 'org.apache.commons:commons-collections4:4.1'
+    implementation 'org.apache.commons:commons-lang3:3.9'
 }

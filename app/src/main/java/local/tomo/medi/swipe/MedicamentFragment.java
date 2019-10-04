@@ -19,6 +19,7 @@ import local.tomo.medi.R;
 import local.tomo.medi.medicament.AddMedicamentActivity;
 import local.tomo.medi.medicament.MedicamentsActivity;
 import local.tomo.medi.medicament.MedicamentsDbActivity;
+import local.tomo.medi.medicament.SearchMedicamentActivity;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Medicament;
 import lombok.SneakyThrows;
@@ -63,7 +64,7 @@ public class MedicamentFragment extends Fragment {
     @OnClick(R.id.buttonAdd)
     void add() {
         buttonAdd.setEnabled(false);
-        Intent intent = new Intent(getActivity(), AddMedicamentActivity.class);
+        Intent intent = new Intent(getActivity(), SearchMedicamentActivity.class);
         getActivity().startActivity(intent);
     }
 
