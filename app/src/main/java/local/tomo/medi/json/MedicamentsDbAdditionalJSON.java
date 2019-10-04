@@ -3,31 +3,27 @@ package local.tomo.medi.json;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.JsonReader;
-import android.util.JsonToken;
-import android.util.Log;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.DatabaseHelper;
-import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.MedicamentAdditional;
 import lombok.SneakyThrows;
+
+import static com.fasterxml.jackson.core.JsonToken.END_ARRAY;
+import static com.fasterxml.jackson.core.JsonToken.END_OBJECT;
 
 
 public class MedicamentsDbAdditionalJSON {
 
-    public static int count = 5704;
+    public static int count = 6473;
 
     private Context context;
 
@@ -45,31 +41,29 @@ public class MedicamentsDbAdditionalJSON {
 
     @SneakyThrows
     public void getMedicamentAdditionalFromFile() {
-        InputStream inputStream = resources.openRawResource(R.raw.additional);
-        readJsonStream(inputStream);
+        InputStream inputStream = resources.openRawResource(R.raw.drugs_additional);
+
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonParser jsonParser = jsonFactory.createParser(inputStream);
+
+        readMessagesArray(jsonParser);
         releaseHelper();
     }
 
     @SneakyThrows
-    public void readJsonStream(InputStream in) throws IOException, SQLException {
-        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-        readMessagesArray(reader);
-        reader.close();
-    }
-
-    public void readMessagesArray(JsonReader reader) throws IOException, SQLException {
-        reader.beginArray();
+    private void readMessagesArray(JsonParser jsonParser) {
         int i = 1;
-        while (reader.hasNext()) {
-            MedicamentAdditional medicamentAdditional = readMedicamentAdditional(reader);
+        while (jsonParser.nextToken() != END_ARRAY) {
+            MedicamentAdditional medicamentAdditional = readMedicamentAdditional(jsonParser);
             progressDialog.setProgress(i);
             i++;
             saveMedicamentAdditional(medicamentAdditional);
         }
-        reader.endArray();
+        jsonParser.close();
     }
 
-    private MedicamentAdditional readMedicamentAdditional(JsonReader reader) throws IOException {
+    @SneakyThrows
+    private MedicamentAdditional readMedicamentAdditional(JsonParser jsonParser) {
 
         int productLineID = -1;
         String composition = null;
@@ -83,27 +77,26 @@ public class MedicamentsDbAdditionalJSON {
         String dosage = null;
         String remark = null;
 
-        reader.beginObject();
-        while (reader.hasNext()) {
-            String name = reader.nextName();
-            JsonToken peek = reader.peek();
-            if (peek == JsonToken.NULL) reader.skipValue();
-            else if (name.equals("productLineID")) productLineID = reader.nextInt();
-            else if (name.equals("composition")) composition = reader.nextString();
-            else if (name.equals("effects")) effects = reader.nextString();
-            else if (name.equals("indications")) indications = reader.nextString();
-            else if (name.equals("contraindications")) contraindications = reader.nextString();
-            else if (name.equals("precaution")) precaution = reader.nextString();
-            else if (name.equals("pregnancy")) pregnancy = reader.nextString();
-            else if (name.equals("sideeffects")) sideeffects = reader.nextString();
-            else if (name.equals("interactions")) interactions = reader.nextString();
-            else if (name.equals("dosage")) dosage = reader.nextString();
-            else if (name.equals("remark")) remark = reader.nextString();
-            else reader.skipValue();
+        while (jsonParser.nextToken() != END_OBJECT) {
 
+            String fieldname = jsonParser.getCurrentName();
 
+            if (fieldname != null) {
+
+                if (fieldname.equalsIgnoreCase("productLineID")) productLineID = jsonParser.getValueAsInt();
+                else if (fieldname.equalsIgnoreCase("composition")) composition = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("effects")) effects = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("indications")) indications = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("contraindications")) contraindications = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("precaution")) precaution = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("pregnancy")) pregnancy = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("sideeffects")) sideeffects = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("interactions")) interactions = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("dosage")) dosage = jsonParser.getValueAsString();
+                else if (fieldname.equalsIgnoreCase("remark")) remark = jsonParser.getValueAsString();
+            }
         }
-        reader.endObject();
+
         return new MedicamentAdditional(productLineID, composition, effects, indications, contraindications, precaution, pregnancy, sideeffects, interactions, dosage, remark);
 
     }

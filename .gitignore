@@ -17,6 +17,4 @@ app/build/
 app/*.iml
 app/proguard-rules.pro
 app/libs/
-app/src/main/res/raw/medi.json
 *.apk
-*.json

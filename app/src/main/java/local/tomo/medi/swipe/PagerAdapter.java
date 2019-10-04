@@ -1,8 +1,8 @@
 package local.tomo.medi.swipe;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 //http://www.truiton.com/2015/06/android-tabs-example-fragments-viewpager/
 public class PagerAdapter extends FragmentStatePagerAdapter {

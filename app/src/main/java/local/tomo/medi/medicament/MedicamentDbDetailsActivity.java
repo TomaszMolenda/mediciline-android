@@ -1,7 +1,7 @@
 package local.tomo.medi.medicament;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
