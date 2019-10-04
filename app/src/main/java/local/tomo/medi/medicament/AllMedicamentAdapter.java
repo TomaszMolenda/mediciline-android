@@ -141,7 +141,7 @@ public class AllMedicamentAdapter extends ArrayAdapter<Medicament> {
         return new AlertDialog.Builder(medicamentsActivity)
                 .setTitle(getContext().getString(R.string.Confirm_use))
                 .setMessage(getContext().getString(R.string.operation_is_irreversible))
-                .setIcon(R.drawable.trash_icon)
+                .setIcon(R.drawable.ic_trash)
                 .setPositiveButton(getContext().getString(R.string.Yes), new DialogInterface.OnClickListener() {
                     @SneakyThrows
                     public void onClick(DialogInterface dialog, int whichButton) {

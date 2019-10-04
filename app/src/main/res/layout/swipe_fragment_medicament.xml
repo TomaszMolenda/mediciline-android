@@ -2,8 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".swipe.MedicamentFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,34 +13,71 @@
         android:layout_weight="0.2"
         android:orientation="horizontal">
 
-        <Button
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:drawableTop="@drawable/add_icon"
-            android:background="@drawable/menu_background_blue"
-            android:textColor="#FFFFFF"
-            android:id="@+id/buttonAdd"
-            android:paddingTop="30dp"
-            android:drawablePadding="0dp"
-            android:text="Dodaj"
-            android:textSize="20dp"
-            android:layout_margin="2dp"></Button>
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:background="@drawable/menu_background_drugs_add">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:id="@+id/buttonAdd" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_add" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    android:text="@string/add"
+                    app:fontFamily="sans-serif-light"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
-        <Button
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:drawableTop="@drawable/barcode_icon"
-            android:background="@drawable/menu_background_green"
-            android:textColor="#FFFFFF"
-            android:id="@+id/buttonScan"
-            android:paddingTop="30dp"
-            android:drawablePadding="0dp"
-            android:text="Skanuj"
-            android:textSize="20dp"
-            android:layout_margin="2dp"></Button>
-
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:background="@drawable/menu_background_drugs_scan">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:id="@+id/buttonScan" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_bars_code" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    android:text="@string/scan"
+                    app:fontFamily="sans-serif-light"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -48,33 +87,71 @@
         android:layout_weight="0.2"
         android:orientation="horizontal">
 
-        <Button
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:drawableTop="@drawable/drug_icon"
-            android:background="@drawable/menu_background_pink"
-            android:textColor="#FFFFFF"
-            android:id="@+id/buttonActive"
-            android:paddingTop="30dp"
-            android:drawablePadding="0dp"
-            android:text="W apteczce\n"
-            android:textSize="20dp"
-            android:layout_margin="2dp"></Button>
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:background="@drawable/menu_background_drugs_all">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:id="@+id/buttonActive" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_pills" />
+                <TextView
+                    android:id="@+id/textActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    app:fontFamily="sans-serif-light"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
-        <Button
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:drawableTop="@drawable/trash_icon"
-            android:background="@drawable/menu_background_violet"
-            android:textColor="#FFFFFF"
-            android:id="@+id/buttonArchive"
-            android:paddingTop="30dp"
-            android:drawablePadding="0dp"
-            android:text="Zużyte"
-            android:textSize="20dp"
-            android:layout_margin="2dp"></Button>
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:background="@drawable/menu_background_drugs_used">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:id="@+id/buttonArchive" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_trash" />
+                <TextView
+                    android:id="@+id/textArchive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    app:fontFamily="sans-serif-light"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -84,37 +161,72 @@
         android:layout_weight="0.2"
         android:orientation="horizontal">
 
-        <Button
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:drawableTop="@drawable/all_icon"
-            android:background="@drawable/menu_background_red"
-            android:textColor="#FFFFFF"
-            android:id="@+id/buttonAll"
-            android:paddingTop="30dp"
-            android:drawablePadding="0dp"
-            android:text="Słownik"
-            android:textSize="20dp"
-            android:layout_margin="2dp"></Button>
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:background="@drawable/menu_background_drugs_dictionary">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:id="@+id/buttonAll" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_big_dictionary" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    android:text="@string/dictionary"
+                    app:fontFamily="sans-serif-light"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
-        <Button
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:drawableTop="@drawable/overdue_icon"
-            android:background="@drawable/menu_background_yellow"
-            android:textColor="#FFFFFF"
-            android:id="@+id/buttonOverdue"
-            android:paddingTop="30dp"
-            android:drawablePadding="0dp"
-            android:text="Przeterminowane"
-            android:textSize="18dp"
-            android:layout_margin="2dp"></Button>
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:background="@drawable/menu_background_drugs_overdue">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:id="@+id/buttonOverdue" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_time" />
+                <TextView
+                    android:id="@+id/textOverdue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    app:fontFamily="sans-serif-light"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>

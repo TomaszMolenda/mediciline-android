@@ -2,6 +2,9 @@
     <string name="app_name">Medi</string>
     <string name="spinner_Patient">Osoba</string>
     <string name="add_disease">Dodaj chorobę</string>
+    <string name="add">Dodaj</string>
+    <string name="scan">Skanuj</string>
+    <string name="dictionary">Słownik</string>
     <string name="name">Nazwa</string>
     <string name="start_date">Data rozpoczęcia</string>
     <string name="description">Opis</string>
@@ -89,9 +92,9 @@
     <string name="Name_min_4_signs">Imię musi mieć min 4 znaki</string>
     <string name="Put_birthday">Podaj datę urodzin</string>
     <string name="Put_photo">Dodaj zdjęcie</string>
-    <string name="Button_count_active_medicament">W apteczce\n%1$d</string>
-    <string name="Button_count_archive_medicament">Zużyte\n%1$d</string>
-    <string name="Button_count_overdue_medicament">Przeterminowane\n%1$d</string>
+    <string name="text_view_count_active_medicament">W apteczce\n%1$d</string>
+    <string name="text_view_count_archive_medicament">Zużyte\n%1$d</string>
+    <string name="text_view_count_overdue_medicament">Po terminie\n%1$d</string>
     <string name="Patients">Osoby</string>
     <string name="Email">Email</string>
     <string name="Password">Hasło</string>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -36,6 +37,15 @@ public class MedicamentFragment extends Fragment {
     Button buttonAll;
     @BindView(R.id.buttonOverdue)
     Button buttonOverdue;
+
+    @BindView(R.id.textActive)
+    TextView textViewActive;
+    @BindView(R.id.textArchive)
+    TextView textViewArchive;
+    @BindView(R.id.textOverdue)
+    TextView textViewOverdue;
+
+
 
     private DatabaseHelper databaseHelper;
 
@@ -102,13 +112,13 @@ public class MedicamentFragment extends Fragment {
     private void prepareButtonsCount() {
         QueryBuilder<Medicament, Integer> queryBuilder = getHelper().getMedicamentDao().queryBuilder();
         queryBuilder.where().eq("archive", false);
-        buttonActive.setText(getString(R.string.Button_count_active_medicament, queryBuilder.countOf()));
+        textViewActive.setText(getString(R.string.text_view_count_active_medicament, queryBuilder.countOf()));
         queryBuilder.reset();
         queryBuilder.where().eq("archive", true);
-        buttonArchive.setText(getString(R.string.Button_count_archive_medicament, queryBuilder.countOf()));
+        textViewArchive.setText(getString(R.string.text_view_count_archive_medicament, queryBuilder.countOf()));
         queryBuilder.reset();
         queryBuilder.where().eq("overdue", true).and().eq("archive", false);
-        buttonOverdue.setText(getString(R.string.Button_count_overdue_medicament, queryBuilder.countOf()));
+        textViewOverdue.setText(getString(R.string.text_view_count_overdue_medicament, queryBuilder.countOf()));
     }
 
     private DatabaseHelper getHelper() {

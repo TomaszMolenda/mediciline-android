@@ -108,7 +108,7 @@ public class Alarm extends BroadcastReceiver
         Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Notification noti = new Notification.Builder(context)
                 .setContentTitle("New mail from " + "test@gmail.com")
-                .setContentText("Subject").setSmallIcon(R.drawable.add_icon)
+                .setContentText("Subject").setSmallIcon(R.drawable.ic_add)
                 .setSound(uri)
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setLights(Color.RED, 3000, 3000)
