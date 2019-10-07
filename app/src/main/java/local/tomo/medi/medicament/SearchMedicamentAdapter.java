@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import local.tomo.medi.R;
-import local.tomo.medi.ormlite.data.DbMedicament;
+import local.tomo.medi.ormlite.data.Drug;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
@@ -34,7 +34,7 @@ public class SearchMedicamentAdapter extends ScrollArrayAdapter {
     TextView textViewForm;
 
 
-    SearchMedicamentAdapter(Context context, List<DbMedicament> drugs, String searchText) {
+    SearchMedicamentAdapter(Context context, List<Drug> drugs, String searchText) {
         super(context, resource, drugs);
         this.searchText = searchText;
     }
@@ -44,11 +44,11 @@ public class SearchMedicamentAdapter extends ScrollArrayAdapter {
 
         View view = prepareView(convertView);
 
-        DbMedicament drug = getItem(position);
+        Drug drug = getItem(position);
 
         if(Objects.nonNull(drug)) {
 
-            String productName = drug.getProductName();
+            String productName = drug.getName();
 
             if (productName.toLowerCase().startsWith(searchText.toLowerCase())) {
 
