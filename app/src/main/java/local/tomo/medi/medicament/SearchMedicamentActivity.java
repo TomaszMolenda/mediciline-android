@@ -2,7 +2,6 @@ package local.tomo.medi.medicament;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -12,21 +11,18 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.data.DbMedicament;
-import local.tomo.medi.utills.Utill;
 import lombok.SneakyThrows;
 
 public class SearchMedicamentActivity extends DatabaseAccessActivity {
-
-    private List<DbMedicament> drugs = new ArrayList<>();
 
     @BindView(R.id.editTextSearch)
     EditText editTextSearch;
@@ -57,7 +53,7 @@ public class SearchMedicamentActivity extends DatabaseAccessActivity {
 
             DrugsBySearchProductNameComparator comparator = new DrugsBySearchProductNameComparator(searchText);
 
-            drugs = medicamentDbDao.query(prepare).stream()
+            List<DbMedicament> drugs = medicamentDbDao.query(prepare).stream()
                     .sorted(comparator)
                     .collect(Collectors.toList());
 
@@ -67,9 +63,10 @@ public class SearchMedicamentActivity extends DatabaseAccessActivity {
         }
         else {
             listView.setAdapter(null);
-            drugs = new ArrayList<>();
         }
-
-        Log.d(Utill.TAG, searchText);
+    }
+    @OnClick(R.id.imageButtonBack)
+    void back() {
+        finish();
     }
 }
