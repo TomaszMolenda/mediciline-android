@@ -10,10 +10,6 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +18,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
-import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.activity.drug.DrugsBySearchProductNameComparator;
 import local.tomo.medi.ormlite.data.Drug;
 import lombok.SneakyThrows;
 
 import static local.tomo.medi.ormlite.data.Drug.D_ID;
-import static local.tomo.medi.ormlite.data.Drug.D_NAME;
 
 public class SearchDrugActivity extends DatabaseAccessActivity {
 
@@ -60,14 +55,12 @@ public class SearchDrugActivity extends DatabaseAccessActivity {
         }
 
         if(searchText.length() >= 3) {
-            Dao<Drug, Integer> drugsDataAccess = getHelper().getDrugsDataAccess();
-            QueryBuilder<Drug, Integer> queryBuilder = drugsDataAccess.queryBuilder();
-            queryBuilder.where().like(D_NAME, "%"+ searchText +"%");
-            PreparedQuery<Drug> prepare = queryBuilder.prepare();
 
             DrugsBySearchProductNameComparator comparator = new DrugsBySearchProductNameComparator(searchText);
 
-            List<Drug> drugs = drugsDataAccess.query(prepare).stream()
+            List<Drug> drugs = getHelper().getDrugQuery()
+                    .listByName(searchText)
+                    .stream()
                     .sorted(comparator)
                     .collect(Collectors.toList());
 

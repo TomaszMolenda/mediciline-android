@@ -20,6 +20,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private Dao<Drug, Integer> drugs;
     private Dao<UserDrug, Integer> userDrugs;
+    private DrugQuery drugQuery;
+    private UserDrugQuery userDrugQuery;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -43,7 +45,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     @SneakyThrows
-    public Dao<Drug, Integer> getDrugsDataAccess() {
+    Dao<Drug, Integer> getDrugsDataAccess() {
         if(drugs == null) {
             drugs = getDao(Drug.class);
         }
@@ -51,10 +53,27 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     @SneakyThrows
-    public Dao<UserDrug, Integer> getUserDrugsDataAccess() {
+    Dao<UserDrug, Integer> getUserDrugsDataAccess() {
         if(userDrugs == null) {
             userDrugs = getDao(UserDrug.class);
         }
         return userDrugs;
+    }
+
+    @SneakyThrows
+    public DrugQuery getDrugQuery() {
+        if(drugQuery == null) {
+            drugQuery = new DrugQuery(this);
+        }
+        return drugQuery;
+    }
+
+    @SneakyThrows
+    public UserDrugQuery getUserDrugQuery() {
+        if(userDrugQuery == null) {
+            userDrugQuery = new UserDrugQuery(this);
+        }
+
+        return userDrugQuery;
     }
 }

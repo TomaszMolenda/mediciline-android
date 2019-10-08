@@ -7,30 +7,36 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
+import local.tomo.medi.Logger;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.AdapterSetStrategy;
 import local.tomo.medi.activity.DatabaseAccessActivity;
-import local.tomo.medi.ormlite.data.Drug;
 import local.tomo.medi.ormlite.data.UserDrug;
 import lombok.SneakyThrows;
 
-import static local.tomo.medi.ormlite.data.Drug.D_NAME;
-
 public class ActiveDrugActivity extends DatabaseAccessActivity {
+
+    private List<AdapterSetStrategy> adapterSetStrategies;
 
     @BindView(R.id.editTextSearch)
     EditText editTextSearch;
 
     @BindView(R.id.listView)
     ListView listView;
+
+    public ActiveDrugActivity() {
+        this.adapterSetStrategies = Lists.newArrayList(
+
+        );
+    }
+
 
     @SneakyThrows
     @Override
@@ -39,8 +45,7 @@ public class ActiveDrugActivity extends DatabaseAccessActivity {
         setContentView(R.layout.activity_search_drugs);
         ButterKnife.bind(this);
 
-        Dao<UserDrug, Integer> userDrugsDataAccess = getHelper().getUserDrugsDataAccess();
-        List<UserDrug> userDrugs = userDrugsDataAccess.queryForAll();
+        List<UserDrug> userDrugs = getHelper().getUserDrugQuery().listAll();
         ListDrugAdapter adapter = new ListDrugAdapter(getApplicationContext(), userDrugs);
         listView.setAdapter(adapter);
     }
@@ -48,6 +53,8 @@ public class ActiveDrugActivity extends DatabaseAccessActivity {
     @OnTextChanged(R.id.editTextSearch)
     @SneakyThrows
     void search(CharSequence charSequence) {
+
+        Logger.logger(adapterSetStrategies.size() + "");
 
         String searchText = charSequence.toString();
 
@@ -57,22 +64,17 @@ public class ActiveDrugActivity extends DatabaseAccessActivity {
             editTextSearch.setTypeface(null, Typeface.NORMAL);
         }
 
+        ListDrugAdapter listDrugAdapter = adapterSetStrategies.stream()
+                .filter(adapterSetStrategy -> adapterSetStrategy.isApplicable(searchText))
+                .findFirst()
+                .map(AdapterSetStrategy::createAdapter)
+                .orElseThrow(IllegalArgumentException::new);
+
+        listView.setAdapter(listDrugAdapter);
+
         if(searchText.length() >= 3) {
-            Dao<Drug, Integer> drugsDataAccess = getHelper().getDrugsDataAccess();
-            Dao<UserDrug, Integer> userDrugsDataAccess = getHelper().getUserDrugsDataAccess();
 
-            QueryBuilder<Drug, Integer> drugsQueryBuilder = drugsDataAccess.queryBuilder();
-            QueryBuilder<UserDrug, Integer> userDrugsQueryBuilder = userDrugsDataAccess.queryBuilder();
-
-            drugsQueryBuilder
-                    .where()
-                    .like(D_NAME, "%"+ searchText +"%");
-
-            userDrugsQueryBuilder.join(drugsQueryBuilder);
-
-            PreparedQuery<UserDrug> prepare = userDrugsQueryBuilder.prepare();
-
-            List<UserDrug> userDrugs = userDrugsDataAccess.query(prepare);
+            List<UserDrug> userDrugs = getHelper().getUserDrugQuery().listByName(searchText);
 
 
             if (userDrugs.isEmpty()) {
@@ -83,8 +85,8 @@ public class ActiveDrugActivity extends DatabaseAccessActivity {
             }
         } else if (searchText.length() == 0) {
 
-            Dao<UserDrug, Integer> userDrugsDataAccess = getHelper().getUserDrugsDataAccess();
-            List<UserDrug> userDrugs = userDrugsDataAccess.queryForAll();
+            List<UserDrug> userDrugs = getHelper().getUserDrugQuery().listAll();
+
             ListDrugAdapter adapter = new ListDrugAdapter(getApplicationContext(), userDrugs);
             listView.setAdapter(adapter);
         }

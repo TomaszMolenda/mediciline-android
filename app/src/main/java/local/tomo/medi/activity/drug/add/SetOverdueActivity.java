@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.j256.ormlite.dao.Dao;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -16,8 +14,8 @@ import java.util.Optional;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.activity.drug.DrugActivity;
 import local.tomo.medi.ormlite.data.Drug;
 import local.tomo.medi.ormlite.data.UserDrug;
@@ -93,8 +91,8 @@ public class SetOverdueActivity extends DatabaseAccessActivity {
 
     @SneakyThrows
     private Drug getDrug() {
-        return getHelper().getDrugsDataAccess()
-                .queryForId(drugId);
+        return getHelper().getDrugQuery()
+                .getById(drugId);
     }
 
     private String getMonth() {
@@ -161,15 +159,12 @@ public class SetOverdueActivity extends DatabaseAccessActivity {
     @OnClick(R.id.buttonSave)
     void save() {
 
-        Dao<UserDrug, Integer> userDrugsDataAccess = getHelper().getUserDrugsDataAccess();
-        Dao<Drug, Integer> drugsDataAccess = getHelper().getDrugsDataAccess();
-
-        Drug drug = drugsDataAccess.queryForId(drugId);
+        Drug drug = getHelper().getDrugQuery().getById(drugId);
         Date date = convertToDateViaInstant(overdueDate);
 
         UserDrug userDrug = new UserDrug(drug, date);
 
-        userDrugsDataAccess.create(userDrug);
+        getHelper().getUserDrugQuery().save(userDrug);
 
         startActivity(new Intent(getApplicationContext(), DrugActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
