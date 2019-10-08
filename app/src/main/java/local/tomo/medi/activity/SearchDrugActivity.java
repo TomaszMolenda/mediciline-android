@@ -1,7 +1,10 @@
 package local.tomo.medi.activity;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -17,12 +20,14 @@ import java.util.stream.Collectors;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
 import local.tomo.medi.DatabaseAccessActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.data.Drug;
 import lombok.SneakyThrows;
 
+import static local.tomo.medi.ormlite.data.Drug.D_ID;
 import static local.tomo.medi.ormlite.data.Drug.D_NAME;
 
 public class SearchDrugActivity extends DatabaseAccessActivity {
@@ -44,9 +49,14 @@ public class SearchDrugActivity extends DatabaseAccessActivity {
     @SneakyThrows
     void search(CharSequence charSequence) {
 
-        editTextSearch.setTypeface(null, Typeface.BOLD);
 
         String searchText = charSequence.toString();
+
+        if (searchText.length() != 0) {
+            editTextSearch.setTypeface(null, Typeface.BOLD);
+        } else {
+            editTextSearch.setTypeface(null, Typeface.NORMAL);
+        }
 
         if(searchText.length() >= 3) {
             Dao<Drug, Integer> drugsDataAccess = getHelper().getDrugsDataAccess();
@@ -68,8 +78,31 @@ public class SearchDrugActivity extends DatabaseAccessActivity {
             listView.setAdapter(null);
         }
     }
+
     @OnClick(R.id.imageButtonBack)
     void back() {
         finish();
     }
+
+    @OnClick(R.id.imageButtonClear)
+    void clearSearchText() {
+        editTextSearch.setText("");
+        listView.setAdapter(null);
+    }
+
+    @OnItemClick(R.id.listView)
+    void chooseDrug(AdapterView<?> parent, View view, int position, long id) {
+
+        Drug drug = (Drug) parent.getItemAtPosition(position);
+
+        Intent intent = new Intent(this, SetOverdueActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(D_ID, drug.getId());
+
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
 }

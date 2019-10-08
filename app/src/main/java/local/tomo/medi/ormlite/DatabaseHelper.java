@@ -9,15 +9,17 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import local.tomo.medi.ormlite.data.Drug;
+import local.tomo.medi.ormlite.data.UserDrug;
 import lombok.SneakyThrows;
 
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "mediss.db";
+    private static final String DATABASE_NAME = "medisss.db";
     private static final int DATABASE_VERSION = 3;
 
     private Dao<Drug, Integer> drugs;
+    private Dao<UserDrug, Integer> userDrugs;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,6 +34,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @SneakyThrows
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         TableUtils.createTableIfNotExists(connectionSource, Drug.class);
+        TableUtils.createTableIfNotExists(connectionSource, UserDrug.class);
     }
 
     @Override
@@ -45,5 +48,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             drugs = getDao(Drug.class);
         }
         return drugs;
+    }
+
+    @SneakyThrows
+    public Dao<UserDrug, Integer> getUserDrugsDataAccess() {
+        if(userDrugs == null) {
+            userDrugs = getDao(UserDrug.class);
+        }
+        return userDrugs;
     }
 }

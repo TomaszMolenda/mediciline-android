@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/black">
 
@@ -37,7 +36,7 @@
                     android:layout_height="80dp"
                     android:gravity="center"
                     android:text="@string/add"
-                    app:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-light"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
@@ -70,7 +69,7 @@
                     android:layout_height="80dp"
                     android:gravity="center"
                     android:text="@string/scan"
-                    app:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-light"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
@@ -111,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:gravity="center"
-                    app:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/active_drug"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFFFFF"
@@ -146,7 +145,7 @@
                     android:layout_height="80dp"
                     android:gravity="center"
                     android:text="@string/archive_drug"
-                    app:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-light"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
@@ -187,7 +186,7 @@
                     android:layout_height="80dp"
                     android:gravity="center"
                     android:text="@string/dictionary"
-                    app:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-light"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
@@ -220,7 +219,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:gravity="center"
-                    app:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/dictionary"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFFFFF"

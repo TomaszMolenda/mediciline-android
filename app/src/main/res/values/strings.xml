@@ -11,4 +11,16 @@
     <string name="emoji_factory">&#127981;</string>🏭🏭
     <string name="emoji_package">&#128230;</string>🏭🏭
     <string name="emoji_pill">&#128138;</string>🏭🏭
+    <string name="JANUARY">Styczeń</string>🏭🏭
+    <string name="FEBRUARY">Luty</string>🏭🏭
+    <string name="MARCH">Marzec</string>🏭🏭
+    <string name="APRIL">Kwiecień</string>🏭🏭
+    <string name="MAY">Maj</string>🏭🏭
+    <string name="JUNE">Czerwiec</string>🏭🏭
+    <string name="JULY">Lipiec</string>🏭🏭
+    <string name="AUGUST">Sierpień</string>🏭🏭
+    <string name="SEPTEMBER">Wrzesień</string>🏭🏭
+    <string name="OCTOBER">Październik</string>🏭🏭
+    <string name="NOVEMBER">Listopad</string>🏭🏭
+    <string name="DECEMBER">Grudzień</string>🏭🏭
 </resources>
