@@ -71,9 +71,13 @@ public class SearchDrugActivity extends DatabaseAccessActivity {
                     .sorted(comparator)
                     .collect(Collectors.toList());
 
-            SearchDrugAdapter adapter = new SearchDrugAdapter(getApplicationContext(), drugs, searchText);
+            if (drugs.isEmpty()) {
+                listView.setAdapter(null);
+            } else {
+                SearchDrugAdapter adapter = new SearchDrugAdapter(getApplicationContext(), drugs, searchText);
 
-            listView.setAdapter(adapter);
+                listView.setAdapter(adapter);
+            }
         }
         else {
             listView.setAdapter(null);
