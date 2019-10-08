@@ -8,6 +8,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import local.tomo.medi.DatabaseAccessActivity;
 import local.tomo.medi.R;
 
 public class DrugActivity extends DatabaseAccessActivity {

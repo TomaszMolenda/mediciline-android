@@ -18,10 +18,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import local.tomo.medi.DatabaseAccessActivity;
 import local.tomo.medi.R;
-import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.Drug;
 import lombok.SneakyThrows;
+
+import static local.tomo.medi.ormlite.data.Drug.D_NAME;
 
 public class SearchMedicamentActivity extends DatabaseAccessActivity {
 
@@ -49,7 +51,7 @@ public class SearchMedicamentActivity extends DatabaseAccessActivity {
         if(searchText.length() >= 3) {
             Dao<Drug, Integer> drugsDataAccess = getHelper().getDrugsDataAccess();
             QueryBuilder<Drug, Integer> queryBuilder = drugsDataAccess.queryBuilder();
-            queryBuilder.where().like("productName", "%"+ searchText +"%");
+            queryBuilder.where().like(D_NAME, "%"+ searchText +"%");
             PreparedQuery<Drug> prepare = queryBuilder.prepare();
 
             DrugsBySearchProductNameComparator comparator = new DrugsBySearchProductNameComparator(searchText);

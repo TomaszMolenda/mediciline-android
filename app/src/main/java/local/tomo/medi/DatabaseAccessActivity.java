@@ -1,4 +1,4 @@
-package local.tomo.medi.medicament;
+package local.tomo.medi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
