@@ -1,4 +1,4 @@
-package local.tomo.medi.medicament;
+package local.tomo.medi.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import local.tomo.medi.DatabaseAccessActivity;
 import local.tomo.medi.R;
+import local.tomo.medi.ormlite.DatabaseDataCreator;
 
 public class DrugActivity extends DatabaseAccessActivity {
 
@@ -38,12 +39,15 @@ public class DrugActivity extends DatabaseAccessActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drugs);
         ButterKnife.bind(this);
+
+        DatabaseDataCreator databaseDataCreator = new DatabaseDataCreator(getResources(), getHelper());
+        databaseDataCreator.execute();
     }
 
     @OnClick(R.id.buttonAdd)
     void add() {
         buttonAdd.setEnabled(false);
-        Intent intent = new Intent(this, SearchMedicamentActivity.class);
+        Intent intent = new Intent(this, SearchDrugActivity.class);
         this.startActivity(intent);
     }
 

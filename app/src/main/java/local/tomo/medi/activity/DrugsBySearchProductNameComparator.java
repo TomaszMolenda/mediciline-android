@@ -1,4 +1,4 @@
-package local.tomo.medi.medicament;
+package local.tomo.medi.activity;
 
 import java.util.Comparator;
 

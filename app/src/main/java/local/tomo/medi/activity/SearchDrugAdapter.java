@@ -1,4 +1,4 @@
-package local.tomo.medi.medicament;
+package local.tomo.medi.activity;
 
 import android.content.Context;
 import android.text.Html;
@@ -18,9 +18,9 @@ import local.tomo.medi.ormlite.data.Drug;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
 
-public class SearchMedicamentAdapter extends ScrollArrayAdapter {
+public class SearchDrugAdapter extends ScrollArrayAdapter {
 
-    private final static int resource = R.layout.adapter_search_medicament_list_row;
+    private final static int resource = R.layout.adapter_search_drug_list_row;
 
     private final String searchText;
 
@@ -34,7 +34,7 @@ public class SearchMedicamentAdapter extends ScrollArrayAdapter {
     TextView textViewForm;
 
 
-    SearchMedicamentAdapter(Context context, List<Drug> drugs, String searchText) {
+    SearchDrugAdapter(Context context, List<Drug> drugs, String searchText) {
         super(context, resource, drugs);
         this.searchText = searchText;
     }

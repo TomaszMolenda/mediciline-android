@@ -1,4 +1,4 @@
-package local.tomo.medi.medicament;
+package local.tomo.medi.activity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,7 +25,7 @@ import lombok.SneakyThrows;
 
 import static local.tomo.medi.ormlite.data.Drug.D_NAME;
 
-public class SearchMedicamentActivity extends DatabaseAccessActivity {
+public class SearchDrugActivity extends DatabaseAccessActivity {
 
     @BindView(R.id.editTextSearch)
     EditText editTextSearch;
@@ -36,7 +36,7 @@ public class SearchMedicamentActivity extends DatabaseAccessActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_medicaments);
+        setContentView(R.layout.activity_search_drugs);
         ButterKnife.bind(this);
     }
 
@@ -60,7 +60,7 @@ public class SearchMedicamentActivity extends DatabaseAccessActivity {
                     .sorted(comparator)
                     .collect(Collectors.toList());
 
-            SearchMedicamentAdapter adapter = new SearchMedicamentAdapter(getApplicationContext(), drugs, searchText);
+            SearchDrugAdapter adapter = new SearchDrugAdapter(getApplicationContext(), drugs, searchText);
 
             listView.setAdapter(adapter);
         }

@@ -8,10 +8,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.Drug;
-import local.tomo.medi.ormlite.data.Medicament;
-import local.tomo.medi.ormlite.data.MedicamentAdditional;
 import lombok.SneakyThrows;
 
 
@@ -35,9 +32,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @SneakyThrows
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         TableUtils.createTableIfNotExists(connectionSource, Drug.class);
-        TableUtils.createTable(connectionSource, Medicament.class);
-        TableUtils.createTableIfNotExists(connectionSource, DbMedicament.class);
-        TableUtils.createTableIfNotExists(connectionSource, MedicamentAdditional.class);
     }
 
     @Override
