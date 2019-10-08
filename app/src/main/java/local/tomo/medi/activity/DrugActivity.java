@@ -51,6 +51,13 @@ public class DrugActivity extends DatabaseAccessActivity {
         this.startActivity(intent);
     }
 
+    @OnClick(R.id.buttonActive)
+    void listActive() {
+        buttonActive.setEnabled(false);
+        Intent intent = new Intent(this, ActiveDrugActivity.class);
+        this.startActivity(intent);
+    }
+
     @Override
     public void onResume() {
         super.onResume();

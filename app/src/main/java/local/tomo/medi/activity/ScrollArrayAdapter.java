@@ -9,13 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 import butterknife.ButterKnife;
-import local.tomo.medi.ormlite.data.Drug;
 
-public class ScrollArrayAdapter extends ArrayAdapter<Drug> {
+public class ScrollArrayAdapter<E> extends ArrayAdapter<E> {
 
     private final int resource;
 
-    ScrollArrayAdapter(Context context, int resource, List<Drug> drugs) {
+    ScrollArrayAdapter(Context context, int resource, List<E> drugs) {
         super(context, resource, drugs);
         this.resource = resource;
     }

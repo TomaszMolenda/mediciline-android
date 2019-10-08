@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".activity.SearchDrugActivity" />
         <activity android:name=".activity.SetOverdueActivity" />
+        <activity android:name=".activity.ActiveDrugActivity" />
     </application>
 
 </manifest>

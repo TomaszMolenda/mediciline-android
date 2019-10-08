@@ -3,6 +3,7 @@ package local.tomo.medi.ormlite.data;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lombok.EqualsAndHashCode;
@@ -29,5 +30,12 @@ public class UserDrug {
     public UserDrug(Drug drug, Date overdueDate) {
         this.drug = drug;
         this.overdueDate = overdueDate;
+    }
+
+    public String getExpirationDate() {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        return formatter.format(overdueDate);
     }
 }

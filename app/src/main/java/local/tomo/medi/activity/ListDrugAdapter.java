@@ -1,12 +1,9 @@
 package local.tomo.medi.activity;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,15 +11,12 @@ import java.util.Objects;
 import butterknife.BindView;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.data.Drug;
+import local.tomo.medi.ormlite.data.UserDrug;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
 
+public class ListDrugAdapter extends ScrollArrayAdapter<UserDrug> {
 
-public class SearchDrugAdapter extends ScrollArrayAdapter<Drug> {
-
-    private final static int resource = R.layout.adapter_search_drug;
-
-    private final String searchText;
+    private final static int resource = R.layout.adapter_list_drug;
 
     @BindView(R.id.textViewName)
     TextView textViewName;
@@ -32,11 +26,13 @@ public class SearchDrugAdapter extends ScrollArrayAdapter<Drug> {
     TextView textViewPackage;
     @BindView(R.id.textViewForm)
     TextView textViewForm;
+    @BindView(R.id.textViewExpirationDate)
+    TextView textViewExpirationDate;
 
 
-    SearchDrugAdapter(Context context, List<Drug> drugs, String searchText) {
+
+    ListDrugAdapter(Context context, List<UserDrug> drugs) {
         super(context, resource, drugs);
-        this.searchText = searchText;
     }
 
     @Override
@@ -44,24 +40,17 @@ public class SearchDrugAdapter extends ScrollArrayAdapter<Drug> {
 
         View view = prepareView(convertView);
 
-        Drug drug = getItem(position);
+        UserDrug userDrug = getItem(position);
 
-        if(Objects.nonNull(drug)) {
+        if(Objects.nonNull(userDrug)) {
 
-            String productName = drug.getName();
+            Drug drug = userDrug.getDrug();
 
-            if (productName.toLowerCase().startsWith(searchText.toLowerCase())) {
-
-                String sourceString = "<b>" + capitalize(searchText) + "</b>" + StringUtils.removeIgnoreCase(productName, searchText);
-                textViewName.setText(Html.fromHtml(sourceString));
-
-            } else {
-                textViewName.setText(productName);
-            }
-
+            textViewName.setText(drug.getName());
             textViewProducer.setText(drug.getProducer());
             textViewPackage.setText(drug.getPack());
             textViewForm.setText(drug.getForm());
+            textViewExpirationDate.setText(userDrug.getExpirationDate());
         }
 
         return  view;
