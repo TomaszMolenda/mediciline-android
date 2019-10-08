@@ -14,12 +14,12 @@ public class ScrollArrayAdapter<E> extends ArrayAdapter<E> {
 
     private final int resource;
 
-    ScrollArrayAdapter(Context context, int resource, List<E> drugs) {
+    public ScrollArrayAdapter(Context context, int resource, List<E> drugs) {
         super(context, resource, drugs);
         this.resource = resource;
     }
 
-    View prepareView(View convertView) {
+    protected View prepareView(View convertView) {
 
         return Optional.ofNullable(convertView)
                 .orElseGet(this::createNewView);

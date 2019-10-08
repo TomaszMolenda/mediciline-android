@@ -1,4 +1,4 @@
-package local.tomo.medi.activity;
+package local.tomo.medi.activity.drug.list;
 
 import android.content.Context;
 import android.view.View;
@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.ScrollArrayAdapter;
 import local.tomo.medi.ormlite.data.Drug;
 import local.tomo.medi.ormlite.data.UserDrug;
 

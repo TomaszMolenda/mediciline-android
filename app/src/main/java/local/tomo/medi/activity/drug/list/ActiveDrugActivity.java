@@ -1,4 +1,4 @@
-package local.tomo.medi.activity;
+package local.tomo.medi.activity.drug.list;
 
 import android.os.Bundle;
 import android.widget.EditText;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import local.tomo.medi.DatabaseAccessActivity;
+import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.R;
 import local.tomo.medi.ormlite.data.UserDrug;
 import lombok.SneakyThrows;

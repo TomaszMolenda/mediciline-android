@@ -1,4 +1,4 @@
-package local.tomo.medi.activity;
+package local.tomo.medi.activity.drug.add;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -22,8 +22,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
-import local.tomo.medi.DatabaseAccessActivity;
+import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.drug.DrugsBySearchProductNameComparator;
 import local.tomo.medi.ormlite.data.Drug;
 import lombok.SneakyThrows;
 

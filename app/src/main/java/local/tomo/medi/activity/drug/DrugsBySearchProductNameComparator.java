@@ -1,14 +1,14 @@
-package local.tomo.medi.activity;
+package local.tomo.medi.activity.drug;
 
 import java.util.Comparator;
 
 import local.tomo.medi.ormlite.data.Drug;
 
-class DrugsBySearchProductNameComparator implements Comparator<Drug> {
+public class DrugsBySearchProductNameComparator implements Comparator<Drug> {
 
     private final String searchText;
 
-    DrugsBySearchProductNameComparator(String searchText) {
+    public DrugsBySearchProductNameComparator(String searchText) {
         this.searchText = searchText.toLowerCase();
     }
 

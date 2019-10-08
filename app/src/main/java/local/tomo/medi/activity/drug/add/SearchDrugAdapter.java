@@ -1,4 +1,4 @@
-package local.tomo.medi.activity;
+package local.tomo.medi.activity.drug.add;
 
 import android.content.Context;
 import android.text.Html;
@@ -13,6 +13,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.ScrollArrayAdapter;
 import local.tomo.medi.ormlite.data.Drug;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;

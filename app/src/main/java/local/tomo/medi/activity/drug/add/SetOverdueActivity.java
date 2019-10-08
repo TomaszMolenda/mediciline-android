@@ -1,4 +1,4 @@
-package local.tomo.medi.activity;
+package local.tomo.medi.activity.drug.add;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -16,8 +16,9 @@ import java.util.Optional;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import local.tomo.medi.DatabaseAccessActivity;
+import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.drug.DrugActivity;
 import local.tomo.medi.ormlite.data.Drug;
 import local.tomo.medi.ormlite.data.UserDrug;
 import lombok.SneakyThrows;

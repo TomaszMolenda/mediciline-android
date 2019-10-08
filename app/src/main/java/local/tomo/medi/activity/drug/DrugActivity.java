@@ -1,4 +1,4 @@
-package local.tomo.medi.activity;
+package local.tomo.medi.activity.drug;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,10 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import local.tomo.medi.DatabaseAccessActivity;
+import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.drug.list.ActiveDrugActivity;
+import local.tomo.medi.activity.drug.add.SearchDrugActivity;
 import local.tomo.medi.ormlite.DatabaseDataCreator;
 
 public class DrugActivity extends DatabaseAccessActivity {

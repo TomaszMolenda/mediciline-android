@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import local.tomo.medi.activity.drug.DrugsBySearchProductNameComparator;
 import local.tomo.medi.ormlite.data.Drug;
 
 public class DrugsBySearchProductNameComparatorTest {

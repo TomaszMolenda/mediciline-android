@@ -16,16 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.DrugActivity">
+        <activity android:name=".activity.drug.DrugActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SearchDrugActivity" />
-        <activity android:name=".activity.SetOverdueActivity" />
-        <activity android:name=".activity.ActiveDrugActivity" />
+        <activity android:name=".activity.drug.add.SearchDrugActivity" />
+        <activity android:name=".activity.drug.add.SetOverdueActivity" />
+        <activity android:name=".activity.drug.list.ActiveDrugActivity" />
     </application>
 
 </manifest>
