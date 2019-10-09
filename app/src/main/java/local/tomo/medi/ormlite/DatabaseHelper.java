@@ -8,19 +8,20 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import local.tomo.medi.ormlite.data.DbMedicament;
 import local.tomo.medi.ormlite.data.Drug;
-import local.tomo.medi.ormlite.data.Medicament;
-import local.tomo.medi.ormlite.data.MedicamentAdditional;
+import local.tomo.medi.ormlite.data.UserDrug;
 import lombok.SneakyThrows;
 
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "mediss.db";
+    private static final String DATABASE_NAME = "medisss.db";
     private static final int DATABASE_VERSION = 3;
 
     private Dao<Drug, Integer> drugs;
+    private Dao<UserDrug, Integer> userDrugs;
+    private DrugQuery drugQuery;
+    private UserDrugQuery userDrugQuery;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,9 +36,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @SneakyThrows
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         TableUtils.createTableIfNotExists(connectionSource, Drug.class);
-        TableUtils.createTable(connectionSource, Medicament.class);
-        TableUtils.createTableIfNotExists(connectionSource, DbMedicament.class);
-        TableUtils.createTableIfNotExists(connectionSource, MedicamentAdditional.class);
+        TableUtils.createTableIfNotExists(connectionSource, UserDrug.class);
     }
 
     @Override
@@ -46,10 +45,35 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     @SneakyThrows
-    public Dao<Drug, Integer> getDrugsDataAccess() {
+    Dao<Drug, Integer> getDrugsDataAccess() {
         if(drugs == null) {
             drugs = getDao(Drug.class);
         }
         return drugs;
+    }
+
+    @SneakyThrows
+    Dao<UserDrug, Integer> getUserDrugsDataAccess() {
+        if(userDrugs == null) {
+            userDrugs = getDao(UserDrug.class);
+        }
+        return userDrugs;
+    }
+
+    @SneakyThrows
+    public DrugQuery getDrugQuery() {
+        if(drugQuery == null) {
+            drugQuery = new DrugQuery(this);
+        }
+        return drugQuery;
+    }
+
+    @SneakyThrows
+    public UserDrugQuery getUserDrugQuery() {
+        if(userDrugQuery == null) {
+            userDrugQuery = new UserDrugQuery(this);
+        }
+
+        return userDrugQuery;
     }
 }

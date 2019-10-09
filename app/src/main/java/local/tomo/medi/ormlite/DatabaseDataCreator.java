@@ -1,10 +1,12 @@
 package local.tomo.medi.ormlite;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.io.InputStream;
@@ -24,9 +26,9 @@ public class DatabaseDataCreator extends AsyncTask<Void, Void, Void> {
     private final Resources resources;
     private final DatabaseHelper databaseHelper;
 
-    public DatabaseDataCreator(Resources resources, DatabaseHelper databaseHelper) {
+    public DatabaseDataCreator(Resources resources, Context context) {
         this.resources = resources;
-        this.databaseHelper = databaseHelper;
+        this.databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
     }
 
     @Override

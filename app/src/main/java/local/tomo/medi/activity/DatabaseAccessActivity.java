@@ -1,4 +1,4 @@
-package local.tomo.medi;
+package local.tomo.medi.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

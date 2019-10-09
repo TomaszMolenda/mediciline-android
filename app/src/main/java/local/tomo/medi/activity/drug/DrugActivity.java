@@ -1,17 +1,21 @@
-package local.tomo.medi.medicament;
+package local.tomo.medi.activity.drug;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import local.tomo.medi.DatabaseAccessActivity;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.drug.add.SearchDrugActivity;
+import local.tomo.medi.activity.drug.list.UserDrugActivity;
+import local.tomo.medi.ormlite.DatabaseDataCreator;
 
-public class DrugActivity extends DatabaseAccessActivity {
+public class DrugActivity extends AppCompatActivity {
 
     @BindView(R.id.buttonScan)
     Button buttonScan;
@@ -38,12 +42,22 @@ public class DrugActivity extends DatabaseAccessActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drugs);
         ButterKnife.bind(this);
+
+        DatabaseDataCreator databaseDataCreator = new DatabaseDataCreator(getResources(), getApplicationContext());
+        databaseDataCreator.execute();
     }
 
     @OnClick(R.id.buttonAdd)
     void add() {
         buttonAdd.setEnabled(false);
-        Intent intent = new Intent(this, SearchMedicamentActivity.class);
+        Intent intent = new Intent(this, SearchDrugActivity.class);
+        this.startActivity(intent);
+    }
+
+    @OnClick(R.id.buttonActive)
+    void listActive() {
+        buttonActive.setEnabled(false);
+        Intent intent = new Intent(this, UserDrugActivity.class);
         this.startActivity(intent);
     }
 
