@@ -7,28 +7,30 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import local.tomo.medi.AdapterFactory;
 import local.tomo.medi.activity.drug.BySearchProductNameComparator;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.UserDrugQuery;
 import local.tomo.medi.ormlite.data.UserDrug;
 
-class ListDrugAdapterFactory {
+class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
 
     private final DatabaseHelper databaseHelper;
     private final Context context;
 
-    ListDrugAdapterFactory(Context context) {
+    UserDrugAdapterFactory(Context context) {
 
         this.databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         this.context = context;
     }
 
-    ListDrugAdapter createAdapter() {
+    UserDrugAdapter createAdapter() {
 
         return createAdapter("");
     }
 
-    ListDrugAdapter createAdapter(String searchText) {
+    @Override
+    public UserDrugAdapter createAdapter(String searchText) {
 
         BySearchProductNameComparator<UserDrug> comparator = new BySearchProductNameComparator<>(searchText, userDrug -> userDrug.getDrug().getName());
 
@@ -40,7 +42,7 @@ class ListDrugAdapterFactory {
                     .sorted(comparator)
                     .collect(Collectors.toList());
 
-            return new ListDrugAdapter(context, allUserDrugs);
+            return new UserDrugAdapter(context, allUserDrugs);
         }
 
         List<UserDrug> userDrugs = userDrugQuery.listByName(searchText).stream()
@@ -52,10 +54,11 @@ class ListDrugAdapterFactory {
             return null;
         }
 
-        return new ListDrugAdapter(context, userDrugs);
+        return new UserDrugAdapter(context, userDrugs);
     }
 
-    void closeDatabaseConnection() {
+    @Override
+    public void closeDatabaseConnection() {
         OpenHelperManager.releaseHelper();
     }
 }

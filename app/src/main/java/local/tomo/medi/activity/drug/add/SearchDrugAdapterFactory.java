@@ -7,11 +7,12 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import local.tomo.medi.AdapterFactory;
 import local.tomo.medi.activity.drug.BySearchProductNameComparator;
 import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Drug;
 
-class SearchDrugAdapterFactory {
+class SearchDrugAdapterFactory implements AdapterFactory<SearchDrugAdapter> {
 
     private final DatabaseHelper databaseHelper;
     private final Context context;
@@ -21,7 +22,8 @@ class SearchDrugAdapterFactory {
         this.context = context;
     }
 
-    SearchDrugAdapter createAdapter(String searchText) {
+    @Override
+    public SearchDrugAdapter createAdapter(String searchText) {
 
         if (searchText.length() < 3) {
 
@@ -44,7 +46,8 @@ class SearchDrugAdapterFactory {
         return new SearchDrugAdapter(context, drugs, searchText);
     }
 
-    void closeDatabaseConnection() {
+    @Override
+    public void closeDatabaseConnection() {
         OpenHelperManager.releaseHelper();
     }
 }

@@ -15,7 +15,7 @@ import local.tomo.medi.ormlite.data.Drug;
 import local.tomo.medi.ormlite.data.UserDrug;
 
 
-public class ListDrugAdapter extends ScrollArrayAdapter<UserDrug> {
+public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug> {
 
     private final static int resource = R.layout.adapter_list_drug;
 
@@ -30,9 +30,7 @@ public class ListDrugAdapter extends ScrollArrayAdapter<UserDrug> {
     @BindView(R.id.textViewExpirationDate)
     TextView textViewExpirationDate;
 
-
-
-    ListDrugAdapter(Context context, List<UserDrug> drugs) {
+    UserDrugAdapter(Context context, List<UserDrug> drugs) {
         super(context, resource, drugs);
     }
 

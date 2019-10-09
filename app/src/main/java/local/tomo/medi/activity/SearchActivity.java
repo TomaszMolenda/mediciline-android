@@ -1,20 +1,26 @@
-package local.tomo.medi.activity.drug.list;
+package local.tomo.medi.activity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import local.tomo.medi.AdapterFactory;
 import local.tomo.medi.R;
 import lombok.SneakyThrows;
 
-public class ActiveDrugActivity extends AppCompatActivity {
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
+public abstract class SearchActivity<E extends ListAdapter> extends AppCompatActivity {
+
+    private AdapterFactory<E> adapterFactory;
 
     @BindView(R.id.editTextSearch)
     EditText editTextSearch;
@@ -22,17 +28,16 @@ public class ActiveDrugActivity extends AppCompatActivity {
     @BindView(R.id.listView)
     ListView listView;
 
-    private ListDrugAdapterFactory listDrugAdapterFactory;
+    public abstract E adapterOnCreate();
+    public abstract AdapterFactory provideAdapter();
 
-    @SneakyThrows
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_search_drugs);
         ButterKnife.bind(this);
-        listDrugAdapterFactory = new ListDrugAdapterFactory(getApplicationContext());
-
-        ListDrugAdapter adapter = listDrugAdapterFactory.createAdapter();
+        super.onCreate(savedInstanceState);
+        this.adapterFactory = provideAdapter();
+        E adapter = adapterOnCreate();
         listView.setAdapter(adapter);
     }
 
@@ -48,13 +53,26 @@ public class ActiveDrugActivity extends AppCompatActivity {
             editTextSearch.setTypeface(null, Typeface.NORMAL);
         }
 
-        ListDrugAdapter adapter = listDrugAdapterFactory.createAdapter(searchText);
+        E adapter = adapterFactory.createAdapter(searchText);
         listView.setAdapter(adapter);
+    }
+
+    @OnClick(R.id.imageButtonClear)
+    void clearSearchText() {
+        String searchText = EMPTY;
+        editTextSearch.setText(searchText);
+        E adapter = adapterFactory.createAdapter(searchText);
+        listView.setAdapter(adapter);
+    }
+
+    @OnClick(R.id.imageButtonBack)
+    void back() {
+        finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        listDrugAdapterFactory.closeDatabaseConnection();
+        adapterFactory.closeDatabaseConnection();
     }
 }

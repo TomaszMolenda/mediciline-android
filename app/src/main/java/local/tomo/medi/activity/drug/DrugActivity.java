@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import local.tomo.medi.R;
 import local.tomo.medi.activity.drug.add.SearchDrugActivity;
-import local.tomo.medi.activity.drug.list.ActiveDrugActivity;
+import local.tomo.medi.activity.drug.list.UserDrugActivity;
 import local.tomo.medi.ormlite.DatabaseDataCreator;
 
 public class DrugActivity extends AppCompatActivity {
@@ -57,7 +57,7 @@ public class DrugActivity extends AppCompatActivity {
     @OnClick(R.id.buttonActive)
     void listActive() {
         buttonActive.setEnabled(false);
-        Intent intent = new Intent(this, ActiveDrugActivity.class);
+        Intent intent = new Intent(this, UserDrugActivity.class);
         this.startActivity(intent);
     }
 
