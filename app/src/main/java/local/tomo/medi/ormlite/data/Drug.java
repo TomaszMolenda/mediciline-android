@@ -15,6 +15,7 @@ public class Drug {
     public static final String D_ID = "id";
     public static final String D_PACKAGE_ID = "package_id";
     public static final String D_NAME = "name";
+    public static final String D_EAN = "ean";
 
     @DatabaseField(columnName = "id", generatedId = true)
     private int id;

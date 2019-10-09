@@ -24,4 +24,5 @@
     <string name="OCTOBER">Październik</string>🏭🏭
     <string name="NOVEMBER">Listopad</string>🏭🏭
     <string name="DECEMBER">Grudzień</string>🏭🏭
+    <string name="ean_not_found">Nie znaleziono leku o kodzie (%1$s)</string>🏭🏭
 </resources>

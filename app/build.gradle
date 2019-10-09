@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "local.tomo.medi"
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -49,4 +49,6 @@ dependencies {
     implementation 'org.apache.commons:commons-collections4:4.1'
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.gms:play-services-vision:18.0.0'
+    implementation 'net.danlew:android.joda:2.10.3'
 }
