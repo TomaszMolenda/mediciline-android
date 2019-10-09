@@ -1,22 +1,23 @@
 package local.tomo.medi.activity.drug;
 
 import java.util.Comparator;
+import java.util.function.Function;
 
-import local.tomo.medi.ormlite.data.Drug;
-
-public class DrugsBySearchProductNameComparator implements Comparator<Drug> {
+public class BySearchProductNameComparator<E> implements Comparator<E> {
 
     private final String searchText;
+    private final Function<E, String> productNameProvider;
 
-    public DrugsBySearchProductNameComparator(String searchText) {
+    public BySearchProductNameComparator(String searchText, Function<E, String> productNameProvider) {
         this.searchText = searchText.toLowerCase();
+        this.productNameProvider = productNameProvider;
     }
 
     @Override
-    public int compare(Drug drug1, Drug drug2) {
+    public int compare(E object1, E object2) {
 
-        String drug1ProductName = drug1.getName().toLowerCase();
-        String drug2ProductName = drug2.getName().toLowerCase();
+        String drug1ProductName = productNameProvider.apply(object1).toLowerCase();
+        String drug2ProductName = productNameProvider.apply(object2).toLowerCase();
 
         if (drug1ProductName.startsWith(searchText) && drug2ProductName.startsWith(searchText)) {
 

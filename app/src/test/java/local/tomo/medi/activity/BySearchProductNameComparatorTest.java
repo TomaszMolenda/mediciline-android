@@ -8,18 +8,21 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import local.tomo.medi.activity.drug.DrugsBySearchProductNameComparator;
+import local.tomo.medi.activity.drug.BySearchProductNameComparator;
 import local.tomo.medi.ormlite.data.Drug;
 
-public class DrugsBySearchProductNameComparatorTest {
+public class BySearchProductNameComparatorTest {
 
     private AtomicInteger idGenerator;
+    private Function<Drug, String> productNameProvider;
 
     @Before
     public void setUp() {
         idGenerator = new AtomicInteger();
+        productNameProvider = Drug::getName;
     }
 
     @Test
@@ -31,11 +34,10 @@ public class DrugsBySearchProductNameComparatorTest {
         Drug drug1 = createDrug("def1");
         Drug drug2 = createDrug("def2");
 
-
-        DrugsBySearchProductNameComparator drugsBySearchProductNameComparator = new DrugsBySearchProductNameComparator(searchText);
+        BySearchProductNameComparator<Drug> comparator = new BySearchProductNameComparator<>(searchText, productNameProvider);
 
         //when
-        int compare = drugsBySearchProductNameComparator.compare(drug1, drug2);
+        int compare = comparator.compare(drug1, drug2);
 
         //then
         Assertions.assertThat(compare).isLessThan(0);
@@ -51,10 +53,10 @@ public class DrugsBySearchProductNameComparatorTest {
         Drug drug2 = createDrug("defg");
 
 
-        DrugsBySearchProductNameComparator drugsBySearchProductNameComparator = new DrugsBySearchProductNameComparator(searchText);
+        BySearchProductNameComparator<Drug> comparator = new BySearchProductNameComparator<>(searchText, productNameProvider);
 
         //when
-        int compare = drugsBySearchProductNameComparator.compare(drug1, drug2);
+        int compare = comparator.compare(drug1, drug2);
 
         //then
         Assertions.assertThat(compare).isGreaterThan(0);
@@ -70,10 +72,10 @@ public class DrugsBySearchProductNameComparatorTest {
         Drug drug2 = createDrug("abc");
 
 
-        DrugsBySearchProductNameComparator drugsBySearchProductNameComparator = new DrugsBySearchProductNameComparator(searchText);
+        BySearchProductNameComparator<Drug> comparator = new BySearchProductNameComparator<>(searchText, productNameProvider);
 
         //when
-        int compare = drugsBySearchProductNameComparator.compare(drug1, drug2);
+        int compare = comparator.compare(drug1, drug2);
 
         //then
         Assertions.assertThat(compare).isEqualTo(0);
@@ -125,11 +127,11 @@ public class DrugsBySearchProductNameComparatorTest {
                 drug18
         );
 
-        DrugsBySearchProductNameComparator drugsBySearchProductNameComparator = new DrugsBySearchProductNameComparator(searchText);
+        BySearchProductNameComparator<Drug> comparator = new BySearchProductNameComparator<>(searchText, productNameProvider);
 
         //when
         List<Drug> sortedDrugs = drugs.stream()
-                .sorted(drugsBySearchProductNameComparator)
+                .sorted(comparator)
                 .collect(Collectors.toList());
 
         //then

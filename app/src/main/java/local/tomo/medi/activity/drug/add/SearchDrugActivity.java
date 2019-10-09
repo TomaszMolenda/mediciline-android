@@ -9,9 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,14 +17,12 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
 import local.tomo.medi.R;
-import local.tomo.medi.activity.DatabaseAccessActivity;
-import local.tomo.medi.activity.drug.DrugsBySearchProductNameComparator;
 import local.tomo.medi.ormlite.data.Drug;
 import lombok.SneakyThrows;
 
 import static local.tomo.medi.ormlite.data.Drug.D_ID;
 
-public class SearchDrugActivity extends DatabaseAccessActivity {
+public class SearchDrugActivity extends AppCompatActivity {
 
     @BindView(R.id.editTextSearch)
     EditText editTextSearch;
@@ -34,17 +30,20 @@ public class SearchDrugActivity extends DatabaseAccessActivity {
     @BindView(R.id.listView)
     ListView listView;
 
+    private SearchDrugAdapterFactory searchDrugAdapterFactory;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_drugs);
         ButterKnife.bind(this);
+
+        searchDrugAdapterFactory = new SearchDrugAdapterFactory(getApplicationContext());
     }
 
     @OnTextChanged(R.id.editTextSearch)
     @SneakyThrows
     void search(CharSequence charSequence) {
-
 
         String searchText = charSequence.toString();
 
@@ -54,27 +53,9 @@ public class SearchDrugActivity extends DatabaseAccessActivity {
             editTextSearch.setTypeface(null, Typeface.NORMAL);
         }
 
-        if(searchText.length() >= 3) {
+        SearchDrugAdapter adapter = searchDrugAdapterFactory.createAdapter(searchText);
 
-            DrugsBySearchProductNameComparator comparator = new DrugsBySearchProductNameComparator(searchText);
-
-            List<Drug> drugs = getHelper().getDrugQuery()
-                    .listByName(searchText)
-                    .stream()
-                    .sorted(comparator)
-                    .collect(Collectors.toList());
-
-            if (drugs.isEmpty()) {
-                listView.setAdapter(null);
-            } else {
-                SearchDrugAdapter adapter = new SearchDrugAdapter(getApplicationContext(), drugs, searchText);
-
-                listView.setAdapter(adapter);
-            }
-        }
-        else {
-            listView.setAdapter(null);
-        }
+        listView.setAdapter(adapter);
     }
 
     @OnClick(R.id.imageButtonBack)
@@ -102,5 +83,9 @@ public class SearchDrugActivity extends DatabaseAccessActivity {
         startActivity(intent);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        searchDrugAdapterFactory.closeDatabaseConnection();
+    }
 }

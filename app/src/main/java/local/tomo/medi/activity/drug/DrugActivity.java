@@ -5,16 +5,17 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.R;
-import local.tomo.medi.activity.drug.list.ActiveDrugActivity;
 import local.tomo.medi.activity.drug.add.SearchDrugActivity;
+import local.tomo.medi.activity.drug.list.ActiveDrugActivity;
 import local.tomo.medi.ormlite.DatabaseDataCreator;
 
-public class DrugActivity extends DatabaseAccessActivity {
+public class DrugActivity extends AppCompatActivity {
 
     @BindView(R.id.buttonScan)
     Button buttonScan;
@@ -42,7 +43,7 @@ public class DrugActivity extends DatabaseAccessActivity {
         setContentView(R.layout.activity_drugs);
         ButterKnife.bind(this);
 
-        DatabaseDataCreator databaseDataCreator = new DatabaseDataCreator(getResources(), getHelper());
+        DatabaseDataCreator databaseDataCreator = new DatabaseDataCreator(getResources(), getApplicationContext());
         databaseDataCreator.execute();
     }
 
