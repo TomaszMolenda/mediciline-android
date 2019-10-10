@@ -170,6 +170,11 @@ public class SetOverdueActivity extends DatabaseAccessActivity {
         startActivity(new Intent(getApplicationContext(), DrugActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
+    @OnClick(R.id.buttonClose)
+    void close() {
+        startActivity(new Intent(getApplicationContext(), DrugActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), DrugActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));

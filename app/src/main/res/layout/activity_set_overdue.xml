@@ -8,21 +8,32 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
+        android:padding="10dp"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="21sp"
+            android:text="@string/add_drug_title"
+            android:gravity="center"
+            android:layout_marginBottom="10dp">
+        </TextView>
         <TextView
             android:id="@+id/textViewName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="21sp">
+            android:textSize="21sp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="50dp">
         </TextView>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_marginEnd="3dp">
+            android:layout_marginStart="50dp">
 
             <TextView
                 android:id="@+id/emoji_factory"
@@ -30,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="@string/emoji_factory"
-                android:textSize="16sp"
+                android:textSize="21sp"
                 android:layout_marginEnd="5dp">
             </TextView>
 
@@ -39,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/emoji_factory"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="3dp"
                 android:textSize="16sp">
             </TextView>
@@ -50,7 +62,7 @@
             android:layout_height="wrap_content"
             android:gravity="bottom"
             android:orientation="horizontal"
-            android:layout_marginEnd="3dp">
+            android:layout_marginStart="50dp">
 
             <TextView
                 android:id="@+id/emoji_package"
@@ -58,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="@string/emoji_package"
-                android:textSize="16sp"
+                android:textSize="21sp"
                 android:layout_marginEnd="5dp">
             </TextView>
 
@@ -67,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/emoji_package"
                 android:textSize="16sp">
             </TextView>
@@ -76,8 +89,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="50dp">
 
             <TextView
                 android:id="@+id/emoji_pill"
@@ -85,15 +98,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="@string/emoji_pill"
-                android:textSize="16sp"
+                android:textSize="21sp"
                 android:layout_marginEnd="5dp">
             </TextView>
 
             <TextView
+                android:gravity="bottom"
                 android:id="@+id/textViewForm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/emoji_pill"
                 android:textSize="16sp">
             </TextView>
@@ -106,6 +121,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="21sp"
+                android:text="@string/insert_expiration_date"
+                android:gravity="center">
+            </TextView>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,7 +157,7 @@
                     android:src="@drawable/ic_arrow_up"
                     android:layout_centerInParent="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginBottom="30dp"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -149,7 +180,7 @@
                     android:src="@drawable/ic_arrow_up"
                     android:layout_centerInParent="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginBottom="30dp"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -164,7 +195,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.25" >
+            android:layout_weight="1.2" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -223,7 +254,7 @@
                     android:src="@drawable/ic_arrow_down"
                     android:layout_centerInParent="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="30dp"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -246,7 +277,7 @@
                     android:src="@drawable/ic_arrow_down"
                     android:layout_centerInParent="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="30dp"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -272,7 +303,29 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:gravity="bottom"
-                    android:src="@drawable/ic_add"
+                    android:src="@drawable/ic_close_black"
+                    android:layout_centerInParent="true"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:layout_margin="50dp"
+                    android:id="@+id/buttonClose" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:gravity="bottom"
+                    android:src="@drawable/ic_done"
                     android:layout_centerInParent="true"/>
 
                 <Button

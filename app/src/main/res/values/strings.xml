@@ -8,6 +8,8 @@
     <string name="active_drug">W apteczce</string>
     <string name="archive_drug">Zużyte</string>
     <string name="overdue_drug">Po terminie</string>
+    <string name="add_drug_title">Dodawanie leku</string>
+    <string name="insert_expiration_date">Data ważności</string>
     <string name="emoji_factory">&#127981;</string>
     <string name="emoji_package">&#128230;</string>
     <string name="emoji_pill">&#128138;</string>
