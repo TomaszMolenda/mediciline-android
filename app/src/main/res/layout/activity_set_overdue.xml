@@ -310,7 +310,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:layout_margin="50dp"
+                    android:layout_margin="20dp"
                     android:id="@+id/buttonClose" />
 
             </RelativeLayout>
@@ -332,7 +332,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:layout_margin="50dp"
+                    android:layout_margin="20dp"
                     android:id="@+id/buttonSave" />
 
             </RelativeLayout>

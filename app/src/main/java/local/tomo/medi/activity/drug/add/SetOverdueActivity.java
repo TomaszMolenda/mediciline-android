@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.joda.time.LocalDate;
 
@@ -166,6 +167,8 @@ public class SetOverdueActivity extends DatabaseAccessActivity {
         UserDrug userDrug = new UserDrug(drug, date);
 
         getHelper().getUserDrugQuery().save(userDrug);
+
+        runOnUiThread(() -> Toast.makeText(SetOverdueActivity.this, getString(R.string.drug_added, drug.getName()), Toast.LENGTH_SHORT).show());
 
         startActivity(new Intent(getApplicationContext(), DrugActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
