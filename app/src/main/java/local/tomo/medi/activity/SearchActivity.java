@@ -6,8 +6,6 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -18,7 +16,7 @@ import lombok.SneakyThrows;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
-public abstract class SearchActivity<E extends ListAdapter> extends AppCompatActivity {
+public abstract class SearchActivity<E extends ListAdapter> extends DatabaseAccessActivity {
 
     private AdapterFactory<E> adapterFactory;
 
@@ -38,7 +36,7 @@ public abstract class SearchActivity<E extends ListAdapter> extends AppCompatAct
         super.onCreate(savedInstanceState);
         this.adapterFactory = provideAdapter();
         E adapter = adapterOnCreate();
-        listView.setAdapter(adapter);
+        applyAdapter(adapter);
     }
 
     @OnTextChanged(R.id.editTextSearch)
@@ -54,7 +52,7 @@ public abstract class SearchActivity<E extends ListAdapter> extends AppCompatAct
         }
 
         E adapter = adapterFactory.createAdapter(searchText);
-        listView.setAdapter(adapter);
+        applyAdapter(adapter);
     }
 
     @OnClick(R.id.imageButtonClear)
@@ -62,7 +60,7 @@ public abstract class SearchActivity<E extends ListAdapter> extends AppCompatAct
         String searchText = EMPTY;
         editTextSearch.setText(searchText);
         E adapter = adapterFactory.createAdapter(searchText);
-        listView.setAdapter(adapter);
+        applyAdapter(adapter);
     }
 
     @OnClick(R.id.imageButtonBack)
@@ -74,5 +72,10 @@ public abstract class SearchActivity<E extends ListAdapter> extends AppCompatAct
     protected void onDestroy() {
         super.onDestroy();
         adapterFactory.closeDatabaseConnection();
+    }
+
+    protected void applyAdapter(E adapter) {
+
+        listView.setAdapter(adapter);
     }
 }

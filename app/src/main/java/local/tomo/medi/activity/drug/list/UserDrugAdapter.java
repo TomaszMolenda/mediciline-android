@@ -6,11 +6,13 @@ import android.view.ViewGroup;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import local.tomo.medi.R;
 import local.tomo.medi.activity.ScrollArrayAdapter;
 import local.tomo.medi.activity.ViewWithHolder;
+import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Drug;
 import local.tomo.medi.ormlite.data.UserDrug;
 
@@ -25,11 +27,17 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
         viewHolder.textViewPackage = view.findViewById(R.id.textViewPackage);
         viewHolder.textViewForm = view.findViewById(R.id.textViewForm);
         viewHolder.textViewExpirationDate = view.findViewById(R.id.textViewExpirationDate);
+        viewHolder.archiveButton = view.findViewById(R.id.archiveButton);
         return viewHolder;
     };
 
-    UserDrugAdapter(Context context, List<UserDrug> drugs) {
+    private final DatabaseHelper databaseHelper;
+    private final Consumer<UserDrug> userDrugRemover;
+
+    UserDrugAdapter(Context context, List<UserDrug> drugs, DatabaseHelper databaseHelper, Consumer<UserDrug> userDrugRemover) {
         super(context, resource, drugs, VIEW_HOLDER_PROVIDER);
+        this.databaseHelper = databaseHelper;
+        this.userDrugRemover = userDrugRemover;
     }
 
     @Override
@@ -48,6 +56,7 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
             viewHolder.textViewPackage.setText(drug.getPack());
             viewHolder.textViewForm.setText(drug.getForm());
             viewHolder.textViewExpirationDate.setText(userDrug.getExpirationDate());
+            viewHolder.archiveButton.setOnClickListener(v -> userDrugRemover.accept(userDrug));
         }
 
         return  viewWithHolder.getView();
