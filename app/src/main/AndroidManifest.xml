@@ -18,17 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.drug.DrugActivity" android:launchMode = "singleTop" >
+        <activity android:name=".activity.drug.DrugActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.drug.add.SearchDrugActivity" android:launchMode = "singleTop" />
-        <activity android:name=".activity.drug.add.SetOverdueActivity" android:launchMode = "singleTop" />
-        <activity android:name=".activity.drug.list.UserDrugActivity" android:launchMode = "singleTop" />
-        <activity android:name=".activity.drug.scan.ScanActivity" android:launchMode = "singleTop" />
+        <activity android:name=".activity.drug.add.SearchDrugActivity" />
+        <activity android:name=".activity.drug.add.SetOverdueActivity" />
+        <activity android:name=".activity.drug.list.UserDrugActivity" />
+        <activity android:name=".activity.drug.scan.ScanActivity" />
     </application>
 
 </manifest>
