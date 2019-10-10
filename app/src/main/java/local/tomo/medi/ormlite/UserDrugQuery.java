@@ -11,6 +11,7 @@ import local.tomo.medi.ormlite.data.UserDrug;
 import lombok.SneakyThrows;
 
 import static local.tomo.medi.ormlite.data.Drug.D_NAME;
+import static local.tomo.medi.ormlite.data.UserDrug.D_ARCHIVE;
 
 public class UserDrugQuery {
 
@@ -21,7 +22,7 @@ public class UserDrugQuery {
     }
 
     @SneakyThrows
-    public List<UserDrug> listByName(String searchText) {
+    public List<UserDrug> listActiveByName(String searchText) {
 
         Dao<Drug, Integer> drugsDataAccess = databaseHelper.getDrugsDataAccess();
         Dao<UserDrug, Integer> userDrugsDataAccess = databaseHelper.getUserDrugsDataAccess();
@@ -33,6 +34,10 @@ public class UserDrugQuery {
                 .where()
                 .like(D_NAME, "%"+ searchText +"%");
 
+        userDrugsQueryBuilder
+                .where()
+                .eq(D_ARCHIVE, false);
+
         userDrugsQueryBuilder.join(drugsQueryBuilder);
 
         PreparedQuery<UserDrug> prepare = userDrugsQueryBuilder.prepare();
@@ -41,15 +46,21 @@ public class UserDrugQuery {
     }
 
     @SneakyThrows
-    public List<UserDrug> listAll() {
+    public List<UserDrug> listAllActive() {
 
         Dao<UserDrug, Integer> userDrugsDataAccess = databaseHelper.getUserDrugsDataAccess();
-        return userDrugsDataAccess.queryForAll();
+
+        PreparedQuery<UserDrug> prepare = userDrugsDataAccess.queryBuilder()
+                .where()
+                .eq(D_ARCHIVE, false)
+                .prepare();
+
+        return userDrugsDataAccess.query(prepare);
     }
 
     @SneakyThrows
     public void save(UserDrug userDrug) {
 
-        databaseHelper.getUserDrugsDataAccess().create(userDrug);
+        databaseHelper.getUserDrugsDataAccess().createOrUpdate(userDrug);
     }
 }

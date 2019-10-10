@@ -16,7 +16,7 @@ import lombok.SneakyThrows;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "medisss.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 6;
 
     private Dao<Drug, Integer> drugs;
     private Dao<UserDrug, Integer> userDrugs;
@@ -39,9 +39,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTableIfNotExists(connectionSource, UserDrug.class);
     }
 
+    @SneakyThrows
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-
+        TableUtils.dropTable(connectionSource, UserDrug.class, true);
+        TableUtils.createTableIfNotExists(connectionSource, UserDrug.class);
     }
 
     @SneakyThrows

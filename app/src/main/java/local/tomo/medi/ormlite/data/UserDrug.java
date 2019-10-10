@@ -15,6 +15,8 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class UserDrug {
 
+    public static final String D_ARCHIVE = "archive";
+
     @DatabaseField(columnName = "id", generatedId = true)
     private int id;
 
@@ -23,6 +25,9 @@ public class UserDrug {
 
     @DatabaseField(columnName = "overdue_date", dataType = DataType.DATE_STRING, format = "yyyy-MM-dd")
     private Date overdueDate;
+
+    @DatabaseField(columnName = "archive")
+    private boolean archive;
 
     public UserDrug() {
     }
@@ -37,5 +42,9 @@ public class UserDrug {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         return formatter.format(overdueDate);
+    }
+
+    public void markAsArchive() {
+        this.archive = true;
     }
 }

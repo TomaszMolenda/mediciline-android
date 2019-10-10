@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
@@ -19,11 +19,12 @@
         </TextView>
 
         <RelativeLayout
+            android:id="@+id/relativeLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/textViewName"
             android:gravity="bottom"
-            android:orientation="horizontal"
-            android:layout_marginEnd="3dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/emoji_factory"
@@ -47,11 +48,12 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/relativeLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout1"
             android:gravity="bottom"
-            android:orientation="horizontal"
-            android:layout_marginEnd="3dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/emoji_package"
@@ -75,8 +77,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/relativeLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout2"
             android:gravity="bottom"
             android:orientation="horizontal">
 
@@ -102,8 +106,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/relativeLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout3"
             android:gravity="bottom"
             android:orientation="horizontal">
 
@@ -128,5 +134,16 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/archiveButton"
+            android:layout_alignBottom="@id/relativeLayout4"
+            android:layout_alignEnd="@id/relativeLayout3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_trash" />
+
+    </RelativeLayout>
 </LinearLayout>

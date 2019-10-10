@@ -5,6 +5,7 @@ import android.content.Context;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import local.tomo.medi.AdapterFactory;
@@ -17,11 +18,13 @@ class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
 
     private final DatabaseHelper databaseHelper;
     private final Context context;
+    private final Consumer<UserDrug> userDrugRemover;
 
-    UserDrugAdapterFactory(Context context) {
+    UserDrugAdapterFactory(Context context, Consumer<UserDrug> userDrugRemover) {
 
         this.databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         this.context = context;
+        this.userDrugRemover = userDrugRemover;
     }
 
     UserDrugAdapter createAdapter() {
@@ -38,14 +41,14 @@ class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
 
         if (searchText.length() == 0) {
 
-            List<UserDrug> allUserDrugs = userDrugQuery.listAll().stream()
+            List<UserDrug> allUserDrugs = userDrugQuery.listAllActive().stream()
                     .sorted(comparator)
                     .collect(Collectors.toList());
 
-            return new UserDrugAdapter(context, allUserDrugs);
+            return new UserDrugAdapter(context, allUserDrugs, databaseHelper, userDrugRemover);
         }
 
-        List<UserDrug> userDrugs = userDrugQuery.listByName(searchText).stream()
+        List<UserDrug> userDrugs = userDrugQuery.listActiveByName(searchText).stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
 
@@ -54,7 +57,7 @@ class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
             return null;
         }
 
-        return new UserDrugAdapter(context, userDrugs);
+        return new UserDrugAdapter(context, userDrugs, databaseHelper, userDrugRemover);
     }
 
     @Override
