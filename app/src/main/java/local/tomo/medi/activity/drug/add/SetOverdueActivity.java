@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import org.joda.time.LocalDate;
+
 import java.util.Date;
 import java.util.Optional;
 
@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import local.tomo.medi.R;
 import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.activity.drug.DrugActivity;
+import local.tomo.medi.activity.drug.Months;
 import local.tomo.medi.ormlite.data.Drug;
 import local.tomo.medi.ormlite.data.UserDrug;
 import lombok.SneakyThrows;
@@ -99,7 +100,7 @@ public class SetOverdueActivity extends DatabaseAccessActivity {
 
         Resources resources = getResources();
 
-        return resources.getString(resources.getIdentifier(overdueDate.getMonth().name(), "string", getPackageName()));
+        return resources.getString(resources.getIdentifier(Months.valueOf(overdueDate.getMonthOfYear()).name(), "string", getPackageName()));
     }
 
     private String getYear() {
@@ -160,7 +161,7 @@ public class SetOverdueActivity extends DatabaseAccessActivity {
     void save() {
 
         Drug drug = getHelper().getDrugQuery().getById(drugId);
-        Date date = convertToDateViaInstant(overdueDate);
+        Date date = overdueDate.toDate();
 
         UserDrug userDrug = new UserDrug(drug, date);
 
@@ -169,10 +170,8 @@ public class SetOverdueActivity extends DatabaseAccessActivity {
         startActivity(new Intent(getApplicationContext(), DrugActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
-    public Date convertToDateViaInstant(LocalDate dateToConvert) {
-        return Date.from(dateToConvert.atStartOfDay()
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), DrugActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
-
 }
