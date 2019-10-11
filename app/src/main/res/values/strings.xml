@@ -5,7 +5,7 @@
     <string name="dictionary">Słownik</string>
     <string name="min_3_signs">Wpisz minimum 3 znaki</string>
     <string name="input_drug_name">Wpisz nazwę leku</string>
-    <string name="active_drug">W apteczce</string>
+    <string name="active_drug">Twoja apteczka</string>
     <string name="archive_drug">Zużyte</string>
     <string name="overdue_drug">Po terminie</string>
     <string name="add_drug_title">Dodawanie leku</string>
