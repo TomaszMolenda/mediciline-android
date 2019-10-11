@@ -9,7 +9,7 @@ import local.tomo.medi.ormlite.data.UserDrug;
 public class UserDrugActivity extends SearchActivity<UserDrugAdapter> {
 
     private UserDrugAdapterFactory userDrugAdapterFactory;
-    private Consumer<UserDrug> userDrugRemover = this::archive;
+    private Consumer<UserDrug> userDrugArchiver = this::archive;
 
     @Override
     public UserDrugAdapter adapterOnCreate() {
@@ -20,9 +20,9 @@ public class UserDrugActivity extends SearchActivity<UserDrugAdapter> {
     @Override
     public AdapterFactory provideAdapter() {
 
-        this.userDrugAdapterFactory = new UserDrugAdapterFactory(getApplicationContext(), userDrugRemover);
+        this.userDrugAdapterFactory = new UserDrugAdapterFactory(UserDrugActivity.this, userDrugArchiver);
 
-        return new UserDrugAdapterFactory(getApplicationContext(), userDrugRemover);
+        return new UserDrugAdapterFactory(getApplicationContext(), userDrugArchiver);
     }
 
     void archive(UserDrug userDrug) {

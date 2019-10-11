@@ -18,13 +18,13 @@ class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
 
     private final DatabaseHelper databaseHelper;
     private final Context context;
-    private final Consumer<UserDrug> userDrugRemover;
+    private final Consumer<UserDrug> userDrugArchiver;
 
-    UserDrugAdapterFactory(Context context, Consumer<UserDrug> userDrugRemover) {
+    UserDrugAdapterFactory(Context context, Consumer<UserDrug> userDrugArchiver) {
 
         this.databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         this.context = context;
-        this.userDrugRemover = userDrugRemover;
+        this.userDrugArchiver = userDrugArchiver;
     }
 
     UserDrugAdapter createAdapter() {
@@ -45,7 +45,7 @@ class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
                     .sorted(comparator)
                     .collect(Collectors.toList());
 
-            return new UserDrugAdapter(context, allUserDrugs, databaseHelper, userDrugRemover);
+            return new UserDrugAdapter(context, allUserDrugs, userDrugArchiver);
         }
 
         List<UserDrug> userDrugs = userDrugQuery.listActiveByName(searchText).stream()
@@ -57,7 +57,7 @@ class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
             return null;
         }
 
-        return new UserDrugAdapter(context, userDrugs, databaseHelper, userDrugRemover);
+        return new UserDrugAdapter(context, userDrugs, userDrugArchiver);
     }
 
     @Override

@@ -28,4 +28,7 @@
     <string name="DECEMBER">Grudzień</string>
     <string name="ean_not_found">Nie znaleziono leku o kodzie %1$s</string>
     <string name="drug_added">Dodano do apteczki %1$s</string>
+    <string name="confirm_archive_drug">Czy na pewno potwierdzasz zużycie leku? Operacja jest nieodwarcalna</string>
+    <string name="confirm_true">Tak</string>
+    <string name="confirm_false">Nie</string>
 </resources>
