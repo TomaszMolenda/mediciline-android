@@ -65,7 +65,7 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
             viewHolder.textViewProducer.setText(drug.getProducer());
             viewHolder.textViewPackage.setText(drug.getPack());
             viewHolder.textViewForm.setText(drug.getForm());
-            viewHolder.textViewExpirationDate.setText(userDrug.getExpirationDate());
+            viewHolder.textViewExpirationDate.setText(userDrug.getExpirationDate(getContext()));
             viewHolder.archiveButton.setOnClickListener(v -> createAlertDialog(userDrug).show());
         }
 
