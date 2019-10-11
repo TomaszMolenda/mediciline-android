@@ -21,8 +21,34 @@ public class UserDrugQuery {
         this.databaseHelper = databaseHelper;
     }
 
-    @SneakyThrows
     public List<UserDrug> listActiveByName(String searchText) {
+
+        return listByNameAndArchive(searchText, false);
+    }
+
+    public List<UserDrug> listAllActive() {
+
+        return listAllByArchive(false);
+    }
+
+    @SneakyThrows
+    public void save(UserDrug userDrug) {
+
+        databaseHelper.getUserDrugsDataAccess().createOrUpdate(userDrug);
+    }
+
+    public List<UserDrug> listAllArchive() {
+
+        return listAllByArchive(true);
+    }
+
+    public List<UserDrug> listArchiveByName(String searchText) {
+
+        return listByNameAndArchive(searchText, false);
+    }
+
+    @SneakyThrows
+    private List<UserDrug> listByNameAndArchive(String searchText, boolean archive) {
 
         Dao<Drug, Integer> drugsDataAccess = databaseHelper.getDrugsDataAccess();
         Dao<UserDrug, Integer> userDrugsDataAccess = databaseHelper.getUserDrugsDataAccess();
@@ -36,7 +62,7 @@ public class UserDrugQuery {
 
         userDrugsQueryBuilder
                 .where()
-                .eq(D_ARCHIVE, false);
+                .eq(D_ARCHIVE, archive);
 
         userDrugsQueryBuilder.join(drugsQueryBuilder);
 
@@ -46,21 +72,15 @@ public class UserDrugQuery {
     }
 
     @SneakyThrows
-    public List<UserDrug> listAllActive() {
+    private List<UserDrug> listAllByArchive(boolean archive) {
 
         Dao<UserDrug, Integer> userDrugsDataAccess = databaseHelper.getUserDrugsDataAccess();
 
         PreparedQuery<UserDrug> prepare = userDrugsDataAccess.queryBuilder()
                 .where()
-                .eq(D_ARCHIVE, false)
+                .eq(D_ARCHIVE, archive)
                 .prepare();
 
         return userDrugsDataAccess.query(prepare);
-    }
-
-    @SneakyThrows
-    public void save(UserDrug userDrug) {
-
-        databaseHelper.getUserDrugsDataAccess().createOrUpdate(userDrug);
     }
 }

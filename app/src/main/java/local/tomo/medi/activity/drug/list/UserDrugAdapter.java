@@ -4,15 +4,15 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
+
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import local.tomo.medi.R;
 import local.tomo.medi.activity.ScrollArrayAdapter;
 import local.tomo.medi.activity.ViewWithHolder;
-import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.data.Drug;
 import local.tomo.medi.ormlite.data.UserDrug;
 
@@ -31,13 +31,24 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
         return viewHolder;
     };
 
-    private final DatabaseHelper databaseHelper;
-    private final Consumer<UserDrug> userDrugRemover;
+    private final Action action;
+    private final ButtonsShowable buttonsShowable;
 
-    UserDrugAdapter(Context context, List<UserDrug> drugs, DatabaseHelper databaseHelper, Consumer<UserDrug> userDrugRemover) {
+    UserDrugAdapter(Context context, List<UserDrug> drugs, Action action, ButtonsShowable buttonsShowable) {
         super(context, resource, drugs, VIEW_HOLDER_PROVIDER);
-        this.databaseHelper = databaseHelper;
-        this.userDrugRemover = userDrugRemover;
+        this.action = action;
+        this.buttonsShowable = buttonsShowable;
+    }
+
+    private AlertDialog createAlertDialog(UserDrug userDrug) {
+
+        Context context = getContext();
+
+        return new AlertDialog.Builder(context)
+                .setMessage(context.getString(R.string.confirm_archive_drug))
+                .setPositiveButton(context.getString(R.string.confirm_true), (dialog, which) -> action.archiveUserDrug(userDrug))
+                .setNegativeButton(context.getString(R.string.confirm_false), (dialog, which) -> dialog.cancel())
+                .create();
     }
 
     @Override
@@ -55,8 +66,9 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
             viewHolder.textViewProducer.setText(drug.getProducer());
             viewHolder.textViewPackage.setText(drug.getPack());
             viewHolder.textViewForm.setText(drug.getForm());
-            viewHolder.textViewExpirationDate.setText(userDrug.getExpirationDate());
-            viewHolder.archiveButton.setOnClickListener(v -> userDrugRemover.accept(userDrug));
+            viewHolder.textViewExpirationDate.setText(userDrug.getExpirationDate(getContext()));
+            viewHolder.archiveButton.setOnClickListener(v -> createAlertDialog(userDrug).show());
+            viewHolder.archiveButton.setVisibility(buttonsShowable.showArchiveButton() ?  View.VISIBLE : View.INVISIBLE);
         }
 
         return  viewWithHolder.getView();

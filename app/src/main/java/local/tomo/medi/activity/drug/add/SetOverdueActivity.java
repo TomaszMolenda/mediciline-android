@@ -101,7 +101,9 @@ public class SetOverdueActivity extends DatabaseAccessActivity {
 
         Resources resources = getResources();
 
-        return resources.getString(resources.getIdentifier(Months.valueOf(overdueDate.getMonthOfYear()).name(), "string", getPackageName()));
+        String monthWord = resources.getString(resources.getIdentifier(Months.valueOf(overdueDate.getMonthOfYear()).name(), "string", getPackageName()));
+
+        return String.format("%s - %s", overdueDate.getMonthOfYear(), monthWord);
     }
 
     private String getYear() {

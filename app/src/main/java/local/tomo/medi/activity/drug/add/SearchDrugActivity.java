@@ -17,7 +17,7 @@ public class SearchDrugActivity extends SearchActivity<SearchDrugAdapter> {
 
     @Override
     public AdapterFactory provideAdapter() {
-        return new SearchDrugAdapterFactory(getApplicationContext());
+        return new SearchDrugAdapterFactory(SearchDrugActivity.this);
     }
 
     @Override

@@ -1,11 +1,15 @@
 package local.tomo.medi.ormlite.data;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import local.tomo.medi.activity.drug.Months;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,11 +41,15 @@ public class UserDrug {
         this.overdueDate = overdueDate;
     }
 
-    public String getExpirationDate() {
+    public String getExpirationDate(Context context) {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Resources resources = context.getResources();
 
-        return formatter.format(overdueDate);
+        String month = resources.getString(resources.getIdentifier(Months.valueOf(overdueDate.getMonth()).name(), "string", context.getPackageName()));
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
+
+        return String.format("%s %s", month, formatter.format(overdueDate));
     }
 
     public void markAsArchive() {
