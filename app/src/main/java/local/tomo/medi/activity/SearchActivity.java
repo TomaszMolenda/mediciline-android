@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +26,9 @@ public abstract class SearchActivity<E extends ListAdapter> extends DatabaseAcce
 
     @BindView(R.id.listView)
     ListView listView;
+
+    @BindView(R.id.textViewEmptyList)
+    TextView textViewEmptyList;
 
     public abstract E adapterOnCreate();
     public abstract AdapterFactory provideAdapter();
@@ -77,5 +81,9 @@ public abstract class SearchActivity<E extends ListAdapter> extends DatabaseAcce
     protected void applyAdapter(E adapter) {
 
         listView.setAdapter(adapter);
+    }
+
+    public void setEmptyListInfo(String info) {
+        textViewEmptyList.setText(info);
     }
 }

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gainsboro">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_margin="5dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@null">
 
         <RelativeLayout
+            android:id="@id/relativeLayout1"
             android:layout_width="match_parent"
             android:layout_height="74dp"
             android:gravity="bottom"
@@ -64,13 +65,23 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/textViewEmptyList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout1"
+            android:layout_marginTop="5dp">
+
+        </TextView>
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout1"
             android:layout_marginTop="5dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

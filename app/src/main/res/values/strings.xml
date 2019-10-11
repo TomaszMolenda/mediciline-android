@@ -31,4 +31,5 @@
     <string name="confirm_archive_drug">Czy na pewno potwierdzasz zużycie leku? Operacja jest nieodwarcalna</string>
     <string name="confirm_true">Tak</string>
     <string name="confirm_false">Nie</string>
+    <string name="empty_user_drug_list">W Twojej apteczce nie ma żadnych leków</string>
 </resources>
