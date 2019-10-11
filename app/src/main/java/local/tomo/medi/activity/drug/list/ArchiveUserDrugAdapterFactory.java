@@ -13,19 +13,19 @@ import local.tomo.medi.ormlite.DatabaseHelper;
 import local.tomo.medi.ormlite.UserDrugQuery;
 import local.tomo.medi.ormlite.data.UserDrug;
 
-class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
+class ArchiveUserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
 
     private final DatabaseHelper databaseHelper;
     private final Context context;
-    private final ButtonsShowable buttonsShowable;
     private final Action action;
+    private final ButtonsShowable buttonsShowable;
 
-    UserDrugAdapterFactory(Context context, ButtonsShowable buttonsShowable, Action action) {
+    ArchiveUserDrugAdapterFactory(Context context, Action action, ButtonsShowable buttonsShowable) {
 
         this.databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         this.context = context;
-        this.buttonsShowable = buttonsShowable;
         this.action = action;
+        this.buttonsShowable = buttonsShowable;
     }
 
     UserDrugAdapter createAdapter() {
@@ -42,14 +42,14 @@ class UserDrugAdapterFactory implements AdapterFactory<UserDrugAdapter> {
 
         if (searchText.length() == 0) {
 
-            List<UserDrug> allUserDrugs = userDrugQuery.listAllActive().stream()
+            List<UserDrug> allUserDrugs = userDrugQuery.listAllArchive().stream()
                     .sorted(comparator)
                     .collect(Collectors.toList());
 
             return new UserDrugAdapter(context, allUserDrugs, action, buttonsShowable);
         }
 
-        List<UserDrug> userDrugs = userDrugQuery.listActiveByName(searchText).stream()
+        List<UserDrug> userDrugs = userDrugQuery.listArchiveByName(searchText).stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
 

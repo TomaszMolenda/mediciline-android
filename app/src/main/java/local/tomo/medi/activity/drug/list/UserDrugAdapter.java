@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import local.tomo.medi.R;
@@ -32,11 +31,13 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
         return viewHolder;
     };
 
-    private final Consumer<UserDrug> userDrugArchiver;
+    private final Action action;
+    private final ButtonsShowable buttonsShowable;
 
-    UserDrugAdapter(Context context, List<UserDrug> drugs, Consumer<UserDrug> userDrugArchiver) {
+    UserDrugAdapter(Context context, List<UserDrug> drugs, Action action, ButtonsShowable buttonsShowable) {
         super(context, resource, drugs, VIEW_HOLDER_PROVIDER);
-        this.userDrugArchiver = userDrugArchiver;
+        this.action = action;
+        this.buttonsShowable = buttonsShowable;
     }
 
     private AlertDialog createAlertDialog(UserDrug userDrug) {
@@ -45,7 +46,7 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
 
         return new AlertDialog.Builder(context)
                 .setMessage(context.getString(R.string.confirm_archive_drug))
-                .setPositiveButton(context.getString(R.string.confirm_true), (dialog, which) -> userDrugArchiver.accept(userDrug))
+                .setPositiveButton(context.getString(R.string.confirm_true), (dialog, which) -> action.archiveUserDrug(userDrug))
                 .setNegativeButton(context.getString(R.string.confirm_false), (dialog, which) -> dialog.cancel())
                 .create();
     }
@@ -67,6 +68,7 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
             viewHolder.textViewForm.setText(drug.getForm());
             viewHolder.textViewExpirationDate.setText(userDrug.getExpirationDate(getContext()));
             viewHolder.archiveButton.setOnClickListener(v -> createAlertDialog(userDrug).show());
+            viewHolder.archiveButton.setVisibility(buttonsShowable.showArchiveButton() ?  View.VISIBLE : View.INVISIBLE);
         }
 
         return  viewWithHolder.getView();
