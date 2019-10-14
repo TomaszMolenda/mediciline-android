@@ -1,10 +1,9 @@
 package local.tomo.medi.activity.drug.list;
 
 import local.tomo.medi.AdapterFactory;
-import local.tomo.medi.activity.SearchActivity;
 import local.tomo.medi.ormlite.data.UserDrug;
 
-public class ArchiveUserDrugActivity extends SearchActivity<UserDrugAdapter> implements ButtonsShowable, Action {
+public class ArchiveUserDrugActivity extends HideKeyboardActivity<UserDrugAdapter> implements ButtonsShowable, Action {
 
     private ArchiveUserDrugAdapterFactory adapterFactory;
 
