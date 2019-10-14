@@ -32,7 +32,24 @@ public class UserDrugQuery {
 
     public List<UserDrug> listAllActive() {
 
-        return listAllByArchive(false);
+        return listAllByArchive(() -> D_ARCHIVE, () -> false);
+    }
+
+    @SneakyThrows
+    public List<UserDrug> listAllOverdue() {
+
+        Dao<UserDrug, Integer> userDrugsDataAccess = databaseHelper.getUserDrugsDataAccess();
+
+        Date monthPrevious = LocalDate.now().minusMonths(1).toDate();
+
+        PreparedQuery<UserDrug> prepare = userDrugsDataAccess.queryBuilder()
+                .where()
+                .le(D_OVERDUE_DATE, monthPrevious)
+                .and()
+                .eq(D_ARCHIVE, false)
+                .prepare();
+
+        return userDrugsDataAccess.query(prepare);
     }
 
     @SneakyThrows
@@ -43,7 +60,7 @@ public class UserDrugQuery {
 
     public List<UserDrug> listAllArchive() {
 
-        return listAllByArchive(true);
+        return listAllByArchive(() -> D_ARCHIVE, () -> true);
     }
 
     public List<UserDrug> listArchiveByName(String searchText) {
@@ -76,13 +93,13 @@ public class UserDrugQuery {
     }
 
     @SneakyThrows
-    private List<UserDrug> listAllByArchive(boolean archive) {
+    private List<UserDrug> listAllByArchive(ListFieldCriteria listFieldCriteria, ListValueCriteria listValueCriteria) {
 
         Dao<UserDrug, Integer> userDrugsDataAccess = databaseHelper.getUserDrugsDataAccess();
 
         PreparedQuery<UserDrug> prepare = userDrugsDataAccess.queryBuilder()
                 .where()
-                .eq(D_ARCHIVE, archive)
+                .eq(listFieldCriteria.getField(), listValueCriteria.getValue())
                 .prepare();
 
         return userDrugsDataAccess.query(prepare);
@@ -104,5 +121,32 @@ public class UserDrugQuery {
                 .prepare();
 
         return userDrugsDataAccess.countOf(prepare) > 0;
+    }
+
+    @SneakyThrows
+    public List<UserDrug> listOverdueByName(String searchText) {
+
+        Date monthPrevious = LocalDate.now().minusMonths(1).toDate();
+        Dao<Drug, Integer> drugsDataAccess = databaseHelper.getDrugsDataAccess();
+        Dao<UserDrug, Integer> userDrugsDataAccess = databaseHelper.getUserDrugsDataAccess();
+
+        QueryBuilder<Drug, Integer> drugsQueryBuilder = drugsDataAccess.queryBuilder();
+        QueryBuilder<UserDrug, Integer> userDrugsQueryBuilder = userDrugsDataAccess.queryBuilder();
+
+        drugsQueryBuilder
+                .where()
+                .like(D_NAME, "%"+ searchText +"%");
+
+        userDrugsQueryBuilder
+                .where()
+                .le(D_OVERDUE_DATE, monthPrevious)
+                .and()
+                .eq(D_ARCHIVE, false);
+
+        userDrugsQueryBuilder.join(drugsQueryBuilder);
+
+        PreparedQuery<UserDrug> prepare = userDrugsQueryBuilder.prepare();
+
+        return userDrugsDataAccess.query(prepare);
     }
 }

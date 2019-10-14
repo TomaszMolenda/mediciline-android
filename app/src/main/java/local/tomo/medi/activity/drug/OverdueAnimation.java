@@ -27,4 +27,8 @@ class OverdueAnimation {
 
         valueAnimator.start();
     }
+
+    void stop() {
+        valueAnimator.end();
+    }
 }

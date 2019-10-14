@@ -29,6 +29,7 @@
         <activity android:name=".activity.drug.add.SetOverdueActivity" />
         <activity android:name=".activity.drug.list.UserDrugActivity" />
         <activity android:name=".activity.drug.list.ArchiveUserDrugActivity" />
+        <activity android:name=".activity.drug.list.OverdueUserDrugActivity" />
         <activity android:name=".activity.drug.scan.ScanActivity" />
     </application>
 
