@@ -1,6 +1,8 @@
 package local.tomo.medi.activity.drug.scan;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,7 +11,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -22,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import local.tomo.medi.R;
 import local.tomo.medi.activity.DatabaseAccessActivity;
+import local.tomo.medi.activity.drug.DrugActivity;
 import local.tomo.medi.activity.drug.add.SetOverdueActivity;
 import local.tomo.medi.ormlite.data.Drug;
 import lombok.SneakyThrows;
@@ -29,6 +35,8 @@ import lombok.SneakyThrows;
 import static local.tomo.medi.ormlite.data.Drug.D_ID;
 
 public class ScanActivity extends DatabaseAccessActivity {
+
+    private static final int PERMISSIONS_REQUEST_CAMERA = 1;
 
     private CameraSource cameraSource;
 
@@ -40,6 +48,17 @@ public class ScanActivity extends DatabaseAccessActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
         ButterKnife.bind(this);
+
+        if (ContextCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(ScanActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
+        } else {
+
+            runActivity();
+        }
+    }
+
+    private void runActivity() {
 
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(ScanActivity.this).build();
 
@@ -68,7 +87,7 @@ public class ScanActivity extends DatabaseAccessActivity {
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-                    cameraSource.stop();
+                cameraSource.stop();
             }
         });
 
@@ -105,10 +124,21 @@ public class ScanActivity extends DatabaseAccessActivity {
                         Handler handler = new Handler(Looper.getMainLooper());
                         handler.post(() -> cameraSource.stop());
                     }
-
-
                 }
             }
         });
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == PERMISSIONS_REQUEST_CAMERA && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            startActivity(new Intent(ScanActivity.this, ScanActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        } else {
+
+            startActivity(new Intent(ScanActivity.this, DrugActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
     }
 }
