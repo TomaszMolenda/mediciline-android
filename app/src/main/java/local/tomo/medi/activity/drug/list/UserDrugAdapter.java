@@ -65,10 +65,17 @@ public class UserDrugAdapter extends ScrollArrayAdapter<UserDrug, ViewHolder> {
             viewHolder.textViewName.setText(drug.getName());
             viewHolder.textViewProducer.setText(drug.getProducer());
             viewHolder.textViewPackage.setText(drug.getPack());
-            viewHolder.textViewForm.setText(drug.getForm());
+            viewHolder.textViewForm.setText(userDrug.isOverdue() + "");
             viewHolder.textViewExpirationDate.setText(userDrug.getExpirationDate(getContext()));
             viewHolder.archiveButton.setOnClickListener(v -> createAlertDialog(userDrug).show());
             viewHolder.archiveButton.setVisibility(buttonsShowable.showArchiveButton() ?  View.VISIBLE : View.INVISIBLE);
+
+            if (userDrug.isOverdue()) {
+                viewHolder.textViewExpirationDate.setTextColor(getContext().getResources().getColor(R.color.A82C6F));
+            } else {
+                viewHolder.textViewExpirationDate.setTextColor(viewHolder.textViewName.getTextColors());
+            }
+
         }
 
         return  viewWithHolder.getView();
