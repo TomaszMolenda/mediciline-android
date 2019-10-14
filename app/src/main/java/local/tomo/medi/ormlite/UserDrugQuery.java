@@ -4,6 +4,9 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
+import org.joda.time.LocalDate;
+
+import java.util.Date;
 import java.util.List;
 
 import local.tomo.medi.ormlite.data.Drug;
@@ -12,6 +15,7 @@ import lombok.SneakyThrows;
 
 import static local.tomo.medi.ormlite.data.Drug.D_NAME;
 import static local.tomo.medi.ormlite.data.UserDrug.D_ARCHIVE;
+import static local.tomo.medi.ormlite.data.UserDrug.D_OVERDUE_DATE;
 
 public class UserDrugQuery {
 
@@ -82,5 +86,23 @@ public class UserDrugQuery {
                 .prepare();
 
         return userDrugsDataAccess.query(prepare);
+    }
+
+    @SneakyThrows
+    public boolean isAnyDrugOverdue(LocalDate now) {
+
+        Dao<UserDrug, Integer> userDrugsDataAccess = databaseHelper.getUserDrugsDataAccess();
+
+        Date monthPrevious = now.minusMonths(1).toDate();
+
+        PreparedQuery<UserDrug> prepare = userDrugsDataAccess.queryBuilder()
+                .setCountOf(true)
+                .where()
+                .le(D_OVERDUE_DATE, monthPrevious)
+                .and()
+                .eq(D_ARCHIVE, false)
+                .prepare();
+
+        return userDrugsDataAccess.countOf(prepare) > 0;
     }
 }

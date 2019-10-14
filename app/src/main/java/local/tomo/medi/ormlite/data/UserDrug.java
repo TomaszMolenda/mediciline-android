@@ -20,6 +20,7 @@ import lombok.Setter;
 public class UserDrug {
 
     public static final String D_ARCHIVE = "archive";
+    public static final String D_OVERDUE_DATE = "overdue_date";
 
     @DatabaseField(columnName = "id", generatedId = true)
     private int id;

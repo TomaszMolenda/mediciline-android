@@ -3,21 +3,23 @@ package local.tomo.medi.activity.drug;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import org.joda.time.LocalDate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import local.tomo.medi.R;
+import local.tomo.medi.activity.DatabaseAccessActivity;
 import local.tomo.medi.activity.drug.add.SearchDrugActivity;
 import local.tomo.medi.activity.drug.list.ArchiveUserDrugActivity;
 import local.tomo.medi.activity.drug.list.UserDrugActivity;
 import local.tomo.medi.activity.drug.scan.ScanActivity;
 import local.tomo.medi.ormlite.DatabaseDataCreator;
 
-public class DrugActivity extends AppCompatActivity {
+public class DrugActivity extends DatabaseAccessActivity {
 
     @BindView(R.id.buttonScan)
     Button buttonScan;
@@ -38,6 +40,8 @@ public class DrugActivity extends AppCompatActivity {
     TextView textViewArchive;
     @BindView(R.id.textOverdue)
     TextView textViewOverdue;
+    @BindView(R.id.relativeLayoutOverdue)
+    RelativeLayout relativeLayoutOverdue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,12 @@ public class DrugActivity extends AppCompatActivity {
 
         DatabaseDataCreator databaseDataCreator = new DatabaseDataCreator(getResources(), getApplicationContext());
         databaseDataCreator.execute();
+
+        if (getHelper().getUserDrugQuery().isAnyDrugOverdue(LocalDate.now())) {
+
+            OverdueAnimation overdueAnimation = new OverdueAnimation(DrugActivity.this, relativeLayoutOverdue);
+            overdueAnimation.start();
+        }
     }
 
     @OnClick(R.id.buttonAdd)
@@ -86,5 +96,10 @@ public class DrugActivity extends AppCompatActivity {
         buttonAll.setEnabled(true);
         buttonArchive.setEnabled(true);
         buttonOverdue.setEnabled(true);
+        if (getHelper().getUserDrugQuery().isAnyDrugOverdue(LocalDate.now())) {
+
+            OverdueAnimation overdueAnimation = new OverdueAnimation(DrugActivity.this, relativeLayoutOverdue);
+            overdueAnimation.start();
+        }
     }
 }
