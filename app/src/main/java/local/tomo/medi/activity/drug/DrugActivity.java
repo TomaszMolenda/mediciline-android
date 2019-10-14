@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.joda.time.LocalDate;
 
@@ -97,6 +98,15 @@ public class DrugActivity extends DatabaseAccessActivity {
         Intent intent = new Intent(this, OverdueUserDrugActivity.class);
         this.startActivity(intent);
     }
+
+    @OnClick(R.id.buttonAll)
+    void listAll() {
+        buttonAll.setEnabled(false);
+
+        runOnUiThread(() -> Toast.makeText(DrugActivity.this, getString(R.string.available_soon), Toast.LENGTH_SHORT).show());
+    }
+
+
 
     @Override
     public void onResume() {
